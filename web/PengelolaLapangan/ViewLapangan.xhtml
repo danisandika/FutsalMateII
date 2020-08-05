@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+   <body>
+        <ui:composition template="/TemplatePengelola.xhtml">
+
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                <h:outputText value="Details View Lapangan"></h:outputText>
+            </ui:define>
+
+            <ui:define name="descript">
+                Tempat Futsal
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+                
+            <h:form>
+             
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Details Lapangan Futsal</h5>
+                    <hr/>
+                        <div class="form-row">
+                            <div class="position-relative form-group"> 
+                                <h:graphicImage value="/Image_futsal_gambar/lapangan_fusalid.png" width="400" height="500"/>
+                            </div>
+                        </div>
+                </div>
+            </div>
+                <div class="row">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-midnight-bloom">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Nama Lapangan</div>
+                                            <div class="widget-subheading">#{tbLapanganController.selected.namaLapangan}</div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-arielle-smile">
+                                    <div class="widget-content-wrapper text-white">
+                                       <div class="widget-content-left">
+                                            <div class="widget-heading">Jenis Lapangan</div>
+                                            <div class="widget-subheading">#{tbLapanganController.selected.jenisLapangan}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-grow-early">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Harga Lapangan / Jam</div>
+                                            <div class="widget-subheading">#{tbLapanganController.selected.harga}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-xl-none d-lg-block col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-premium-dark">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Products Sold</div>
+                                            <div class="widget-subheading">Revenue streams</div>
+                                        </div>
+                                        <div class="widget-content-right">
+                                            <div class="widget-numbers text-warning"><span>$14M</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>              
+                </h:form>
+            
+        </ui:define>
+    </ui:composition>
+   </body>
+</html>
+
+
+                    
+                
+        
