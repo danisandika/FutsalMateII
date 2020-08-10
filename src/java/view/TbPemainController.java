@@ -5,6 +5,7 @@ import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbPemainFacade;
 
+import java.util.List;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -29,6 +30,7 @@ public class TbPemainController implements Serializable {
     @EJB private controller.TbPemainFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    private List<TbPemain> pemainByTeam;
 
     public TbPemainController() {
     }
@@ -232,4 +234,12 @@ public class TbPemainController implements Serializable {
 
     }
 
+    /////////////////////////////////////////// Heiii Hoiii ////////////////////////////////
+    
+
+    public String prepareViewAdmin() {
+        current = (TbPemain)getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewPemain";
+    }
 }

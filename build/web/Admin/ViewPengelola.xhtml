@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+   <body>
+        <ui:composition template="./../TemplateAdmin.xhtml">
+
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                <h:outputText value="#{bundle.ViewTbPengelolaTitle}"></h:outputText>
+            </ui:define>
+
+            <ui:define name="descript">
+                Pengelola Lapangan Futsal 
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <div class="main-card mb-3 card">
+                <div class="card-body"><h5 class="card-title">Details Pengelola</h5>
+                    <hr/>
+                    <form class="">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="examplePassword11" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Foto Diri</label><br/>
+                                    <h:graphicImage value="/Image_profil_pengelola/#{tbPengelolaController.selected.foto}" width="300" height="400"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="examplePassword11" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Foto KTP</label><br/>
+                                    <h:graphicImage value="/Image_ktp_pengelola/#{tbPengelolaController.selected.fotoKtp}" width="425" height="265"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="position-relative form-group">
+                            <label for="exampleAddress" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Email</label>
+                            <h5>#{tbPengelolaController.selected.email}</h5>
+                        </div>
+                        <div class="position-relative form-group">
+                            <label for="exampleAddress2" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Tanggal Lahir</label>
+                            <h5> 
+                                <h:outputText value="#{tbPengelolaController.selected.tglLahir}">
+                                    <f:convertDateTime pattern="dd MMMM yyyy" />
+                                </h:outputText>
+                            </h5>
+                        </div>
+                        <div class="position-relative form-group">    
+                            <label for="exampleCity" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Alamat</label>
+                            <h5>#{tbPengelolaController.selected.alamat}</h5>
+                       </div>
+                           
+                       
+                    </form>
+                </div>
+            </div>
+            
+        </ui:define>
+    </ui:composition>
+   </body>
+</html>

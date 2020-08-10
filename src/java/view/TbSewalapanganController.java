@@ -231,5 +231,28 @@ public class TbSewalapanganController implements Serializable {
         }
 
     }
+    
+    
+    ////////////////////////////////////// I can't understand what pepole are sayin' ///////////////////////////////
+    
+
+    public String prepareViewAdmin() {
+        current = (TbSewalapangan) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewSewaLap";
+    }
+    
+    public String confirmPay() {
+        current = (TbSewalapangan) getItems().getRowData();
+        try {
+            getFacade().ubahStatusBayar(current);
+            JsfUtil.addSuccessMessage("Pembayaran Terkonfirmasi");
+            recreatePagination();
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, "Gagal Mengkonfirmasi Pembayaran");
+        }
+        return "ListSewaLap";
+    }
 
 }

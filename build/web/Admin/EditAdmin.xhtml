@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <body>
+        <ui:composition template="./../TemplateAdmin.xhtml">
+
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                <h:outputText value="Edit "></h:outputText>
+            </ui:define>
+
+            <ui:define name="descript">
+               Administrator
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+                
+                <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                     <li class="nav-item">
+                        <a role="tab" class="nav-link active" id="tab-1" data-toggle="tab" href="#tab-content-1">
+                            <span>Edit Admin</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+                <div class="tab-content">
+                    
+                    
+                    <div class="tab-pane tabs-animation show active" id="tab-content-0" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-body"><h5 class="card-title">Edit </h5>
+                                        <p:tooltip />
+                                        <h:form>
+                                        <p:messages id="messages" showDetail="true" closable="true">
+                                            <p:autoUpdate />
+                                        </p:messages>
+                                        <div class="input-group"> 
+                                            <div class="input-group-prepend"><span class="input-group-text">Nama</span></div>
+                                            <h:inputText id="nama" value="#{tbAdminController.selected.nama}" a:type="text" title="#{bundle.CreateTbAdminTitle_nama}" required="true" requiredMessage="#{bundle.CreateTbAdminRequiredMessage_nama}" class="form-control"/>
+                                        </div>
+                                        <br></br>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Email</span>
+                                            </div>
+                                             <h:inputText id="email" value="#{tbAdminController.selected.email}" a:type="email"  title="#{bundle.CreateTbAdminTitle_email}" required="true" requiredMessage="#{bundle.CreateTbAdminRequiredMessage_email}" class="form-control"/>
+                                        </div>
+                                        <br></br>
+                                        <div class="input-group">
+                                            <div class="input-group-append"><span class="input-group-text">No Telp</span></div>
+                                            <h:inputText id="notelp" value="#{tbAdminController.selected.notelp}" title="#{bundle.CreateTbAdminTitle_notelp}" class="form-control" a:type="number"/>
+                                            
+                                        </div>
+                                        <br></br>
+                                        <h:commandLink action="#{tbAdminController.update}" value="Update" class="mb-2 mr-2 btn btn-primary"/>
+                                        <button class="mb-2 mr-2 btn btn-danger" type="reset" onclick="history.go(-1)">Cancel</button>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+
+            

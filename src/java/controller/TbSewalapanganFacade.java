@@ -29,4 +29,10 @@ public class TbSewalapanganFacade extends AbstractFacade<TbSewalapangan> {
         super(TbSewalapangan.class);
     }
     
+    public void ubahStatusBayar(TbSewalapangan id) {
+        em.createQuery("UPDATE TbSewalapangan t SET t.statusBayar = 2 WHERE t.idSewalapangan = :id")
+                .setParameter("id", id.getIdSewalapangan())
+                .executeUpdate();
+    }
+    
 }

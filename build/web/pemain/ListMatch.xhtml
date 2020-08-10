@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Template2.xhtml">
+
+            <ui:define name="TitlePage">
+                <h2>Choose Your Match</h2>
+            </ui:define>
+
+            <ui:define name="BodyBlog">
+                
+                <!-- Blog section -->
+                <section class="blog-section spad">
+                    <div class="container">
+			<div class="row">
+                            <div class="col-lg-8 sidebar">
+                                <div class="sb-widget">
+                                    <div class="blog-post">
+                                        <h3>Upcoming Match</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 sidebar">
+                                <div class="sb-widget">
+                                    <form class="sb-search">
+                                        <input type="text" placeholder="Search" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="latest-news-widget">
+                                        <h:form styleClass="jsfcrud_list_form">
+                                            <h:panelGroup id="messagePanel" layout="block">
+                                                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{tbMatchteamController.items.rowCount > 0}">
+                                                <h:dataTable value="#{tbMatchteamController.items}" var="item" style="border:solid 0px">
+                                                    <h:column>
+                                                        <f:facet name="header">
+                                                            <h:outputText value=" "/>
+                                                        </f:facet>
+                                                        ________________________________________________________________________________________________________________________________________
+                                                        <h:outputText value="#{item.idMatchteam}" style="display: none"/>
+                                                        <div class="ln-item">
+                                                                <h:graphicImage url="/Image_logo_team/#{item.idHomeTeam.logo}" alt="" />
+                                                                <div class="ln-text">
+                                                                        <div class="ln-date">
+                                                                            <h:outputText value="#{item.idPemesanan.tglMain}">
+                                                                                <f:convertDateTime pattern="dd MMMM yyyy" />
+                                                                            </h:outputText>
+                                                                        </div>
+                                                                        <h6>Team <h:outputText value="#{item.idHomeTeam.namaTeam}"/> is Challenging</h6>
+                                                                        <h6><h:outputText value="#{item.deskripsi}"/></h6>
+                                                                        <div class="ln-metas">
+                                                                            <div class="ln-meta">Captain Team : <h:outputText value="#{item.idHomeTeam.captain.nama}"/></div>
+                                                                            <div class="ln-meta">in <h:outputText value="#{item.idPemesanan.idLapangan.namaLapangan}"/>, <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.namaFutsal}"/>, <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.alamatFutsal}"/></div>
+                                                                            <div class="ln-meta">
+                                                                                at 
+                                                                                <h:outputText value="#{item.idPemesanan.jamMainMulai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> - 
+                                                                                <h:outputText value="#{item.idPemesanan.jamMainSelesai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> WIB
+                                                                            </div>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                    </h:column>
+                                                    <h:column>
+                                                        <f:facet name="header">
+                                                            <h:outputText value=" "/>
+                                                        </f:facet>
+                                                        <h:link class="site-btn" outcome="/tbMatchteam/xList" value="Join"/>
+                                                    </h:column>
+                                                </h:dataTable>
+                                            </h:panelGroup>
+                                        </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

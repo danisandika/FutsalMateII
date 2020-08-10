@@ -29,4 +29,10 @@ public class TbTeamFacade extends AbstractFacade<TbTeam> {
         super(TbTeam.class);
     }
     
+    public TbTeam getByID(Integer id) {
+        return em.createNamedQuery("TbTeam.findByIdTeam", TbTeam.class)
+                .setParameter("idTeam", id)
+                .getSingleResult();
+    }
+    
 }

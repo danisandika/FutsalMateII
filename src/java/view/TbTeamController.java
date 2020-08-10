@@ -6,7 +6,9 @@ import view.util.PaginationHelper;
 import controller.TbTeamFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -17,6 +19,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import model.TbPemain;
 
 
 @Named("tbTeamController")
@@ -29,8 +32,32 @@ public class TbTeamController implements Serializable {
     @EJB private controller.TbTeamFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    
+    private TbTeam teamCaptain;
+    private List<TbPemain> pemainByTeam;
+    private List<TbPemain> filterPemainTeam;
 
     public TbTeamController() {
+    }
+
+    public List<TbPemain> getFilterPemainTeam() {
+        return filterPemainTeam;
+    }
+
+    public void setFilterPemainTeam(List<TbPemain> filterPemainTeam) {
+        this.filterPemainTeam = filterPemainTeam;
+    }
+
+    public List<TbPemain> getPemainByTeam() {
+        return pemainByTeam = new ArrayList<>(teamCaptain.getTbPemainCollection());
+    }
+
+    public TbTeam getTeamCaptain() {
+        return teamCaptain = ejbFacade.getByID(1);
+    }
+
+    public void setTeamCaptain(TbTeam teamCaptain) {
+        this.teamCaptain = teamCaptain;
     }
 
     public TbTeam getSelected() {
@@ -76,10 +103,21 @@ public class TbTeamController implements Serializable {
     public String prepareCreate() {
         current = new TbTeam();
         selectedItemIndex = -1;
-        return "Create";
+        return "CreateTeam";
     }
 
     public String create() {
+        try {
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbTeamCreated"));
+            return prepareCreate();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+    }
+
+    public String createTeam() {
         try {
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbTeamCreated"));
@@ -230,6 +268,16 @@ public class TbTeamController implements Serializable {
             }
         }
 
+    }
+    
+    
+    //////////////////////////////////////////// Harus gila untuk tetap waras di dunia yg gila /////////////////////////
+    
+
+    public String prepareViewAdmin() {
+        current = (TbTeam)getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewTeam";
     }
 
 }

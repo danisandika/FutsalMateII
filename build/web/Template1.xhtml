@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+	<title>TheQuest - Gaming Magazine Template</title>
+	<meta charset="UTF-8" />
+	<meta name="description" content="TheQuest Gaming Magazine Template" />
+	<meta name="keywords" content="gaming, html" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet" />
+
+	<!-- Stylesheets -->
+	<h:outputStylesheet name="/guest/css/bootstrap.min.css"/>
+	<h:outputStylesheet name="/guest/css/font-awesome.min.css"/>
+	<h:outputStylesheet name="/guest/css/magnific-popup.css"/>
+	<h:outputStylesheet name="/guest/css/owl.carousel.min.css"/>
+	<h:outputStylesheet name="/guest/css/animate.css"/>
+	<h:outputStylesheet name="/guest/css/slicknav.min.css"/>
+
+	<!-- Main Stylesheets -->
+	<h:outputStylesheet name="/guest/css/style.css"/>
+    </h:head>
+
+    <h:body>
+
+	
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section -->
+	<header class="header-section">
+            <div class='row'>
+                <a href="index.html" class="site-logo">
+                    <h:graphicImage url="/resources/guest/img/futsal.png" alt="logo" />
+                </a>
+                <div class='col-8'>
+                    <ul class="main-menu">
+                            <li><h:link outcome="index">Home</h:link></li>
+                            <li><h:link outcome="UserPemain/ListMatch">Match</h:link></li>
+                            <li><h:link outcome="UserPemain/ListTeam">Team</h:link></li>
+                            <li><h:link outcome="UserPemain/ListLapangan">Futsal Field</h:link></li>
+                    </ul>
+                </div>
+                <div class="col-1">
+                    <ul class="main-menu ">
+                        <li><h:link outcome="UserPemain/SignIn">SignIn</h:link></li>
+                    </ul>
+                </div>
+            </div>
+	</header>
+	<!-- Header section end -->
+
+	<!-- Hero section -->
+	<section class="hero-section">
+            <div class="hero-slider owl-carousel">
+                <div class="hero-item set-bg" data-setbg="./resources/guest/img/slider/5.jpg" >
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-10 offset-lg-1">
+                                <h2>Welcome to Futsalan</h2>
+                                <p>In this website, you can find your friends, your team, or your rival for a futsal match. 
+                                Who will top the rank this week? We are waiting for your name or your team to be on top.</p>
+                                <h:link outcome="/Admin/admin" class="site-btn">Admin</h:link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ui:insert name="Intro"></ui:insert>
+                
+            </div>
+	</section>
+	<!-- Hero section end -->
+
+        <ui:insert name="BodyBlog"></ui:insert>
+
+	<!-- Footer section -->
+	<div class="footer-section">
+		<div class="container">
+			<div class="row">
+                            <div class="col-lg-12">
+                                <div class="footer-widget">
+                                    <div class="about-widget">
+                                        <h:graphicImage url="/resources/guest/img/futsal.png" alt="" />
+                                        <p>Your passion can't be ignored just because there are no friends to play right? 
+                                            Find your playmates and form a solid team in the game then bring your team to 
+                                            the championship in the Monthly league</p>
+                                    </div>
+                                </div>
+                            </div>
+			</div>
+			<div class="copyright"><a href=""><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></a>
+                        </div>
+		</div>
+		<div class="social-links-warp">
+			<div class="container">
+				<div class="social-links">
+					<a href="#"><i class="fa fa-instagram"></i><span>instagram</span></a>
+					<a href="#"><i class="fa fa-pinterest"></i><span>pinterest</span></a>
+					<a href="#"><i class="fa fa-facebook"></i><span>facebook</span></a>
+					<a href="#"><i class="fa fa-twitter"></i><span>twitter</span></a>
+					<a href="#"><i class="fa fa-youtube"></i><span>youtube</span></a>
+					<a href="#"><i class="fa fa-tumblr-square"></i><span>tumblr</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Footer section end -->
+															
+	<!--====== Javascripts & Jquery ======-->
+	<h:outputScript name="/guest/js/jquery-3.2.1.min.js" />
+	<h:outputScript name="/guest/js/bootstrap.min.js" />
+	<h:outputScript name="/guest/js/jquery.slicknav.js" />
+	<h:outputScript name="/guest/js/owl.carousel.min.js" />
+	<h:outputScript name="/guest/js/circle-progress.min.js" />
+	<h:outputScript name="/guest/js/jquery.magnific-popup.min.js" />
+	<h:outputScript name="/guest/js/main.js" />
+
+
+    </h:body>
+
+</html>

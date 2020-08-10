@@ -67,6 +67,12 @@ public class TbPengelolaController implements Serializable {
         return "List";
     }
 
+    public String prepareViewAdmin() {
+        current = (TbPengelola)getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewPengelola";
+    }
+
     public String prepareView() {
         current = (TbPengelola)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
@@ -232,4 +238,26 @@ public class TbPengelolaController implements Serializable {
 
     }
 
+    
+    
+    
+    //////////////////////////////////////////////// HAHA ////////////////////////////////////////////////
+    
+    
+    public String ubahStatus() {
+        current = (TbPengelola) getItems().getRowData();
+        try {
+            if (current.getStatus() == 0) {
+                getFacade().ubahStatus(current, 1);
+            } else if (current.getStatus() == 1) {
+                getFacade().ubahStatus(current, 0);
+            }
+            JsfUtil.addSuccessMessage("Status Pengelola berhasil diubah");
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        }
+        
+        return "ListPengelola";
+    }
 }

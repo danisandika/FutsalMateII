@@ -258,6 +258,7 @@ public class TbFutsalController implements Serializable {
 
     /////////////////////////    PENGELOLA FUTSAL   ////////////////////////////////////
     private List<TbLapangan> listlapangan;
+    private List<TbLapangan> listLapangan2 = null;
     public void getFutsal(String id) {
         current = new TbFutsal();
         current = ejbFacade.getFutsal(Integer.valueOf(id));
@@ -272,6 +273,37 @@ public class TbFutsalController implements Serializable {
         this.current = current;
     }
 
+    public List<TbLapangan> getListLapangan2() {
+        return listLapangan2 = new ArrayList<>(current.getTbLapanganCollection());
+    }
+
+    public void setListLapangan2(List<TbLapangan> listLapangan2) {
+        this.listLapangan2 = listLapangan2;
+    }
+
+
+    public String prepareViewAdmin() {
+        current = (TbFutsal) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewFutsal";
+    }
+    
+    public String ubahStatus() {
+        current = (TbFutsal) getItems().getRowData();
+        try {
+            if (current.getStatus() == 0) {
+                getFacade().ubahStatus(current, 1);
+            } else if (current.getStatus() == 1) {
+                getFacade().ubahStatus(current, 0);
+            }
+            JsfUtil.addSuccessMessage("Status Pengelola berhasil diubah");
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        }
+        
+        return "ListFutsal";
+    }
     
 
 }
