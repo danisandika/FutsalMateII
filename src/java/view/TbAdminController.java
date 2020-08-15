@@ -64,26 +64,27 @@ public class TbAdminController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "ListAdmin";
     }
 
     public String prepareView() {
         current = (TbAdmin)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+        return "ViewAdmin";
     }
 
     public String prepareCreate() {
         current = new TbAdmin();
         selectedItemIndex = -1;
-        return "Create";
+        return "ListAdmin";
     }
 
     public String create() {
         try {
+            current.setPassword("futsalan2020");
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbAdminCreated"));
-            return prepareCreate();
+            return prepareList();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -100,7 +101,7 @@ public class TbAdminController implements Serializable {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage("Data Berhasil di Update");
-            return "List";
+            return "ListAdmin";
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Data Gagal di Update : "+e.toString());
             return null;
@@ -113,7 +114,7 @@ public class TbAdminController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return "ListAdmin";
     }
 
     public String destroyAndView() {
@@ -231,5 +232,4 @@ public class TbAdminController implements Serializable {
         }
 
     }
-
 }

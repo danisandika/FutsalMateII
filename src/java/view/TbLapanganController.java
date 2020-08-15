@@ -135,6 +135,12 @@ public class TbLapanganController implements Serializable {
         return "View";
     }
 
+    public String prepareView2() {
+        current = (TbLapangan) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewLapangan";
+    }
+
     public String prepareCreate() {
         current = new TbLapangan();
         return viewLapanganByIDFutsal(idFutsal);

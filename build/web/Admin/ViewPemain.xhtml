@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../TemplateAdmin.xhtml">
+
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                <h:outputText value="#{bundle.ViewTbPemainTitle}"></h:outputText>
+            </ui:define>
+
+            <ui:define name="descript">
+                Daftar Pemain Futsal
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+                <h:form>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                    
+                <div class="main-card mb-3 card">
+                    <div class="card-body"><h5 class="card-title">Details Pemain Futsal</h5>
+                        <hr/>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label for="examplePassword11" class="">Pemain dalam Team :</label><br/>
+                                        <h:graphicImage value="/Image_logo_team/#{tbPemainController.selected.idTeam.logo}" width="300" height="300"/>
+                                        <br/>
+                                        <div class="mb-3 mr-3 badge badge-pill badge-info">
+                                            <h5 style="font-weight: bold">Team #{tbPemainController.selected.idTeam.namaTeam}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                    <div class="position-relative form-group">
+                                        <label for="exampleAddress" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Nama Pemain</label>
+                                        <h5>#{tbPemainController.selected.nama}</h5>
+                                    </div>
+                                    <div class="position-relative form-group">
+                                        <label for="exampleAddress2" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Gender</label>
+                                        <h5>#{tbPemainController.selected.gender == 1 ? 'Laki-laki' : 'Perempuan'}</h5>
+                                    </div>
+                                    <div class="position-relative form-group">    
+                                        <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Alamat</label>
+                                        <h5>#{tbPemainController.selected.alamat}</h5>
+                                   </div>
+                                    <div class="position-relative form-group">    
+                                        <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Nomor Telepon</label>
+                                        <h5>#{tbPemainController.selected.notelp}</h5>
+                                   </div>
+                                    <div class="position-relative form-group">    
+                                        <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">E-mail</label>
+                                        <h5>#{tbPemainController.selected.email}</h5>
+                                   </div>
+                                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

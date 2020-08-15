@@ -124,8 +124,8 @@ public class TbSewalapanganController implements Serializable {
             return null;
         }
     }
-    
-    
+
+
     public void CreateNull(){
         current = new TbSewalapangan();
         current.setIdSewalapangan(null);
@@ -280,12 +280,12 @@ public class TbSewalapanganController implements Serializable {
         }
 
     }
-    
-    
-    
+
+
+
     //METHOD ORIGINAL BY DANIS
     private Date currentDate = new Date();
-    private List<TbSewalapangan> listSewa; 
+    private List<TbSewalapangan> listSewa;
     private List<TbSewalapangan> filterSewa;
     private List<TbBank> listBank;
     private TbBank bank;
@@ -310,8 +310,8 @@ public class TbSewalapanganController implements Serializable {
     public void setJumlahUang(Integer jumlahUang) {
         this.jumlahUang = jumlahUang;
     }
-    
-    
+
+
 
     public List<TbSewalapangan> getListSewa() {
         return listSewa;
@@ -344,9 +344,9 @@ public class TbSewalapanganController implements Serializable {
     public void setListBank(List<TbBank> listBank) {
         this.listBank = listBank;
     }
-    
-    
-    
+
+
+
     public String getSewaLapanganbyID(String id){
         idFutsal = Integer.valueOf(id);
         listSewa = ejbFacade.getLapanganByID(Integer.valueOf(id));
@@ -356,7 +356,7 @@ public class TbSewalapanganController implements Serializable {
     public Date getCurrentDate() {
         return currentDate;
     }
-    
+
     public Date getCurrentDatePlus(Integer year){
         // convert date to localdatetime
         LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -364,13 +364,13 @@ public class TbSewalapanganController implements Serializable {
 
         // plus one
         localDateTime = localDateTime.plusYears(year);
-       
+
 
         // convert LocalDateTime to date
         Date currentDatePlusYear = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
         return currentDatePlusYear;
     }
-    
+
     public void sumTotalSewa(){
         jumlahUang = waktuSewa * 300000;
     }
@@ -383,7 +383,7 @@ public class TbSewalapanganController implements Serializable {
         this.Futsal = Futsal;
     }
 
-   
+
     public void cblistBank(){
         listBank = ejbFacade.getBank();
     }
@@ -411,9 +411,9 @@ public class TbSewalapanganController implements Serializable {
     public void setGambar(Part gambar) {
         this.gambar = gambar;
     }
-    
+
      public String upload() {
-       
+
         try {
             InputStream in = gambar.getInputStream();
             setGambar(gambar);
@@ -441,13 +441,32 @@ public class TbSewalapanganController implements Serializable {
         }
         return url;
     }
-    
-    
+
+    public String prepareViewAdmin() {
+        current = (TbSewalapangan) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewSewaLap";
+    }
+
+    public String confirmPay() {
+        current = (TbSewalapangan) getItems().getRowData();
+        try {
+            getFacade().ubahStatusBayar(current);
+            JsfUtil.addSuccessMessage("Pembayaran Terkonfirmasi");
+            recreatePagination();
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, "Gagal Mengkonfirmasi Pembayaran");
+        }
+        return "ListSewaLap";
+    }
+
+
     public String konfirmasiSewa(String id){
         current = ejbFacade.getSewaByID(id);
         return "konfirmasiSewaWeb";
     }
-    
+
     public String konfirmasi() {
         try {
             upload();

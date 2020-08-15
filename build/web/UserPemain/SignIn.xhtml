@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template3.xhtml">
+
+            <ui:define name="TitlePage">
+                Sign In
+            </ui:define>
+
+            <ui:define name="BodyPage">
+                <h5>Please Sign In to participate in the Futsalan website</h5>
+                <div class="blog-post">
+                <h5>if you don't have an account to access the website, you can <h:link outcome="/UserPemain/SignUp" class="read-more">Sign Up</h:link> first</h5>
+                </div>
+                <br/>
+                <p:messages id="messages" showDetail="true" closable="true">
+                    <p:autoUpdate />
+                </p:messages>
+                <h:form class="comment-form">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h:inputText value="#{loginController.loginEmail}" a:type="text" class="form-control" a:placeholder="Email" a:required="true" />
+                        </div>
+                        <div class="col-md-10">
+                            <h:inputText value="#{loginController.loginPassword}" a:type="password" class="form-control" a:placeholder="Password" a:required="true" />
+                        </div>
+                    </div>
+                    <br/>
+                    
+                    <h:commandLink class="site-btn" action="#{loginController.loginPemain()}" value="Login" />
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

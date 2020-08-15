@@ -30,6 +30,13 @@ public class TbPengelolaFacade extends AbstractFacade<TbPengelola> {
         super(TbPengelola.class);
     }
     
+    public void ubahStatus(TbPengelola t, int stat) {
+        em.createQuery("UPDATE TbPengelola t SET t.status = :stat WHERE t.idPengelola = :id")
+                .setParameter("stat", stat)
+                .setParameter("id", t.getIdPengelola())
+                .executeUpdate();
+    }    
+    
     public boolean getAutentikasi(String Email, String Password) {
         try {
             em.createQuery("SELECT p FROM TbPengelola p WHERE p.email = :Email and p.password= :Password ")

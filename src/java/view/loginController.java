@@ -13,6 +13,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import loginPackage.SessionUtils;
 import model.TbPengelola;
+import model.TbPemain;
+import model.TbTeam;
 import view.util.JsfUtil;
 
 /**
@@ -22,12 +24,17 @@ import view.util.JsfUtil;
 @Named("loginController")
 @SessionScoped
 public class loginController implements Serializable{
-    
+
     private String loginEmail,loginPassword;
     @EJB
     private controller.TbPengelolaFacade ejbPengelolaFacade;
+    private controller.TbPemainFacade ejbPemainFacade;
+
     private List<TbPengelola> pengelolaList;
     private TbPengelola dataPengelola;
+
+    private List<TbPemain> pemainList;
+    private TbPemain dataPemain;
 
     public String getLoginEmail() {
         return loginEmail;
@@ -40,6 +47,9 @@ public class loginController implements Serializable{
     public String getLoginPassword() {
         return loginPassword;
     }
+
+
+
 
     public void setLoginPassword(String loginPassword) {
         this.loginPassword = loginPassword;
@@ -60,11 +70,16 @@ public class loginController implements Serializable{
     public void setDataPengelola(TbPengelola dataPengelola) {
         this.dataPengelola = dataPengelola;
     }
-    
-    
-    
-    
-    
+
+
+    public List<TbPemain> getPemainList() {
+        return pemainList;
+    }
+
+    public void setPemainList(List<TbPemain> pemainList) {
+        this.pemainList = pemainList;
+
+
     public String loginPengelola() {
         try {
             boolean autentikasi = ejbPengelolaFacade.getAutentikasi(loginEmail, loginPassword);
@@ -74,7 +89,7 @@ public class loginController implements Serializable{
             //jabatan = penggunaList.get(0).getMsPenggunaRole();
             //msPenggunaId = penggunaList.get(0).getMsPenggunaId();
             dataPengelola = pengelolaList.get(0);
-            
+
             if (autentikasi == true) {
                 HttpSession session = SessionUtils.getSession();
                 session.setAttribute("templateEmail", pengelolaList.get(0).getEmail());
@@ -84,7 +99,7 @@ public class loginController implements Serializable{
                 session.setAttribute("templateNamaFutsal", pengelolaList.get(0).getIdFutsal().getNamaFutsal());
                 session.setAttribute("templateFoto", pengelolaList.get(0).getFoto());
                 session.setAttribute("templateStatus", pengelolaList.get(0).getStatus());
-         
+
                 return "pengelola";
             } else {
                 JsfUtil.addErrorMessage("Login Gagal Email : "+loginEmail);
@@ -99,8 +114,47 @@ public class loginController implements Serializable{
             return null;
         }
     }
-    
-    
+
+    public String loginPemain() {
+        try {
+            boolean autentikasi = ejbPemainFacade.getAutentikasi(loginEmail, loginPassword);
+            pemainList = ejbPemainFacade.getData(loginEmail);
+            dataPemain = ejbPemainFacade.getDataLogin(loginEmail);
+            //name = penggunaList.get(0).getMsPenggunaNama();
+            //jabatan = penggunaList.get(0).getMsPenggunaRole();
+            //msPenggunaId = penggunaList.get(0).getMsPenggunaId();
+
+            if (autentikasi == true) {
+                boolean isCaptain = ejbPemainFacade.getAutentikasiCaptain(pemainList.get(0).getIdPemain());
+                TbTeam idTeam = null;
+
+                if (pemainList.get(0).getIdTeam() != null) {
+                    idTeam = pemainList.get(0).getIdTeam();
+                }
+
+                HttpSession session = SessionUtils.getSession();
+                session.setAttribute("templateEmail", pemainList.get(0).getEmail());
+                session.setAttribute("templateNama", pemainList.get(0).getNama());
+                session.setAttribute("templateIDPemain", pemainList.get(0).getIdPemain());
+                session.setAttribute("templateIsCaptain", isCaptain);
+                session.setAttribute("templateIdTeam", idTeam);
+
+                return "index";
+            } else {
+                JsfUtil.addErrorMessage("Login Gagal Email : "+loginEmail);
+                return "UserPemain/SignIn";
+            }
+
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Pemain tidak ditemukan!");
+            setLoginEmail(null);
+            setLoginPassword(null);
+
+            return null;
+        }
+    }
+
+
         public String logout() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
