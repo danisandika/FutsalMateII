@@ -70,51 +70,65 @@
                                         <p:tooltip />
                                         
                                         <h:form id="formId">
-                                        <p:messages id="messages" showDetail="true" closable="true">
-                                            <p:autoUpdate />
-                                        </p:messages>
+                                        <p:growl id="messages" showDetail="true" />
                                         <div class="input-group"> 
                                             <div class="input-group-prepend"><span class="input-group-text">Nama</span></div>
-                                            <h:inputText id="nama" value="#{tbFutsalController.current.namaFutsal}" title="Nama" required="true" requiredMessage="Nama is required" class="form-control"/>
+                                            <h:inputText id="nama" value="#{tbFutsalController.current.namaFutsal}" 
+                                                         title="Nama" required="true" requiredMessage="Nama Futsal tidak boleh kosong" class="form-control"/>
+                                            <p:growl for="nama" showDetail="true" />
                                         </div>
                                         <br></br>
                                          <div class="input-group"> 
                                             <div class="input-group-prepend"><span class="input-group-text">No.Telp</span></div>
-                                            <h:inputText id="notelp" value="#{tbFutsalController.current.notelpFutsal}" title="No.Telp" required="true" requiredMessage="No.Telp is required" class="form-control"/>
+                                            <p:inputText id="notelp" value="#{tbFutsalController.current.notelpFutsal}" title="No.Telp" required="true" 
+                                                         requiredMessage="No.Telp tidak boleh kosong" class="form-control" validatorMessage="Nomor telepon tidak sesuai" maxlength="15">
+                                                <f:validateRegex pattern="^[0-9]{1,13}$"/>
+                                            </p:inputText>
+                                            <p:growl for="notelp" showDetail="true" />
                                         </div>
                                         <br></br>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Alamat</span>
                                             </div>
-                                            <h:inputTextarea id="alamat" rows="2" value="#{tbFutsalController.current.alamatFutsal}"  title="Alamat" required="true" requiredMessage="Alamat is required" class="form-control"/>
+                                            <h:inputTextarea id="alamat" rows="2" value="#{tbFutsalController.current.alamatFutsal}"  title="Alamat Futsal" 
+                                                             required="true" requiredMessage="Alamat tidak boleh kosong" class="form-control" />
+                                            <p:growl for="alamat" showDetail="true" />
                                         </div>
                                         <br></br>
                                          <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Fasilitas</span>
                                             </div>
-                                             <h:inputTextarea id="fasilitas" rows="2" value="#{tbFutsalController.current.fasilitas}"  title="Fasilitas" required="false"  class="form-control"/>
+                                             <h:inputTextarea id="fasilitas" rows="2" value="#{tbFutsalController.current.fasilitas}"  title="Fasilitas" 
+                                                              required="false"  class="form-control"/>
                                         </div>
                                         <br></br>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Deskripsi</span>
                                             </div>
-                                             <h:inputTextarea id="deskripsi" rows="2" value="#{tbFutsalController.current.deskripsiFutsal}"  title="Alamat" required="false" class="form-control"/>
+                                             <h:inputTextarea id="deskripsi" rows="2" value="#{tbFutsalController.current.deskripsiFutsal}"  title="Alamat" 
+                                                              required="false" class="form-control"/>
                                         </div>
                                         <br></br>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="input-group"> 
                                                     <div class="input-group-prepend"><span class="input-group-text">Nama Rekening</span></div>
-                                                    <h:inputText id="namarek" value="#{tbFutsalController.current.namaRekening}" title="Nama Rekening" required="true" requiredMessage="Nama is required" class="form-control"/>
+                                                    <h:inputText id="namarek" value="#{tbFutsalController.current.namaRekening}" title="Nama Rekening" 
+                                                                 required="true" requiredMessage="Nama Rekening tidak boleh kosong" class="form-control"/>
+                                                    <p:growl for="namarek" showDetail="true" />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="input-group"> 
                                                     <div class="input-group-prepend"><span class="input-group-text">Nomor Rekening</span></div>
-                                                    <h:inputText id="norek" value="#{tbFutsalController.current.noRekening}" title="Nomor Rekening" required="true" requiredMessage="Nomor Rekening is required" class="form-control" />
+                                                    <p:inputText id="norek" value="#{tbFutsalController.current.noRekening}" title="Nomor Rekening" required="true" 
+                                                                 requiredMessage="Nomor Rekening tidak boleh kosong" class="form-control" validatorMessage="Nomor Rekening tidak sesuai kriteria" maxlength="20">
+                                                        <f:validateRegex pattern="^[0-9]{1,20}$"/> 
+                                                    </p:inputText>
+                                                    <p:growl for="norek" showDetail="true" />
                                                 </div>
                                             </div>
                                         </div>
@@ -123,14 +137,20 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Nama Bank</span>
                                             </div>
-                                            <h:selectOneMenu id="bankrek" value="#{tbFutsalController.current.namaBank}" style="width:125px" class="form-control">
-                                    
+                                            <h:selectOneMenu id="bankrek" value="#{tbFutsalController.current.namaBank}" style="width:125px" class="form-control" required="true" requiredMessage="Data Bank tidak boleh kosong">
                                                 <f:selectItem itemLabel="Bank Rakyat Indonesia (BRI)" itemValue="BRI" />
                                                 <f:selectItem itemLabel="Mandiri" itemValue="Mandiri" />
                                                 <f:selectItem itemLabel="Bank Negara Indonesia (BNI)" itemValue="BNI" />
                                                 <f:selectItem itemLabel="Permata Bank" itemValue="Permata" />
-                                               
+                                                <f:selectItem itemLabel="Bank Central Asia (BCA)" itemValue="BCA" />
+                                                <f:selectItem itemLabel="Danamon" itemValue="Danamon" />
+                                                <f:selectItem itemLabel="Mega" itemValue="Mega" />
+                                                <f:selectItem itemLabel="Bukopin" itemValue="Bukopin" />
+                                                <f:selectItem itemLabel="OCBC NISP" itemValue="OCBC NISP" />
+                                                <f:selectItem itemLabel="CIMB Niaga" itemValue="CIMB Niaga" />
+                                                <f:selectItem itemLabel="Panin" itemValue="Panin" />
                                             </h:selectOneMenu>
+                                            <p:growl for="bankrek" showDetail="true" />
                                         </div>
                                         <br></br>
                                         
@@ -160,11 +180,12 @@
                                         <br></br>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text">Upload Gambar (Belum Bisa)</span>
+                                                <span class="input-group-text">Upload Gambar</span>
                                             </div>
-                                            <p:fileUpload listener="#{tbFutsalController.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                                                          update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width: 100%;height: 100px;"/>
-                                            <p:growl id="message" showDetail="true" />
+                                            <h:inputFile id="logoFutsal" value="#{tbFutsalController.gambar}" 
+                                                title="Logo Futsal" required="true" 
+                                                requiredMessage="Logo Harus Diunggah"/>
+                                            <p:growl for="logoFutsal" showDetail="true" />
                                         </div>
                                         <br/>
                                          <div class="input-group">

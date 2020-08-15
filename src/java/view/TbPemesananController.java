@@ -6,6 +6,7 @@ import view.util.PaginationHelper;
 import controller.TbPemesananFacade;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -17,6 +18,9 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import model.TbFutsal;
+import model.TbKonfirmasi;
+import model.TbLapangan;
 
 
 @Named("tbPemesananController")
@@ -98,11 +102,12 @@ public class TbPemesananController implements Serializable {
 
     public String update() {
         try {
+            current.setStatus(2);
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbPemesananUpdated"));
-            return "View";
+            JsfUtil.addSuccessMessage("Sukses Konfirmasi Pemesanan");
+            return "listPemesanan";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Konfirmasi Pemesanan Gagal : "+e.toString());
             return null;
         }
     }
@@ -231,5 +236,62 @@ public class TbPemesananController implements Serializable {
         }
 
     }
+    
+    
+    
+    /////////////////////////    PENGELOLA FUTSAL   ////////////////////////////////////
+    private List<TbPemesanan> listPemesanan;
+    private List<TbPemesanan> filterPemesanan;
+    private TbKonfirmasi tbkonfirmasi;
+ 
+    
+    public void getPemesanan(String id,Integer sts) {
+        listPemesanan = ejbFacade.getPemesanan(Integer.valueOf(id),sts);
+    }
+    
+    public void getRiwayatPemesanan(String id) {
+        listPemesanan = ejbFacade.getRiwayatPemesanan(Integer.valueOf(id));
+    }
+    
+    public String konfPemesanan(String id){
+        //current = new TbPemesanan();
+        current = ejbFacade.getPemesananByIDPemesanan(id);
+        tbkonfirmasi = ejbFacade.getKonfirmasiByIDPemesanan(id);
+        return "konfirmasiPemesanan";
+    }
 
+    public List<TbPemesanan> getListPemesanan() {
+        return listPemesanan;
+    }
+
+    public void setListPemesanan(List<TbPemesanan> listPemesanan) {
+        this.listPemesanan = listPemesanan;
+    }
+    
+    public List<TbPemesanan> getFilterPemesanan() {
+        return filterPemesanan;
+    }
+
+    public void setFilterPemesanan(List<TbPemesanan> filterPemesanan) {
+        this.filterPemesanan = filterPemesanan;
+    }
+
+    public TbPemesanan getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(TbPemesanan current) {
+        this.current = current;
+    }
+
+    public TbKonfirmasi getTbkonfirmasi() {
+        return tbkonfirmasi;
+    }
+
+    public void setTbkonfirmasi(TbKonfirmasi tbkonfirmasi) {
+        this.tbkonfirmasi = tbkonfirmasi;
+    }
+    
+    
+    
 }

@@ -36,6 +36,12 @@ public class TbKonfirmasi implements Serializable {
     @Size(max = 50)
     @Column(name = "nama_pengirim")
     private String namaPengirim;
+    @Size(max = 50)
+    @Column(name = "norek_pengirim")
+    private String norekPengirim;
+    @Size(max = 2147483647)
+    @Column(name = "foto_transfer")
+    private String fotoTransfer;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,8 +49,6 @@ public class TbKonfirmasi implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_konfirmasi")
     private Integer idKonfirmasi;
-    @Column(name = "norek_pengirim")
-    private Integer norekPengirim;
     @Column(name = "jumlah_bayar")
     private Integer jumlahBayar;
     @JoinColumn(name = "id_pemesanan", referencedColumnName = "id_pemesanan")
@@ -74,13 +78,6 @@ public class TbKonfirmasi implements Serializable {
         this.namaPengirim = namaPengirim;
     }
 
-    public Integer getNorekPengirim() {
-        return norekPengirim;
-    }
-
-    public void setNorekPengirim(Integer norekPengirim) {
-        this.norekPengirim = norekPengirim;
-    }
 
     public Integer getJumlahBayar() {
         return jumlahBayar;
@@ -122,6 +119,26 @@ public class TbKonfirmasi implements Serializable {
     public String toString() {
         return "model.TbKonfirmasi[ idKonfirmasi=" + idKonfirmasi + " ]";
     }
+
+
+    public String getNorekPengirim() {
+        return norekPengirim;
+    }
+
+    public void setNorekPengirim(String norekPengirim) {
+        this.norekPengirim = norekPengirim;
+    }
+
+
+    public String getFotoTransfer() {
+        return fotoTransfer;
+    }
+
+    public void setFotoTransfer(String fotoTransfer) {
+        this.fotoTransfer = fotoTransfer;
+    }
+
+    
 
 
 

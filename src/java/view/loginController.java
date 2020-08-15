@@ -52,6 +52,14 @@ public class loginController implements Serializable{
     public void setPengelolaList(List<TbPengelola> pengelolaList) {
         this.pengelolaList = pengelolaList;
     }
+
+    public TbPengelola getDataPengelola() {
+        return dataPengelola;
+    }
+
+    public void setDataPengelola(TbPengelola dataPengelola) {
+        this.dataPengelola = dataPengelola;
+    }
     
     
     
@@ -65,7 +73,8 @@ public class loginController implements Serializable{
             //name = penggunaList.get(0).getMsPenggunaNama();
             //jabatan = penggunaList.get(0).getMsPenggunaRole();
             //msPenggunaId = penggunaList.get(0).getMsPenggunaId();
-
+            dataPengelola = pengelolaList.get(0);
+            
             if (autentikasi == true) {
                 HttpSession session = SessionUtils.getSession();
                 session.setAttribute("templateEmail", pengelolaList.get(0).getEmail());
@@ -74,6 +83,7 @@ public class loginController implements Serializable{
                 session.setAttribute("templateIDFutsal", pengelolaList.get(0).getIdFutsal().getIdFutsal());
                 session.setAttribute("templateNamaFutsal", pengelolaList.get(0).getIdFutsal().getNamaFutsal());
                 session.setAttribute("templateFoto", pengelolaList.get(0).getFoto());
+                session.setAttribute("templateStatus", pengelolaList.get(0).getStatus());
          
                 return "pengelola";
             } else {
@@ -91,7 +101,7 @@ public class loginController implements Serializable{
     }
     
     
-    public String logout() {
+        public String logout() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
 		return "loginPengelola";

@@ -42,12 +42,17 @@ public class TbSewalapangan implements Serializable {
     @NotNull
     @Column(name = "status_bayar")
     private int statusBayar;
+    @Size(max = 2147483647)
+    @Column(name = "bukti_transfer")
+    private String buktiTransfer;
+
+    
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size( max = 20)
     @Column(name = "id_sewalapangan")
     private String idSewalapangan;
     @Column(name = "tgl_pembayaran")
@@ -72,7 +77,6 @@ public class TbSewalapangan implements Serializable {
     @JoinColumn(name = "id_futsal", referencedColumnName = "id_futsal")
     @ManyToOne(optional = false)
     private TbFutsal idFutsal;
-
     public TbSewalapangan() {
     }
 
@@ -189,6 +193,23 @@ public class TbSewalapangan implements Serializable {
     public String toString() {
         return "model.TbSewalapangan[ idSewalapangan=" + idSewalapangan + " ]";
     }
+
+
+
+    public String getBuktiTransfer() {
+        return buktiTransfer;
+    }
+
+    public void setBuktiTransfer(String buktiTransfer) {
+        this.buktiTransfer = buktiTransfer;
+    }
+
+
+
+    
+
+ 
+
 
 
 

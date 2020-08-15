@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+        <ui:composition template="/TemplatePengelola.xhtml">
+            <style type="text/css">
+                .ui-datatable .ui-datatable-header {
+                    text-align: right !important;
+                }
+
+                .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+                    display: none;
+                }
+            </style>
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                List
+            </ui:define>
+
+            <ui:define name="descript">
+                Daftar Pemesanan Lapangan
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+                <!--Untuk get Data Futsal By IDFutsal dari Session-->
+                #{tbPemesananController.getPemesanan(session.getAttribute("templateIDFutsal"),1)}
+                <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                    <li class="nav-item">
+                        <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                            <span>List</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content">
+                    
+                    <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Daftar Pemesanan Lapangan</h5>
+                                        
+                                       <br/>
+                                        
+                                        <h:form>
+                                            
+                                            <p:growl id="message" showDetail="true" />
+                                            <h:panelGroup id="messagePanel" layout="block" >
+                                            </h:panelGroup>
+                                            
+                                            <h:outputText escape="false" value="Daftar Kosong" rendered="#{tbPemesananController.listPemesanan.size() == 0}"/>
+                                            <h:panelGroup rendered="#{tbPemesananController.listPemesanan.size() > 0}">
+                                                
+                                                <p:dataTable id="tableStateDT" var="item" value="#{tbPemesananController.listPemesanan}" widgetVar="PemesananTable" multiViewState="true"
+                                                    rows="10" paginator="true"
+                                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                    rowsPerPageTemplate="5,10,15"
+                                                    selectionMode="single" selection="#{tbPemesananController.current}" rowKey="#{item.idPemesanan}"
+                                                    emptyMessage="No cars found with given criteria" filteredValue="#{tbPemesananController.filterPemesanan}">
+
+                                               <f:facet name="header">
+                                                   <p:outputPanel>
+                                                       <h:outputText value="Cari di Tabel:" />
+                                                       <p:inputText id="globalFilter" onkeyup="PF('PemesananTable').filter()" style="width:150px" placeholder="Masukan Kata Kunci..."/>
+                                                   </p:outputPanel>
+                                               </f:facet>
+
+    
+                                               <p:column headerText="ID Pesan " filterBy="#{item.idPemesanan}" sortBy="#{item.idPemesanan}" filterMatchMode="contains">
+                                                        <h:outputText value="#{item.idPemesanan}" />
+                                               </p:column>
+                                                    
+                                               <p:column headerText="Lapangan" filterBy="#{item.idLapangan.namaLapangan}" sortBy="#{item.idLapangan.namaLapangan}" filterMatchMode="contains">
+                                                        <h:outputText value="#{item.idLapangan.namaLapangan}" />
+                                               </p:column>
+                                                    
+                                               <p:column headerText="Pemesan" filterBy="#{item.idPemain.nama}" sortBy="#{item.idPemain.nama}" filterMatchMode="contains">
+                                                        <h:outputText value="#{item.idPemain.nama}" />
+                                               </p:column>
+
+                                               <p:column headerText="Tanggal" filterBy="#{item.tglMain}" sortBy="#{item.tglMain}" filterMatchMode="contains">
+                                                   <h:outputText value="#{item.tglMain}">
+                                                       <f:convertDateTime pattern="dd MMMM yyyy" />
+                                                   </h:outputText>
+                                               </p:column>
+
+                                               <p:column headerText="Waktu" filterBy="#{item.jamMainMulai}" sortBy="#{item.jamMainMulai}" filterMatchMode="startsWith">
+                                                   <h:outputText value="#{item.jamMainMulai}">
+                                                       <f:convertDateTime type="time" pattern="HH:mm" timeZone="Asia/Jakarta"/>
+                                                   </h:outputText> 
+                                                   - 
+                                                   <h:outputText value="#{item.jamMainSelesai}">
+                                                       <f:convertDateTime type="time" pattern="HH:mm" timeZone="Asia/Jakarta"/>
+                                                   </h:outputText> WIB
+                                               </p:column>
+                                                <p:column class="text-center" sortBy="#{item.status}">
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Status"/>
+                                                    </f:facet>
+                                                    <h:outputText value="Menunggu" rendered="#{item.status == 1}" class="badge badge-warning"/>
+                                                    <h:outputText value="Belum Bayar" rendered="#{item.status == 0}" class="badge badge-danger"/>
+                                                </p:column>
+                                                <p:column class="text-center" style="width: 180px;">
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Action"/>
+                                                    </f:facet>
+                                                    <p:commandButton icon="pe-7s-paper-plane" action="#{tbPemesananController.konfPemesanan(item.idPemesanan)}"  value="Konfirmasi" class="mb-2 mr-2 btn btn-info" />
+                                                    
+                                                </p:column>
+                                              
+                                           </p:dataTable>
+                                                
+                                            </h:panelGroup>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

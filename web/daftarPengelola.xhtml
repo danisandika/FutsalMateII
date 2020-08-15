@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+	<title>Login</title>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!--===============================================================================================-->	
+        <h:outputStylesheet name="/Login/images/icons/favicon.ico" />
+        <h:outputStylesheet name="/Login/vendor/bootstrap/css/bootstrap.min.css" />
+        <h:outputStylesheet name="/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <h:outputStylesheet name="/Login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" />
+        <h:outputStylesheet name="/Login/vendor/animate/animate.css" />
+        <h:outputStylesheet name="/Login/vendor/css-hamburgers/hamburgers.min.css" />
+        
+        <h:outputStylesheet name="/Login/vendor/animsition/css/animsition.min.css" />
+        <h:outputStylesheet name="/Login/vendor/select2/select2.min.css" />
+        <h:outputStylesheet name="/Login/vendor/daterangepicker/daterangepicker.css" />
+        <h:outputStylesheet name="/Login/css/util.css" />
+        <style type="text/css">
+            .label {
+                width:20%;
+                padding:4px;
+            }
+
+            .value {
+                width:80%;
+                padding:4px;
+            }
+
+            .grid {
+                width:100%;
+            }
+
+            .error {
+                color: red;
+            }
+
+            .outputLabel {
+                font-weight: bold;
+            }
+
+            .grid {
+                width:33%;
+                padding:4px;
+            }
+        </style>
+        <script type="text/javascript" >
+            function tabChangeWizard() {
+                alert(wiz.getStepIndex());
+            }
+        </script>
+	</h:head>
+        <h:body style="background-color: #F7F7F7;">
+        <h:form enctype="multipart/form-data">
+        <div class="row " style="margin: 20px">
+           <div class="col-12">
+            <div class="text-center">
+                <h3>Pendaftaran Pengelola Futsal</h3>
+            </div>
+            <br/>
+            <br/>
+            <p:growl id="messages" sticky="false" showDetail="true" life="300"/>
+            <p:wizard flowListener="#{daftarPengelolaWizard.onFlowProcess}" widgetVar="wiz"
+                    onback="tabChangeWizard()"
+                    onnext="tabChangeWizard()">
+                <p:tab id="wizTab1" title="Pengelola Futsal">
+                    <p:panel header="Pengelola Detail">
+                        <p:growl id="growl" sticky="false" showDetail="true" life="300"/>
+                        <p:panelGrid>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="inputEmail4">Nama : </label>
+                              <h:inputText id="namaPengelola" value="#{daftarPengelolaWizard.pengelola.nama}" 
+                                            title="Nama Pengelola" required="true" requiredMessage="Nama Pengelola tidak boleh kosong" class="form-control"/>
+                              <p:growl for="namaPengelola" showDetail="true" life="300"/>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputEmai">Email : </label>
+                            <h:inputText 
+                                    id="email" 
+                                    class="form-control" 
+                                    value="#{daftarPengelolaWizard.pengelola.email}" 
+                                    title="Email" 
+                                    required="true" 
+                                    requiredMessage="Email tidak boleh kosong">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+                            </h:inputText>
+                            <p:growl for="email" showDetail="true" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="inputEmail4">Nomor Telepon : </label>
+                              <h:inputText id="notelp" value="#{daftarPengelolaWizard.pengelola.notelp}" title="Nomor Telepon" required="true" 
+                                            requiredMessage="Nomor Telepon tidak boleh kosong" class="form-control" validatorMessage="Nomor Telpon harus angka " maxlength="15">
+                                   <f:validateRegex pattern="^[0-9]{1,15}$"/> 
+                               </h:inputText>
+                              <p:growl for="notelp" showDetail="true" life="300" sticky="false"/>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputEmai">Tanggal Lahir : </label>
+                              <h:inputText id="tgllahir" class="form-control" value="#{daftarPengelolaWizard.pengelola.tglLahir}" a:type="date"/>
+                              <p:growl for="tgllahir" showDetail="true" life="300" sticky="false"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                           <label for="exampleFormControlTextarea1">Alamat : </label>
+                           <h:inputTextarea id="alamat" rows="2" value="#{daftarPengelolaWizard.pengelola.alamat}"  title="Alamat Pengelola" 
+                                            required="true" requiredMessage="Alamat tidak boleh kosong" class="form-control" />
+                           <p:growl for="alamat" showDetail="true" life="300" sticky="false"/>
+                        </div>
+                        <div class="form-group">
+                           <label for="exampleFormControlTextarea1">Foto KTP : </label>
+                           <h:inputFile id="fotoktp" value="#{daftarPengelolaWizard.pengelola.fotoKtp}" 
+                                title="Foto KTP" required="true" 
+                                requiredMessage="Foto KTP Harus Diunggah untuk Validasi Pengelola Futsal"/>
+                           <p:growl for="fotoktp" showDetail="true" life="300" sticky="false"/>
+                        </div>
+                        <div class="form-group">
+                           <label for="exampleFormControlTextarea1">Password : </label>
+                           <h:inputSecret id="password" value="#{daftarPengelolaWizard.pengelola.password}" 
+                                            title="Password Pengelola" required="true" requiredMessage="Password tidak boleh kosong" class="form-control"/>
+                           <p:growl for="password" showDetail="true" life="300"/>
+                        </div>
+                            <h:selectBooleanCheckbox value="#{daftarPengelolaWizard.skip}" />
+                        </p:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="wizTab2" title="Futsal">
+                    <p:panel header="Futsal Detail">
+                        <p:panelGrid>
+                         <div class="form-group">
+                           <label for="exampleFormControlTextarea1">Nama Futsal : </label>
+                           <h:inputText id="namaFutsal" value="#{daftarPengelolaWizard.futsal.namaFutsal}" 
+                                            title="Nama Futsal" required="true" requiredMessage="Nama Futsal tidak boleh kosong" class="form-control"/>
+                           <p:growl for="namaFutsal" showDetail="true" life="300"/>
+                        </div>
+                       <div class="form-row">
+                         <div class="form-group col-md-6">
+                              <label for="inputEmail4">Nama Rekening: </label>
+                              <h:inputText id="namarekening" value="#{daftarPengelolaWizard.futsal.namaRekening}" 
+                                            title="Nama Rekening" required="true" requiredMessage="Nama Rekening tidak boleh kosong" class="form-control"/>
+                              <p:growl for="namarekening" showDetail="true" life="300"/>
+                            </div>
+                            <div class="form-group col-md-6">
+                            <label for="inputEmai">Nomor Rekening : </label>
+                            <h:inputText 
+                                    id="nomorRekening" 
+                                    class="form-control" 
+                                    value="#{daftarPengelolaWizard.futsal.noRekening}" 
+                                    title="Nomor Rekening" 
+                                    required="true" 
+                                    requiredMessage="Nomor Rekening tidak boleh kosong">
+                            <f:validateRegex pattern="^[0-9]{1,50}$"/> 
+                            </h:inputText>
+                            <p:growl for="nomorRekening" showDetail="true" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                         <label for="exampleFormControlTextarea1">Nama Bank : </label>
+                         <h:selectOneMenu id="bankrek" value="#{daftarPengelolaWizard.futsal.namaBank}" style="width:125px" class="form-control" required="true" requiredMessage="Data Bank tidak boleh kosong">
+                           <f:selectItem itemLabel="Bank Rakyat Indonesia (BRI)" itemValue="BRI" />
+                           <f:selectItem itemLabel="Mandiri" itemValue="Mandiri" />
+                           <f:selectItem itemLabel="Bank Negara Indonesia (BNI)" itemValue="BNI" />
+                           <f:selectItem itemLabel="Permata Bank" itemValue="Permata" />
+                           <f:selectItem itemLabel="Bank Central Asia (BCA)" itemValue="BCA" />
+                           <f:selectItem itemLabel="Danamon" itemValue="Danamon" />
+                           <f:selectItem itemLabel="Mega" itemValue="Mega" />
+                           <f:selectItem itemLabel="Bukopin" itemValue="Bukopin" />
+                           <f:selectItem itemLabel="OCBC NISP" itemValue="OCBC NISP" />
+                           <f:selectItem itemLabel="CIMB Niaga" itemValue="CIMB Niaga" />
+                           <f:selectItem itemLabel="Panin" itemValue="Panin" />
+                       </h:selectOneMenu>
+                       <p:growl for="bankrek" showDetail="true" />
+                        </div>
+                        <div class="form-group">
+                           <label for="exampleFormControlTextarea1">Alamat : </label>
+                           <h:inputTextarea id="alamatFutsal" rows="2" value="#{daftarPengelolaWizard.futsal.alamatFutsal}"  title="Alamat Futsal" 
+                                            required="true" requiredMessage="Alamat tidak boleh kosong" class="form-control" />
+                           <p:growl for="alamatFutsal" showDetail="true" life="300" sticky="false"/>
+                        </div>
+                       <div class="form-group">
+                           <label for="exampleFormControlTextarea1">Deskripsi : </label>
+                           <h:inputTextarea id="deskripsiFutsal" rows="2" value="#{daftarPengelolaWizard.futsal.deskripsiFutsal}"  title="Deskripsi Futsal" 
+                                             class="form-control" />
+                           <p:growl for="deskripsiFutsal" showDetail="true" life="300" sticky="false"/>
+                        </div>
+                        <div class="form-group">
+                           <label for="exampleFormControlTextarea1">Fasilitas : </label>
+                           <h:inputTextarea id="fasilitasFutsal" rows="2" value="#{daftarPengelolaWizard.futsal.fasilitas}"  title="Fasilitas Futsal" 
+                                             class="form-control" />
+                           <p:growl for="fasilitasFutsal" showDetail="true" life="300" sticky="false"/>
+                        </div>
+                            <h:selectBooleanCheckbox value="#{daftarPengelolaWizard.skip}" />
+                        </p:panelGrid>
+                    </p:panel>
+                </p:tab>
+                
+                
+
+                <p:tab id="wizTab3" title="Konfirmasi">
+                    <p:panel header="Konfirmasi">
+                        <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <h:outputText value="Firstname: " />
+                                <h:outputText value="#{daftarPengelolaWizard.pengelola.nama}" styleClass="outputLabel"/>
+
+                                <h:outputText value="Lastname: " />
+                                <h:outputText value="#{daftarPengelolaWizard.pengelola.notelp}" styleClass="outputLabel"/>
+
+                                <h:outputText value="Age: " />
+                                <h:outputText value="#{daftarPengelolaWizard.pengelola.email}" styleClass="outputLabel"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <p:commandButton value="Submit" action="#{daftarPengelolaWizard.save}" update="growl" process="@this"/>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+           </div>
+        </div>
+        </h:form>
+	
+	
+
+	
+<h:outputScript name="/Login/vendor/jquery/jquery-3.2.1.min.js" />
+<h:outputScript name="/Login/vendor/animsition/js/animsition.min.js" />
+<h:outputScript name="/Login/vendor/bootstrap/js/popper.js" />
+<h:outputScript name="/Login/vendor/bootstrap/js/bootstrap.min.js" />
+
+<h:outputScript name="/Login/vendor/select2/select2.min.js" />
+<h:outputScript name="/Login/vendor/daterangepicker/moment.min.js" />
+<h:outputScript name="/Login/vendor/daterangepicker/daterangepicker.js" />
+<h:outputScript name="/Login/vendor/countdowntime/countdowntime.js" />
+<h:outputScript name="/Login/js/main.js" />
+<h:outputScript name="/locale.js"/>
+ 
+</h:body>
+</html>

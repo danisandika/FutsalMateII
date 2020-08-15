@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      <h:head>
+		<title>Registrasi Pengelola</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta name="author" content="colorlib.com"/>
+
+		<!-- MATERIAL DESIGN ICONIC FONT -->
+		<h:outputStylesheet name="/Wizard/fonts/material-design-iconic-font/css/material-design-iconic-font.css"/>
+
+		<!-- STYLE CSS -->
+		<h:outputStylesheet name="/Wizard/css/style.css"/>
+       </h:head>
+	<h:body>
+        <div class="wrapper">
+            <h:form id="wizard" enctype="multipart/form-data">
+        	<!-- SECTION 1 -->
+                
+                <h2></h2>
+                <section>
+                    
+                    <div class="inner">
+                        <div class="image-holder">
+                            <img src="resources/Wizard/images/bg-1.jpg" alt=""/>
+                        </div>
+                        <div class="form-content" >
+                                <div class="form-header">
+                                    <h3>Registrasi</h3>
+                                </div>
+                                <p:messages id="messages" showDetail="true" closable="true">
+                                    <p:autoUpdate />
+                                </p:messages>
+                                <p>Masukan Data Personal</p>
+                                <div class="form-row">
+                                    <div class="form-holder">
+                                         <h:inputText id="namaPengelola" value="#{daftarPengelolaWizard.pengelola.nama}" 
+                                            title="Nama Pengelola" required="true" requiredMessage="Nama Pengelola tidak boleh kosong" class="form-control" a:placeholder="Nama Pengelola"/>
+                                         <p:message for="namaPengelola" showDetail="true" />
+                                    </div>
+                                        <div class="form-holder">
+                                            <h:inputText 
+                                                id="email" 
+                                                class="form-control" 
+                                                value="#{daftarPengelolaWizard.pengelola.email}" 
+                                                title="Email" 
+                                                required="true" 
+                                                requiredMessage="Email tidak boleh kosong"
+                                                a:placeholder="Email">
+                                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+                                            </h:inputText>
+                                            <p:message for="email" showDetail="true" />
+                                        </div>
+                                </div>
+                                <div class="form-row">
+                                        <div class="form-holder">
+                                            <h:inputText id="notelp" value="#{daftarPengelolaWizard.pengelola.notelp}" title="Nomor Telepon" required="true" 
+                                            requiredMessage="Nomor Telepon tidak boleh kosong" class="form-control" validatorMessage="Nomor Telpon harus angka " maxlength="15" a:placeholder="Nomor Telepon">
+                                                <f:validateRegex pattern="^[0-9]{1,15}$"/> 
+                                            </h:inputText>
+                                            <p:message for="notelp" showDetail="true"/>
+                                        </div>
+                                        <div class="form-holder">
+                                            <h:inputText id="tgllahir" class="form-control" value="#{daftarPengelolaWizard.pengelola.tglLahir}" a:type="date">
+                                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                            </h:inputText>
+                                            <p:message for="tgllahir" showDetail="true" />
+                                        </div>
+                                </div>
+                                <div class="form-holder">
+                                     <h:inputTextarea id="alamat" rows="2" value="#{daftarPengelolaWizard.pengelola.alamat}"  title="Alamat Pengelola" 
+                                        accesskey="" required="true" requiredMessage="Alamat tidak boleh kosong" class="form-control" a:placeholder="Alamat"/>
+                                     <p:message for="alamat" showDetail="true"/>
+                                </div>
+                               
+                                <div class="form-row">
+                                <div class="form-holder">
+                                     <label for="exampleFormControlTextarea1">Foto KTP : </label>
+                                     <h:inputFile id="fotoktp" value="#{daftarPengelolaWizard.gambar}" 
+                                            title="Foto KTP" required="true" 
+                                            requiredMessage="Foto KTP Harus Diunggah untuk Validasi Pengelola Futsal"/>
+                                     <p:message for="fotoktp" showDetail="true"/>
+                                </div>
+                                <div class="form-holder">
+                                    <h:inputSecret id="password" value="#{daftarPengelolaWizard.pengelola.password}" 
+                                            title="Password Pengelola" required="true" requiredMessage="Password tidak boleh kosong" class="form-control" a:placeholder="Password"/>
+                                    <p:message for="password" showDetail="true" />
+                                </div>
+                                </div>
+                               
+                        </div>
+                    </div>
+                </section>
+
+				<!-- SECTION 2 -->
+                <h2></h2>
+                <section>
+                    
+                    <div class="inner">
+                            <div class="image-holder">
+                                    <img src="resources/Wizard/images/bg-2.jpg" alt=""/>
+                            </div>
+                            <div class="form-content">
+                                    <div class="form-header">
+                                        <h3>Registrasi</h3>
+                                    </div>
+                                    <p>Masukan Data Futsal</p>
+                                    <div class="form-row">
+                                    <div class="form-holder">
+                                        <h:inputText id="namaFutsal" value="#{daftarPengelolaWizard.futsal.namaFutsal}" 
+                                            title="Nama Futsal" required="true" requiredMessage="Nama Futsal tidak boleh kosong" class="form-control" a:placeholder="Nama Tempat Futsal"/>
+                                        <p:message for="namaFutsal" showDetail="true" />
+                                    </div>
+                                         <div class="form-holder">
+                                            <h:selectOneMenu id="bankrek" value="#{daftarPengelolaWizard.futsal.namaBank}" style="width:100%" class="form-control" required="true" requiredMessage="Data Bank tidak boleh kosong">
+                                                <f:selectItem itemLabel="Bank Rakyat Indonesia (BRI)" itemValue="BRI" />
+                                                <f:selectItem itemLabel="Mandiri" itemValue="Mandiri" />
+                                                <f:selectItem itemLabel="Bank Negara Indonesia (BNI)" itemValue="BNI" />
+                                                <f:selectItem itemLabel="Permata Bank" itemValue="Permata" />
+                                                <f:selectItem itemLabel="Bank Central Asia (BCA)" itemValue="BCA" />
+                                                <f:selectItem itemLabel="Danamon" itemValue="Danamon" />
+                                                <f:selectItem itemLabel="Mega" itemValue="Mega" />
+                                                <f:selectItem itemLabel="Bukopin" itemValue="Bukopin" />
+                                                <f:selectItem itemLabel="OCBC NISP" itemValue="OCBC NISP" />
+                                                <f:selectItem itemLabel="CIMB Niaga" itemValue="CIMB Niaga" />
+                                                <f:selectItem itemLabel="Panin" itemValue="Panin" />
+                                            </h:selectOneMenu>
+                                             <p:message for="bankrek" showDetail="true" />
+                                     </div>
+                                    </div>
+                                    <div class="form-row">
+                                            <div class="form-holder">
+                                                <h:inputText id="namarekening" value="#{daftarPengelolaWizard.futsal.namaRekening}" 
+                                                    title="Nama Rekening" required="true" 
+                                                    requiredMessage="Nama Rekening tidak boleh kosong" class="form-control" a:placeholder="Nama Rekening"/>
+                                                <p:message for="namarekening" showDetail="true" />
+                                            </div>
+                                            <div class="form-holder">
+                                                 <h:inputText 
+                                                        id="nomorRekening" 
+                                                        class="form-control" 
+                                                        value="#{daftarPengelolaWizard.futsal.noRekening}" 
+                                                        title="Nomor Rekening" 
+                                                        required="true" 
+                                                        requiredMessage="Nomor Rekening tidak boleh kosong"
+                                                        a:placeholder="Nomor Rekening">
+                                                <f:validateRegex pattern="^[0-9]{1,50}$"/> 
+                                                </h:inputText>
+                                                <p:message for="nomorRekening" showDetail="true" />
+                                            </div>
+                                    </div>
+                                    
+                                    <div class="form-holder">
+                                         <h:inputTextarea id="alamatFutsal" rows="2" value="#{daftarPengelolaWizard.futsal.alamatFutsal}"  title="Alamat Futsal" 
+                                            required="true" requiredMessage="Alamat tidak boleh kosong" class="form-control" a:placeholder="Alamat Futsal"/>
+                                         <p:message for="alamatFutsal" showDetail="true"/>
+                                    </div>
+                                    
+                            </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 3 -->
+                <h2></h2>
+                <section>
+                    
+                    <div class="inner">
+                            <div class="image-holder">
+                                    <img src="resources/Wizard/images/bg-3.jpg" alt=""/>
+                            </div>
+                            <div class="form-content">
+                                    <div class="form-header">
+                                            <h3>Registrasi</h3>
+                                    </div>
+                                    <p>Data Pelengkap Futsal</p>
+                                    
+                                    <div class="form-holder w-100">
+                                        <h:inputTextarea id="deskripsiFutsal" rows="5" value="#{daftarPengelolaWizard.futsal.deskripsiFutsal}"  title="Deskripsi Futsal" 
+                                            class="form-control" a:placeholder="Deskripsi Futsal" />
+                                        <p:message for="deskripsiFutsal" showDetail="true"/>
+                                    </div>
+                                    <br/>
+                                    <div class="form-holder w-100">
+                                        <h:inputTextarea id="fasilitasFutsal" rows="5" value="#{daftarPengelolaWizard.futsal.fasilitas}"  title="Fasilitas Futsal" 
+                                         class="form-control" a:placeholder="Fasilitas Futsal"/>
+                                        <p:message for="fasilitasFutsal" showDetail="true" />
+                                    </div>
+                                    
+                                    <h:commandButton value="Submit" action="#{daftarPengelolaWizard.save}" style="width: 21%;height: 9%;float: right;background-color: #0098ef;color: white"/>
+                            </div>
+                    </div>
+                </section>
+            </h:form>
+		</div>
+
+		<!-- JQUERY -->
+		<h:outputScript name="/Wizard/js/jquery-3.3.1.min.js"/>
+
+		<!-- JQUERY STEP -->
+		<h:outputScript name="/Wizard/js/jquery.steps.js"/>
+		<h:outputScript name="/Wizard/js/main.js"/>
+		<!-- Template created and distributed by Colorlib -->
+        </h:body>
+</html>

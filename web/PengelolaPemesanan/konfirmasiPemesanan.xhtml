@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    
+
+   <body>
+        <ui:composition template="/TemplatePengelola.xhtml">
+
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                <h:outputText value="Tampil Konfirmasi Lapangan">
+                    
+                </h:outputText>
+            </ui:define>
+
+            <ui:define name="descript">
+                Konfirmasi Lapangan
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages id="messages" showDetail="true" closable="true">
+                    <p:autoUpdate />
+                </p:messages>
+            </h:panelGroup>
+                
+            <h:form>
+
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Bukti Transfer</h5>
+                    <hr/>
+                        <div class="form-row">
+                            <div class="position-relative form-group"> 
+                                <h:graphicImage value="/Image_bukti_transfer/not_found.png" width="300" height="400" style="display: block; margin: auto;text-align: center;" rendered="#{tbPemesananController.tbkonfirmasi.fotoTransfer == null}"/>
+                                <h:graphicImage value="/Image_bukti_transfer/#{tbPemesananController.tbkonfirmasi.fotoTransfer}" width="300" height="400" style="display: block; margin: auto;text-align: center;" rendered="#{tbPemesananController.tbkonfirmasi.fotoTransfer != null}"/>
+                           </div>
+                        </div>
+                </div>
+            </div>
+            <div class="main-card mb-3 card">
+                <div class="no-gutters row">
+                    <div class="col-md-4">
+                        <div class="widget-content">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading"><label class="mb-2 mr-2 badge badge-pill badge-info">Nama Rekening</label></div>
+                                    <h5>#{tbPemesananController.tbkonfirmasi.namaPengirim}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="widget-content">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading"><label class="mb-2 mr-2 badge badge-pill badge-info">Nomor Rekening</label></div>
+                                    <h5>#{tbPemesananController.tbkonfirmasi.norekPengirim}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="widget-content">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading"><label class="mb-2 mr-2 badge badge-pill badge-info">Jumlah</label></div>
+                                    <h5><h:outputText value="#{tbPemesananController.tbkonfirmasi.jumlahBayar}" >
+                                            <f:convertNumber  type="currency" currencySymbol="Rp." />
+                                        </h:outputText></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="main-card mb-3 card">
+                <div class="card-body">
+                  <div class="form-row">                   
+                    <div class="col-md-6">
+                        <div class="position-relative form-group">
+                            <label for="examplePassword11" class="mb-2 mr-2 badge badge-pill badge-info">ID Pemesanan</label>
+                            <h5>#{tbPemesananController.current.idPemesanan}</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        
+                        <div class="position-relative form-group">
+                            <label for="examplePassword11" class="mb-2 mr-2 badge badge-pill badge-info">Pemesan</label>
+                            <h5>#{tbPemesananController.current.idPemain.nama}</h5>
+                        </div>
+                    </div>
+                      <div class="col-md-6">
+                        <div class="position-relative form-group">
+                            <label for="examplePassword11" class="mb-2 mr-2 badge badge-pill badge-info">Lapangan</label><br/>
+                            <h5>#{tbPemesananController.current.idLapangan.namaLapangan}</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="position-relative form-group">
+                            <label for="examplePassword11" class="mb-2 mr-2 badge badge-pill badge-info">Tanggal Main</label><br/>
+                            <h5><h:outputText value="#{tbPemesananController.current.tglMain}">
+                                    <f:convertDateTime  pattern="dd MMMM yyyy" timeZone="Asia/Jakarta"/>
+                                </h:outputText></h5>
+                        </div>
+                   </div>
+                    <div class="col-md-6">
+                      <div class="position-relative form-group">
+                              <label for="examplePassword11" class="mb-2 mr-2 badge badge-pill badge-info">Tanggal Pesan</label><br/>
+                              <h5> <h:outputText value="#{tbPemesananController.current.tglPemesanan}">
+                                      <f:convertDateTime  pattern="dd MMMM yyyy" timeZone="Asia/Jakarta"/>
+                                  </h:outputText> </h5>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="position-relative form-group">
+                                <label for="examplePassword11" class="mb-2 mr-2 badge badge-pill badge-info">Durasi</label><br/>
+                                <h5>#{tbPemesananController.current.durasi} Jam (
+                                  <h:outputText value="#{tbPemesananController.current.jamMainMulai}">
+                                      <f:convertDateTime  type="time" pattern="HH:mm" timeZone="Asia/Jakarta"/>
+                                  </h:outputText> - 
+                                  <h:outputText value="#{tbPemesananController.current.jamMainSelesai}">
+                                      <f:convertDateTime  type="time" pattern="HH:mm" timeZone="Asia/Jakarta"/>
+                                  </h:outputText> WIB ) </h5>
+                        </div>
+                    </div>
+                      <div class="col-md-12">
+                          <br/><br/>
+                           <div class="input-group">
+                                <h:commandLink action="#{tbPemesananController.update}" value="Konfirmasi" class="btn btn-primary" style="width: 100%;"/>
+                            </div>
+                            <br/>
+                            <div class="input-group">
+                                <h:commandLink onclick="history.go(-1); return false;" value="Cancel" a:type="reset" class="btn btn-danger" style="width: 100%;"/>
+                             </div>
+                      </div>
+                    <br/><br/>
+                   
+                </div>
+            </div>
+        </div>    
+          </h:form>
+            
+        </ui:define>
+    </ui:composition>
+   </body>
+</html>
+
+
+                    
+                
+        
+

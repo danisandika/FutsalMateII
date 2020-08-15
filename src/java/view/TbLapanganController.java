@@ -4,8 +4,13 @@ import model.TbLapangan;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbLapanganFacade;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,6 +24,9 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Part;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 
 @Named("tbLapanganController")
 @SessionScoped
@@ -28,8 +36,61 @@ public class TbLapanganController implements Serializable {
     private DataModel items = null;
     @EJB
     private controller.TbLapanganFacade ejbFacade;
+    private controller.TbFutsalFacade ejbFutsalFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    private int idFutsal;
+    private String url;
+    private Part gambar;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Part getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(Part gambar) {
+        this.gambar = gambar;
+    }
+    
+    
+    public String upload() {
+       
+        try {
+            InputStream in = gambar.getInputStream();
+            setGambar(gambar);
+            File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_lapangan_pengelola//" + gambar.getSubmittedFileName());
+            f.createNewFile();
+//            url = f.toString();
+            url = gambar.getSubmittedFileName();
+            FileOutputStream out = new FileOutputStream(f);
+            try (InputStream input = gambar.getInputStream()) {
+                Files.copy(input, new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_lapangan_pengelola//" + gambar.getSubmittedFileName()).toPath());
+            } catch (IOException e) {
+                // Show faces message?
+            }
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer);
+            }
+            out.close();
+            in.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+    
+    
 
     public TbLapanganController() {
     }
@@ -37,7 +98,6 @@ public class TbLapanganController implements Serializable {
     public TbLapangan getSelected() {
         if (current == null) {
             current = new TbLapangan();
-            selectedItemIndex = -1;
         }
         return current;
     }
@@ -77,35 +137,38 @@ public class TbLapanganController implements Serializable {
 
     public String prepareCreate() {
         current = new TbLapangan();
-        selectedItemIndex = -1;
-        return "Create";
+        return viewLapanganByIDFutsal(idFutsal);
     }
 
     public String create() {
         try {
+            upload();
+            current.setGambar(url);
             current.setStatus(1);
+            current.setIdFutsal(listLapangan.get(0).getIdFutsal());
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbLapanganCreated"));
+            JsfUtil.addSuccessMessage("Sukses Memasukan Data");
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Gagal Memasukan Data : "+e.toString());
             return null;
         }
     }
 
-    public String prepareEdit() {
-        current = (TbLapangan) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+    public String prepareEdit(Integer id) {
+        current = ejbFacade.getTbLapanganByIDLapangan(id);
+        return "EditLapangan";
     }
 
     public String update() {
         try {
+            upload();
+            current.setGambar(url);
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbLapanganUpdated"));
-            return "View";
+            JsfUtil.addSuccessMessage("Data Berhasil di Update");
+            return viewLapanganByIDFutsal(idFutsal);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Data Gagal di Update "+e.toString());
             return null;
         }
     }
@@ -113,6 +176,12 @@ public class TbLapanganController implements Serializable {
     public String destroy(Integer id) {
         current = ejbFacade.getTbLapanganByIDLapangan(id);
         performDestroy();
+        return viewLapanganByIDFutsal(current.getIdFutsal().getIdFutsal());
+    }
+    
+    public String active(Integer id) {
+        current = ejbFacade.getTbLapanganByIDLapangan(id);
+        performActivate();
         return viewLapanganByIDFutsal(current.getIdFutsal().getIdFutsal());
     }
 
@@ -133,9 +202,9 @@ public class TbLapanganController implements Serializable {
         try {
             current.setStatus(0);
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage("swal('Berhasil Dihapus')");
+            JsfUtil.addSuccessMessage("Sukses menghapus data");
         } catch (Exception e) {
-            JsfUtil.addErrorMessage("Gagal menghapus data");
+            JsfUtil.addErrorMessage("Gagal menghapus data : "+e.toString());
         }
     }
     
@@ -143,9 +212,9 @@ public class TbLapanganController implements Serializable {
         try {
             current.setStatus(1);
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbLapanganDeleted"));
+            JsfUtil.addSuccessMessage("Sukses Aktivasi Data");
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Gagal Aktivasi Data : "+e.toString());
         }
     }
 
@@ -258,6 +327,7 @@ public class TbLapanganController implements Serializable {
     
     
     public String viewLapanganByIDFutsal(Integer id){
+        idFutsal = id;
         listLapangan = ejbFacade.getLapanganByIDFutsal(id);
         return "ListLapangan";
     }
@@ -277,6 +347,7 @@ public class TbLapanganController implements Serializable {
     public void setCurrent(TbLapangan current) {
         this.current = current;
     }
-       
+      
+    
 
 }
