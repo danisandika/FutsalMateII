@@ -204,6 +204,8 @@ public class TbSewalapangan implements Serializable {
         this.buktiTransfer = buktiTransfer;
     }
 
+    
+
 
 
     

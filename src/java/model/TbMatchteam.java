@@ -156,13 +156,6 @@ public class TbMatchteam implements Serializable {
         return "model.TbMatchteam[ idMatchteam=" + idMatchteam + " ]";
     }
 
-    public String getDeskripsi() {
-        return deskripsi;
-    }
-
-    public void setDeskripsi(String deskripsi) {
-        this.deskripsi = deskripsi;
-    }
 
     public Integer getStatus() {
         return status;
@@ -170,6 +163,14 @@ public class TbMatchteam implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
     }
     
 }

@@ -161,6 +161,10 @@ public class TbBank implements Serializable {
 
 
 
+    
+
+    
+
     public int getStatus() {
         return status;
     }

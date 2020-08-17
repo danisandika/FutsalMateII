@@ -29,4 +29,6 @@ public class TbKonfirmasiFacade extends AbstractFacade<TbKonfirmasi> {
         super(TbKonfirmasi.class);
     }
     
+
+    
 }

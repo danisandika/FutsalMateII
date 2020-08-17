@@ -26,7 +26,11 @@ public class SessionUtils {
     
     public static Integer getId(){
         HttpSession session = getSession();
-        return Integer.parseInt(session.getAttribute("id").toString());
+        return Integer.parseInt(session.getAttribute("templateID").toString());
     }
     
+    public static Integer getIdAdmin(){
+        HttpSession session = getSession();
+        return Integer.parseInt(session.getAttribute("templateIDAdmin").toString());
+    }
 }
