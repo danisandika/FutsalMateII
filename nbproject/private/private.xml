@@ -3,20 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/view/daftarPengelolaWizard.java</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/TemplatePengelola.xhtml</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/PengelolaSewaWeb/konfirmasiSewaWeb.xhtml</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/PengelolaLapangan/ListLapangan.xhtml</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/PengelolaLapangan/EditFutsal.xhtml</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/view/TbFutsalController.java</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/view/loginController.java</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/view/TbSewalapanganController.java</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/controller/TbSewalapanganFacade.java</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/PengelolaSewaWeb/tambahSewaWeb.xhtml</file>
+            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/Admin/admin.xhtml</file>
+            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/controller/TbPengelolaFacade.java</file>
+            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/pengelola.xhtml</file>
+            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/controller/TbAdminFacade.java</file>
             <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/model/TbSewalapangan.java</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/PengelolaSewaWeb/listSewaWeb.xhtml</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/model/TbMatchteam.java</file>
         </group>
     </open-files>
 </project-private>

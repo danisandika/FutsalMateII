@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -16,7 +19,7 @@
             </ui:define>
 
             <ui:define name="descript">
-                Administrasi Kepengelolaan Website Futsalan
+                Dashboard Administrator
             </ui:define>
 
             <ui:define name="titleRight">
@@ -24,7 +27,49 @@
             </ui:define>
 
             <ui:define name="main">
-                
+                <p:growl id="messages" showDetail="true" />
+                <div class="row">
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="card mb-3 widget-content">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Total Member</div>
+                                                <div class="widget-subheading">Pengelola Terdaftar</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-success"><span>#{loginController.dasTotalMember()}</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="card mb-3 widget-content">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Total Uang Masuk</div>
+                                                <div class="widget-subheading">Total Uang Transaksi Sewa</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-primary"><span><h:outputText value="#{loginController.dasTotalUangMasukSewaFutsal()}"><f:convertNumber  type="currency" currencySymbol="Rp." /></h:outputText></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="card mb-3 widget-content">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Total Transaksi</div>
+                                                <div class="widget-subheading">Total Transaksi Sewa</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-warning"><span>#{loginController.dasTransaksiSewaFutsal()}</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
 
             </ui:define>
 

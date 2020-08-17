@@ -12,6 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import loginPackage.SessionUtils;
+import model.TbAdmin;
 import model.TbPengelola;
 import model.TbPemain;
 import model.TbTeam;
@@ -28,10 +29,16 @@ public class loginController implements Serializable{
     private String loginEmail,loginPassword;
     @EJB
     private controller.TbPengelolaFacade ejbPengelolaFacade;
+    @EJB
     private controller.TbPemainFacade ejbPemainFacade;
+    @EJB
+    private controller.TbAdminFacade ejbAdminFacade;
 
     private List<TbPengelola> pengelolaList;
     private TbPengelola dataPengelola;
+    
+    private List<TbAdmin> adminList;
+    private TbAdmin dataAdmin;
 
     private List<TbPemain> pemainList;
     private TbPemain dataPemain;
@@ -47,8 +54,6 @@ public class loginController implements Serializable{
     public String getLoginPassword() {
         return loginPassword;
     }
-
-
 
 
     public void setLoginPassword(String loginPassword) {
@@ -71,6 +76,31 @@ public class loginController implements Serializable{
         this.dataPengelola = dataPengelola;
     }
 
+    public List<TbAdmin> getAdminList() {
+        return adminList;
+    }
+
+    public void setAdminList(List<TbAdmin> adminList) {
+        this.adminList = adminList;
+    }
+
+    public TbAdmin getDataAdmin() {
+        return dataAdmin;
+    }
+
+    public void setDataAdmin(TbAdmin dataAdmin) {
+        this.dataAdmin = dataAdmin;
+    }
+
+    public TbPemain getDataPemain() {
+        return dataPemain;
+    }
+
+    public void setDataPemain(TbPemain dataPemain) {
+        this.dataPemain = dataPemain;
+    }
+
+    
 
     public List<TbPemain> getPemainList() {
         return pemainList;
@@ -78,7 +108,7 @@ public class loginController implements Serializable{
 
     public void setPemainList(List<TbPemain> pemainList) {
         this.pemainList = pemainList;
-
+    }
 
     public String loginPengelola() {
         try {
@@ -113,6 +143,44 @@ public class loginController implements Serializable{
 
             return null;
         }
+        
+    }
+    
+    
+    public String loginAdministrator() {
+        try {
+            boolean auth = ejbAdminFacade.getAutentikasi(loginEmail, loginPassword);
+            adminList = ejbAdminFacade.getData(loginEmail);
+            dataAdmin = ejbAdminFacade.getDataLogin(loginEmail);
+            
+            //name = penggunaList.get(0).getMsPenggunaNama();
+            //jabatan = penggunaList.get(0).getMsPenggunaRole();
+            //msPenggunaId = penggunaList.get(0).getMsPenggunaId();
+            dataAdmin = adminList.get(0);
+
+            if (auth == true) {
+                HttpSession session = SessionUtils.getSession();
+                session.setAttribute("templateEmailAdmin", adminList.get(0).getEmail());
+                session.setAttribute("templateNamaAdmin", adminList.get(0).getNama());
+                session.setAttribute("templateIDAdmin", adminList.get(0).getIdAdmin());
+              
+                session.setAttribute("templateFotoAdmin", adminList.get(0).getFoto());
+                session.setAttribute("templateStatusAdmin", adminList.get(0).getStatus());
+
+                return "Admin/admin";
+            } else {
+                JsfUtil.addErrorMessage("Login Gagal Email : "+loginEmail);
+                return "loginAdministrator";
+            }
+
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Administrator tidak ditemukan!");
+            setLoginEmail(null);
+            setLoginPassword(null);
+
+            return null;
+        }
+        
     }
 
     public String loginPemain() {
@@ -154,10 +222,83 @@ public class loginController implements Serializable{
         }
     }
 
+    
+        public String dasTotalLapangan(String id){
+            String totalLap = null;
+            try{
+                totalLap = ejbPengelolaFacade.getCountLapangan(Integer.valueOf(id));
+                return totalLap;
+            }catch(Exception e){
+                return null;
+            } 
+        }
+        
+        public String dasPemesananLapangan(String id){
+            String totalPemesanan = null;
+            try{
+                totalPemesanan = ejbPengelolaFacade.getCountPemesananLapangan(Integer.valueOf(id));
+                return totalPemesanan;
+            }catch(Exception e){
+                return null;
+            } 
+        }
+        
+        public Integer dasTotalBayarKonfirmasi(String id){
+            Integer totalBayar = null;
+            try{
+                totalBayar = Integer.valueOf(ejbPengelolaFacade.getSUMBayarLapangan(Integer.valueOf(id)));
+                return totalBayar;
+            }catch(Exception e){
+                return null;
+            } 
+        }
+        
+        
+        public String dasTotalMember(){
+            
+            String totalMem = null;
+            try{
+                totalMem = ejbAdminFacade.getCountMember();
+                return totalMem;
+            }catch(Exception e){
+                return null;
+            } 
+        }
+        
+        public String dasTotalUangMasukSewaFutsal(){
+            
+            String totalSewa = null;
+            try{
+                totalSewa = ejbAdminFacade.getSumSewaLap();
+                return totalSewa;
+            }catch(Exception e){
+                return null;
+            } 
+        }
+        
+        
+        public String dasTransaksiSewaFutsal(){
+            
+            String totalSewa = null;
+            try{
+                totalSewa = ejbAdminFacade.getCountSewaLap();
+                return totalSewa;
+            }catch(Exception e){
+                return null;
+            } 
+        }
 
-        public String logout() {
+        public String logoutPengelola() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
 		return "loginPengelola";
 	}
+        
+        public String logoutAdmin() {
+		HttpSession ses = SessionUtils.getSession();
+		ses.invalidate();
+		return "loginAdministrator";
+	}
+        
+        
 }

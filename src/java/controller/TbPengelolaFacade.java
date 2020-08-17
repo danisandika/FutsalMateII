@@ -62,6 +62,7 @@ public class TbPengelolaFacade extends AbstractFacade<TbPengelola> {
     }
     
     
+    
     public boolean getEmailNotExist(String email){
         try {
             em.createQuery("SELECT p FROM TbPengelola p WHERE p.email = :Email ")
@@ -71,6 +72,38 @@ public class TbPengelolaFacade extends AbstractFacade<TbPengelola> {
             return false;
         }
         return em != null;
+    }
+    
+    
+    public TbPengelola getDataPengelola(Integer id){
+        return em.createNamedQuery("TbPengelola.findByIdPengelola", TbPengelola.class)
+                .setParameter("idPengelola", id)
+                .getSingleResult();
+    }
+    
+    
+    public String getCountLapangan(Integer id){
+        
+       String res = em.createQuery("SELECT COUNT(t.idLapangan) as Lapangan FROM TbLapangan t WHERE t.idFutsal.idFutsal = :idFutsal")
+                .setParameter("idFutsal", id)
+                .getSingleResult().toString();
+       return  res;
+    }
+    
+    public String getCountPemesananLapangan(Integer id){
+        
+       String res = em.createQuery("SELECT COUNT(t.idPemesanan) as pemesanan FROM TbPemesanan t WHERE t.idLapangan.idFutsal.idFutsal= :idFutsal")
+                .setParameter("idFutsal", id)
+                .getSingleResult().toString();
+       return  res;
+    }
+    
+    public String getSUMBayarLapangan(Integer id){
+        
+       String res = em.createQuery("SELECT SUM(k.jumlahBayar) FROM TbKonfirmasi k WHERE k.idPemesanan.idLapangan.idFutsal.idFutsal= :idFutsal AND k.idPemesanan.status > 0")
+                .setParameter("idFutsal", id)
+                .getSingleResult().toString();
+       return  res;
     }
     
 }

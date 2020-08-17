@@ -276,6 +276,8 @@ public class TbFutsal implements Serializable {
 
     
 
+    
+
     public String getFasilitas() {
         return fasilitas;
     }
