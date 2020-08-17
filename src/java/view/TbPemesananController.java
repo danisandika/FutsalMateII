@@ -6,6 +6,8 @@ import view.util.PaginationHelper;
 import controller.TbPemesananFacade;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -30,7 +32,28 @@ public class TbPemesananController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
+    private Date minDate;
+    private Date minTime;
+    private Date maxTime;
+
     public TbPemesananController() {
+        Date today = new Date();
+        
+        minDate = new Date(today.getTime());
+ 
+        Calendar tmp = Calendar.getInstance();
+        tmp.set(Calendar.HOUR_OF_DAY, 9);
+        tmp.set(Calendar.MINUTE, 0);
+        tmp.set(Calendar.SECOND, 0);
+        tmp.set(Calendar.MILLISECOND, 0);
+        minTime = tmp.getTime();
+ 
+        tmp = Calendar.getInstance();
+        tmp.set(Calendar.HOUR_OF_DAY, 17);
+        tmp.set(Calendar.MINUTE, 0);
+        tmp.set(Calendar.SECOND, 0);
+        tmp.set(Calendar.MILLISECOND, 0);
+        maxTime =  tmp.getTime();
     }
 
     public TbPemesanan getSelected() {
@@ -232,4 +255,50 @@ public class TbPemesananController implements Serializable {
 
     }
 
+    
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////// DATE
+
+    public Date getMinDate() {
+        return minDate;
+    }
+
+    public void setMinDate(Date minDate) {
+        this.minDate = minDate;
+    }
+
+    public Date getMinTime() {
+        return minTime;
+    }
+
+    public void setMinTime(Date minTime) {
+        this.minTime = minTime;
+    }
+
+    public Date getMaxTime() {
+        return maxTime;
+    }
+
+    public void setMaxTime(Date maxTime) {
+        this.maxTime = maxTime;
+    }
+    
+    private Date dateTgl;
+    private Date dateJam;
+
+    public Date getDateTgl() {
+        return dateTgl;
+    }
+
+    public void setDateTgl(Date dateTgl) {
+        this.dateTgl = dateTgl;
+    }
+
+    public Date getDateJam() {
+        return dateJam;
+    }
+
+    public void setDateJam(Date dateJam) {
+        this.dateJam = dateJam;
+    }
 }

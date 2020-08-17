@@ -42,17 +42,23 @@
                 <a href="index.html" class="site-logo">
                     <h:graphicImage url="/resources/guest/img/futsal.png" alt="logo" />
                 </a>
-                <div class='col-7'>
+                <div class="col-8">
                     <ul class="main-menu">
                         <li><h:link outcome="/index">Home</h:link></li>
                         <li><h:link outcome="/UserPemain/ListMatch">Match</h:link></li>
                         <li><h:link outcome="/UserPemain/ListTeam">Team</h:link></li>
                         <li><h:link outcome="/UserPemain/ListLapangan">Futsal Field</h:link></li>
+                        <li><h:link outcome="/UserPemain/SignIn" rendered="#{loginPemainController.dataPemain != null}">Profil</h:link></li>
                     </ul>
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     <ul class="main-menu ">
-                        <li><a href="index.html">Sign In | Sign Up</a></li>
+                        <li>
+                            <h:link outcome="/UserPemain/SignIn" rendered="#{loginPemainController.dataPemain == null}">SignIn</h:link>
+                            <h:form>
+                                <h:commandLink action="#{loginPemainController.logout()}" rendered="#{loginPemainController.dataPemain != null}">SignOut</h:commandLink>
+                            </h:form>
+                        </li>
                     </ul>
                 </div>
             </div>

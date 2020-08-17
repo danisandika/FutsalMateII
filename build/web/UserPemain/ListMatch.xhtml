@@ -11,6 +11,13 @@
 
             <ui:define name="TitlePage">
                 <h2>Choose Your Match</h2>
+                <p>
+                    <h:outputLabel rendered="#{templateIsCaptain == false}">Please join a team to follow the Match, Enjoy!</h:outputLabel>
+                    <h:outputLabel rendered="#{templateIsCaptain == true}">You can Join or create a new Match, Enjoy!</h:outputLabel>
+                </p>
+                <h:form>
+                    <h:commandLink rendered="#{templateIsCaptain == true}" action="#{tbMatchteamController.prepareCreateByPemain()}" class="site-btn">Create One</h:commandLink>
+                </h:form>
             </ui:define>
 
             <ui:define name="BodyBlog">

@@ -6,6 +6,10 @@ import view.util.PaginationHelper;
 import controller.TbSewalapanganFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -17,6 +21,9 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
+import loginPackage.SessionUtils;
+import model.TbLapangan;
 
 @Named("tbSewalapanganController")
 @SessionScoped
@@ -28,7 +35,7 @@ public class TbSewalapanganController implements Serializable {
     private controller.TbSewalapanganFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-
+    
     public TbSewalapanganController() {
     }
 
@@ -254,5 +261,23 @@ public class TbSewalapanganController implements Serializable {
         }
         return "ListSewaLap";
     }
+       
+    TbLapangan lapReserv;
 
+    public TbLapangan getLapReserv() {
+        return lapReserv;
+    }
+
+    public void setLapReserv(TbLapangan lapReserv) {
+        this.lapReserv = lapReserv;
+    }
+    
+    public String prepareReservasi(TbLapangan revLap) {
+        lapReserv = revLap;
+        current = new TbSewalapangan();
+        selectedItemIndex = -1;
+        return "ReservasiLapangan";
+    }
+
+    
 }

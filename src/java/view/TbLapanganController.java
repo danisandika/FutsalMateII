@@ -19,6 +19,8 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
+import loginPackage.SessionUtils;
 
 @Named("tbLapanganController")
 @SessionScoped
@@ -249,7 +251,7 @@ public class TbLapanganController implements Serializable {
 
     }
     
-    //Controller buatan sendiri
+    /////////////////////////////////////////////////////////////////////////////////////// Controller buatan sendiri
     
     private List<TbLapangan> listLapangan; 
     private List<TbLapangan> filterLapangan;
@@ -283,6 +285,4 @@ public class TbLapanganController implements Serializable {
     public void setCurrent(TbLapangan current) {
         this.current = current;
     }
-       
-
 }

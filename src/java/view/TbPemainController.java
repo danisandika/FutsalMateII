@@ -18,6 +18,9 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
+import loginPackage.SessionUtils;
+import model.TbTeam;
 
 
 @Named("tbPemainController")
@@ -241,5 +244,19 @@ public class TbPemainController implements Serializable {
         current = (TbPemain)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "ViewPemain";
+    }
+    
+    public String removeFromTeam(TbPemain player) {          // Kalo login
+        player.setIdTeam(null);
+        
+        try {
+            getFacade().edit(player);
+            recreateModel();
+            JsfUtil.addSuccessMessage("Success kick your member team");
+            return "index";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Failed kick your member team");
+            return null;
+        }
     }
 }

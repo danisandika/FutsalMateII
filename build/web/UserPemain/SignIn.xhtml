@@ -26,15 +26,15 @@
                 <h:form class="comment-form">
                     <div class="row">
                         <div class="col-md-10">
-                            <h:inputText value="#{loginController.loginEmail}" a:type="text" class="form-control" a:placeholder="Email" a:required="true" />
+                            <h:inputText value="#{loginPemainController.loginEmail}" a:type="text" class="form-control" a:placeholder="Email" a:required="true" />
                         </div>
                         <div class="col-md-10">
-                            <h:inputText value="#{loginController.loginPassword}" a:type="password" class="form-control" a:placeholder="Password" a:required="true" />
+                            <h:inputText value="#{loginPemainController.loginPassword}" a:type="password" class="form-control" a:placeholder="Password" a:required="true" />
                         </div>
                     </div>
                     <br/>
                     
-                    <h:commandLink class="site-btn" action="#{loginController.loginPemain()}" value="Login" />
+                    <h:commandLink class="site-btn" action="#{loginPemainController.loginPemain()}" value="Login" />
                 </h:form>
             </ui:define>
 
