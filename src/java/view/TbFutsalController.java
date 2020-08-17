@@ -4,8 +4,13 @@ import model.TbFutsal;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbFutsalFacade;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,6 +24,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Part;
 import model.TbLapangan;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
@@ -33,24 +39,53 @@ public class TbFutsalController implements Serializable {
     private controller.TbFutsalFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-    private UploadedFile uploadFoto;
+    private String url;
+    private Part gambar;
 
-    public UploadedFile getUploadFoto() {
-        return uploadFoto;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUploadFoto(UploadedFile uploadFoto) {
-        this.uploadFoto = uploadFoto;
+    public void setUrl(String url) {
+        this.url = url;
     }
-    
-    public void handleFileUpload(FileUploadEvent event) {
-        JsfUtil.addSuccessMessage("File Upload Successfully");
+
+    public Part getGambar() {
+        return gambar;
     }
-    
-    public void upload() {
-        if (uploadFoto != null) {
-            JsfUtil.addSuccessMessage("File Upload Successfully : "+uploadFoto.getFileName());
+
+    public void setGambar(Part gambar) {
+        this.gambar = gambar;
+    }
+
+        public String upload() {
+       
+        try {
+            InputStream in = gambar.getInputStream();
+            setGambar(gambar);
+            File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_futsal_gambar//" + gambar.getSubmittedFileName());
+            f.createNewFile();
+//            url = f.toString();
+            url = gambar.getSubmittedFileName();
+            FileOutputStream out = new FileOutputStream(f);
+            try (InputStream input = gambar.getInputStream()) {
+                Files.copy(input, new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_futsal_gambar//" + gambar.getSubmittedFileName()).toPath());
+            } catch (IOException e) {
+                // Show faces message?
+            }
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer);
+            }
+            out.close();
+            in.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return url;
     }
 
     public TbFutsalController() {
@@ -122,6 +157,8 @@ public class TbFutsalController implements Serializable {
 
     public String update() {
         try {
+            upload();
+            current.setGambar(url);
             getFacade().edit(current);
             JsfUtil.addSuccessMessage("Data Berhasil di Update");
             return "View_Futsal";

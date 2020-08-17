@@ -5,9 +5,11 @@
  */
 package controller;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import model.TbKonfirmasi;
 import model.TbPemesanan;
 
 /**
@@ -27,6 +29,33 @@ public class TbPemesananFacade extends AbstractFacade<TbPemesanan> {
 
     public TbPemesananFacade() {
         super(TbPemesanan.class);
+    }
+    
+    public List<TbPemesanan> getPemesanan(Integer id,Integer sts){
+        return em.createQuery("SELECT p FROM TbPemesanan p,TbLapangan l WHERE p.idLapangan.idLapangan = l.idLapangan AND l.idFutsal.idFutsal = :idFutsal AND p.status = :status")
+                .setParameter("idFutsal", id)
+                .setParameter("status", sts)
+                .getResultList();
+    }
+    
+    public List<TbPemesanan> getRiwayatPemesanan(Integer id){
+        return em.createQuery("SELECT p FROM TbPemesanan p,TbLapangan l WHERE p.idLapangan.idLapangan = l.idLapangan AND l.idFutsal.idFutsal = :idFutsal AND p.status = 2 OR p.status = 3")
+                .setParameter("idFutsal", id)
+                .getResultList();
+    }
+    
+    
+    public TbPemesanan getPemesananByIDPemesanan(String id){
+        return em.createNamedQuery("TbPemesanan.findByIdPemesanan", TbPemesanan.class)
+                .setParameter("idPemesanan", id)
+                .getSingleResult();
+    }
+    
+    
+    public TbKonfirmasi getKonfirmasiByIDPemesanan(String id){
+        return (TbKonfirmasi) em.createQuery("SELECT k FROM TbKonfirmasi k WHERE k.idPemesanan.idPemesanan = :idPemesanan")
+                .setParameter("idPemesanan", id)
+                .getSingleResult();
     }
     
 }

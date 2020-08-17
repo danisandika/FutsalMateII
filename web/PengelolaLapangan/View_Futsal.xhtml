@@ -44,7 +44,8 @@
                     <hr/>
                         <div class="form-row">
                             <div class="position-relative form-group"> 
-                                <h:graphicImage value="/Image_futsal_gambar/#{tbFutsalController.current.gambar}" width="400" height="500"/>
+                                <h:graphicImage value="/Image_futsal_gambar/#{tbFutsalController.current.gambar}" width="800" height="400" style="display: block; margin: auto;" rendered="#{tbFutsalController.current.gambar != null}"/>
+                                <h:graphicImage value="/Image_futsal_gambar/blank_image.png" width="800" height="400" style="display: block; margin: auto;" rendered="#{tbFutsalController.current.gambar == null}"/>
                             </div>
                         </div>
                 </div>
@@ -55,7 +56,7 @@
                                     <div class="widget-content-wrapper text-white">
                                         <div class="widget-content-left">
                                             <div class="widget-heading">Nama Futsal</div>
-                                            <div class="widget-subheading">#{tbFutsalController.current.namaFutsal}</div>
+                                            <div class="widget-subheading"><b>#{tbFutsalController.current.namaFutsal}</b></div>
                                         </div>
                                         
                                     </div>
@@ -79,10 +80,17 @@
                                     <div class="widget-content-wrapper text-white">
                                         <div class="widget-content-left">
                                             <div class="widget-heading">Rating</div>
-                                            <div class="widget-subheading"><p:rating value="#{Math.round(tbFutsalController.selected.rating)}" stars="5" readonly="true" styleClass="rating ui-rating-on"/></div>
+                                            <div class="widget-subheading">
+                                                <p:rating value="#{Math.round(tbFutsalController.selected.rating)}" stars="5" readonly="true" rendered="#{tbFutsalController.selected.rating != null}"/>
+                                                <p:rating value="0" stars="5" readonly="true" rendered="#{tbFutsalController.selected.rating == null}"/>
+                                            </div>
                                         </div>
                                         <div class="widget-content-right">
-                                            <div class="widget-numbers text-white"><span>#{tbFutsalController.selected.rating}</span></div>
+                                            <div class="widget-numbers text-white">
+                                                <span>
+                                                    <h:outputText value="#{tbFutsalController.selected.rating}" rendered="#{tbFutsalController.selected.rating != null}"/>
+                                                    <h:outputText value="0" rendered="#{tbFutsalController.selected.rating == null}"/>
+                                                </span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +150,7 @@
                     <div class="position-relative form-group">
                             <label for="examplePassword11" class="">Lokasi Futsal</label>
                             <p:gmap center="#{tbFutsalController.selected.latitude},#{tbFutsalController.selected.longitude}" zoom="13" type="HYBRID" style="width:100%;height:400px" model="#{markersView.simpleModel}" />
-                    </div>
+                    </div>  
                    
                     <div class="position-relative form-group">
                         <h:link outcome="/PengelolaLapangan/EditFutsal" class=" btn btn-primary" style="width: 100%;">Edit Futsal</h:link>  

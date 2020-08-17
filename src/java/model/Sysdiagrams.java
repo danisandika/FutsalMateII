@@ -128,7 +128,6 @@ public class Sysdiagrams implements Serializable {
     }
 
 
-
     public byte[] getDefinition() {
         return definition;
     }

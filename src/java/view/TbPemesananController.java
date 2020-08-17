@@ -6,8 +6,7 @@ import view.util.PaginationHelper;
 import controller.TbPemesananFacade;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -19,6 +18,9 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import model.TbFutsal;
+import model.TbKonfirmasi;
+import model.TbLapangan;
 
 
 @Named("tbPemesananController")
@@ -32,28 +34,7 @@ public class TbPemesananController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    private Date minDate;
-    private Date minTime;
-    private Date maxTime;
-
     public TbPemesananController() {
-        Date today = new Date();
-        
-        minDate = new Date(today.getTime());
- 
-        Calendar tmp = Calendar.getInstance();
-        tmp.set(Calendar.HOUR_OF_DAY, 9);
-        tmp.set(Calendar.MINUTE, 0);
-        tmp.set(Calendar.SECOND, 0);
-        tmp.set(Calendar.MILLISECOND, 0);
-        minTime = tmp.getTime();
- 
-        tmp = Calendar.getInstance();
-        tmp.set(Calendar.HOUR_OF_DAY, 17);
-        tmp.set(Calendar.MINUTE, 0);
-        tmp.set(Calendar.SECOND, 0);
-        tmp.set(Calendar.MILLISECOND, 0);
-        maxTime =  tmp.getTime();
     }
 
     public TbPemesanan getSelected() {
@@ -121,11 +102,12 @@ public class TbPemesananController implements Serializable {
 
     public String update() {
         try {
+            current.setStatus(2);
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbPemesananUpdated"));
-            return "View";
+            JsfUtil.addSuccessMessage("Sukses Konfirmasi Pemesanan");
+            return "listPemesanan";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Konfirmasi Pemesanan Gagal : "+e.toString());
             return null;
         }
     }
@@ -254,51 +236,62 @@ public class TbPemesananController implements Serializable {
         }
 
     }
-
     
     
-    //////////////////////////////////////////////////////////////////////////////////////////////////// DATE
-
-    public Date getMinDate() {
-        return minDate;
-    }
-
-    public void setMinDate(Date minDate) {
-        this.minDate = minDate;
-    }
-
-    public Date getMinTime() {
-        return minTime;
-    }
-
-    public void setMinTime(Date minTime) {
-        this.minTime = minTime;
-    }
-
-    public Date getMaxTime() {
-        return maxTime;
-    }
-
-    public void setMaxTime(Date maxTime) {
-        this.maxTime = maxTime;
+    
+    /////////////////////////    PENGELOLA FUTSAL   ////////////////////////////////////
+    private List<TbPemesanan> listPemesanan;
+    private List<TbPemesanan> filterPemesanan;
+    private TbKonfirmasi tbkonfirmasi;
+ 
+    
+    public void getPemesanan(String id,Integer sts) {
+        listPemesanan = ejbFacade.getPemesanan(Integer.valueOf(id),sts);
     }
     
-    private Date dateTgl;
-    private Date dateJam;
-
-    public Date getDateTgl() {
-        return dateTgl;
+    public void getRiwayatPemesanan(String id) {
+        listPemesanan = ejbFacade.getRiwayatPemesanan(Integer.valueOf(id));
+    }
+    
+    public String konfPemesanan(String id){
+        //current = new TbPemesanan();
+        current = ejbFacade.getPemesananByIDPemesanan(id);
+        tbkonfirmasi = ejbFacade.getKonfirmasiByIDPemesanan(id);
+        return "konfirmasiPemesanan";
     }
 
-    public void setDateTgl(Date dateTgl) {
-        this.dateTgl = dateTgl;
+    public List<TbPemesanan> getListPemesanan() {
+        return listPemesanan;
     }
 
-    public Date getDateJam() {
-        return dateJam;
+    public void setListPemesanan(List<TbPemesanan> listPemesanan) {
+        this.listPemesanan = listPemesanan;
+    }
+    
+    public List<TbPemesanan> getFilterPemesanan() {
+        return filterPemesanan;
     }
 
-    public void setDateJam(Date dateJam) {
-        this.dateJam = dateJam;
+    public void setFilterPemesanan(List<TbPemesanan> filterPemesanan) {
+        this.filterPemesanan = filterPemesanan;
     }
+
+    public TbPemesanan getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(TbPemesanan current) {
+        this.current = current;
+    }
+
+    public TbKonfirmasi getTbkonfirmasi() {
+        return tbkonfirmasi;
+    }
+
+    public void setTbkonfirmasi(TbKonfirmasi tbkonfirmasi) {
+        this.tbkonfirmasi = tbkonfirmasi;
+    }
+    
+    
+    
 }

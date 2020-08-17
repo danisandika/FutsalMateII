@@ -38,6 +38,8 @@ public class TbMatchteam implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "deskripsi")
     private String deskripsi;
+    @Column(name = "status")
+    private Integer status;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -160,6 +162,14 @@ public class TbMatchteam implements Serializable {
 
     public void setDeskripsi(String deskripsi) {
         this.deskripsi = deskripsi;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
     
 }

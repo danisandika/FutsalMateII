@@ -74,7 +74,7 @@ public class TbFutsal implements Serializable {
     private String namaBank;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 50)
     @Column(name = "no_rekening")
     private String noRekening;
     @Basic(optional = false)
@@ -273,9 +273,8 @@ public class TbFutsal implements Serializable {
         return "model.TbFutsal[ idFutsal=" + idFutsal + " ]";
     }
 
-   
 
-
+    
 
     public String getFasilitas() {
         return fasilitas;
@@ -293,6 +292,7 @@ public class TbFutsal implements Serializable {
         this.gambar = gambar;
     }
 
+    
 
     public int getStatus() {
         return status;

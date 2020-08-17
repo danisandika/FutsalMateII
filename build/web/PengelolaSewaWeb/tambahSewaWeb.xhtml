@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+        <ui:composition template="/TemplatePengelola.xhtml">
+            <style type="text/css">
+                .ui-datatable .ui-datatable-header {
+                    text-align: right !important;
+                }
+
+                .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+                    display: none;
+                }
+            </style>
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                Insert Sewa Web
+            </ui:define>
+
+            <ui:define name="descript">
+                 Transaksi Sewa Lapangan
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+                
+                <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                    <li class="nav-item">
+                        <h:link role="tab" class="nav-link " id="tab-0" outcome="/PengelolaSewaWeb/listSewaWeb">
+                            <span>List</span>
+                        </h:link> 
+                    </li>
+                    <li class="nav-item">
+                        <h:link role="tab" class="nav-link active" id="tab-1" outcome="/PengelolaSewaWeb/tambahSewaWeb">
+                            <span>Input</span>
+                        </h:link>  
+                    </li>
+                </ul>
+                
+                <div class="tab-content">
+                    #{tbSewalapanganController.cblistBank()}
+                     <div class="tab-pane tabs-animation active" id="tab-content-1" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-body"><h5 class="card-title">Tambah Transaksi Sewa</h5>
+                                        <p:tooltip />
+                                        <h:form enctype="multipart/form-data" id="formTambahSewa">
+                                        <p:growl id="message" showDetail="true" />
+                                        
+                                        <br></br>
+                                         <div class="input-group">
+                                             <div class="input-group-prepend"><span class="input-group-text">Durasi Sewa&nbsp;&nbsp;</span></div>
+                                            <p:inputText id="durasi" class="form-control" value="#{tbSewalapanganController.waktuSewa}" a:type="number" >
+                                                <p:ajax event="keyup" update="jumlahUang" listener="#{tbSewalapanganController.sumTotalSewa()}" />
+                                            </p:inputText>
+                                            <div class="input-group-prepend"><span class="input-group-text">Tahun</span></div>
+                                        </div>
+                                        <br/><br/>
+                                        <div class="input-group">
+                                            <div class="input-group-append"><span class="input-group-text">Harga/Tahun</span></div>
+                                            <p:inputText id="jumlahUang" class="form-control" value="#{tbSewalapanganController.jumlahUang}" required="true" 
+                                                         title="Harga" requiredMessage="Harga penyewaan tidak boleh kosong" readonly="true">
+                                                <f:convertNumber  type="currency" currencySymbol="Rp."/>
+                                            </p:inputText>
+                                        </div>
+                                        <br/><br/>
+                                        <div class="input-group">
+                                           <div class="input-group-prepend"><span class="input-group-text">Nama Bank&nbsp;</span></div>
+                                           <p:selectOneMenu id="idBank" value="#{tbSewalapanganController.bank}" 
+                                                            title="Bank" class="form-control"
+                                                            required="true" requiredMessage="Nama Bank tidak boleh kosong" >
+                                               <f:selectItems value="#{tbSewalapanganController.listBank}" var="bank" itemLabel="#{bank.namaBank} | #{bank.namaRekening} | #{bank.noRekening}" itemValue="#{bank}"/>
+                                               
+                                           </p:selectOneMenu>
+                                           
+                                        </div>
+                                        <br></br>
+                                        
+                                       
+                                        
+                                         <br/>
+                                         <div class="input-group">
+                                             <h:commandButton action="#{tbSewalapanganController.create}" value="Simpan" class="btn btn-primary" style="width: 100%;"/>
+                                         </div>
+                                        <br/>
+                                        <div class="input-group">
+                                            <h:commandButton onclick="history.go(-1); return false;" value="Cancel" a:type="reset" class="btn btn-danger" style="width: 100%;"/>
+                                         </div>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                   
+                    
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

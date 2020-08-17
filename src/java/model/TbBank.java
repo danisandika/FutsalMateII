@@ -155,8 +155,9 @@ public class TbBank implements Serializable {
 
     @Override
     public String toString() {
-        return "model.TbBank[ idBank=" + idBank + " ]";
+        return namaBank;
     }
+
 
 
 

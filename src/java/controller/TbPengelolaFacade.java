@@ -61,4 +61,16 @@ public class TbPengelolaFacade extends AbstractFacade<TbPengelola> {
                 .getSingleResult();
     }
     
+    
+    public boolean getEmailNotExist(String email){
+        try {
+            em.createQuery("SELECT p FROM TbPengelola p WHERE p.email = :Email ")
+                    .setParameter("Email", email)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return false;
+        }
+        return em != null;
+    }
+    
 }

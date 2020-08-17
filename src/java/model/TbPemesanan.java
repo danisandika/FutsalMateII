@@ -60,10 +60,10 @@ public class TbPemesanan implements Serializable {
     @Column(name = "id_pemesanan")
     private String idPemesanan;
     @Column(name = "jam_main_mulai")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date jamMainMulai;
     @Column(name = "jam_main_selesai")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date jamMainSelesai;
     @Column(name = "durasi")
     private Integer durasi;
@@ -205,6 +205,11 @@ public class TbPemesanan implements Serializable {
     public String toString() {
         return "model.TbPemesanan[ idPemesanan=" + idPemesanan + " ]";
     }
+
+
+
+
+
 
 
    

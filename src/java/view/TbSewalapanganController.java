@@ -4,13 +4,22 @@ import model.TbSewalapangan;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbSewalapanganFacade;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -21,21 +30,28 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import loginPackage.SessionUtils;
-import model.TbLapangan;
+import model.TbBank;
+import model.TbFutsal;
 
 @Named("tbSewalapanganController")
 @SessionScoped
 public class TbSewalapanganController implements Serializable {
 
     private TbSewalapangan current;
+    private TbFutsal Futsal;
     private DataModel items = null;
     @EJB
     private controller.TbSewalapanganFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-    
+    private int idFutsal;
+    private String url;
+    private Part gambar;
+
     public TbSewalapanganController() {
     }
 
@@ -88,13 +104,39 @@ public class TbSewalapanganController implements Serializable {
 
     public String create() {
         try {
+            current = new TbSewalapangan();
+            String idSewa = ejbFacade.getLastIDSewa();
+            Futsal = ejbFacade.getFutsalByIDFutsal(idFutsal);
+            current.setIdSewalapangan(idSewa);
+            current.setIdFutsal(Futsal);
+            current.setIdBank(bank);
+            current.setTglSewa(currentDate);
+            current.setTglBerakhir(getCurrentDatePlus(waktuSewa));
+            current.setWaktuSewa(waktuSewa);
+            current.setJumlahUang(jumlahUang);
+            current.setStatusBayar(0);
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbSewalapanganCreated"));
-            return prepareCreate();
+            JsfUtil.addSuccessMessage("Data Berhasil disimpan");
+            CreateNull();
+            return "listSewaWeb";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Data Gagal disimpan : "+e.toString());
             return null;
         }
+    }
+
+
+    public void CreateNull(){
+        current = new TbSewalapangan();
+        current.setIdSewalapangan(null);
+        current.setIdFutsal(null);
+        waktuSewa= null;
+        jumlahUang = null;
+        current.setIdBank(null);
+        current.setTglSewa(null);
+        current.setWaktuSewa(null);
+        current.setJumlahUang(null);
+        current.setStatusBayar(0);
     }
 
     public String prepareEdit() {
@@ -238,17 +280,174 @@ public class TbSewalapanganController implements Serializable {
         }
 
     }
-    
-    
-    ////////////////////////////////////// I can't understand what pepole are sayin' ///////////////////////////////
-    
+
+
+
+    //METHOD ORIGINAL BY DANIS
+    private Date currentDate = new Date();
+    private List<TbSewalapangan> listSewa;
+    private List<TbSewalapangan> filterSewa;
+    private List<TbBank> listBank;
+    private TbBank bank;
+    private Integer waktuSewa;
+    private Integer jumlahUang;
+    private static final String DATE_FORMAT = "yyyy/MM/dd HH:mm:ss";
+    private static final DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+    private static final DateTimeFormatter dateFormat8 = DateTimeFormatter.ofPattern(DATE_FORMAT);
+
+    public Integer getWaktuSewa() {
+        return waktuSewa;
+    }
+
+    public void setWaktuSewa(Integer waktuSewa) {
+        this.waktuSewa = waktuSewa;
+    }
+
+    public Integer getJumlahUang() {
+        return jumlahUang;
+    }
+
+    public void setJumlahUang(Integer jumlahUang) {
+        this.jumlahUang = jumlahUang;
+    }
+
+
+
+    public List<TbSewalapangan> getListSewa() {
+        return listSewa;
+    }
+
+    public void setListSewa(List<TbSewalapangan> listSewa) {
+        this.listSewa = listSewa;
+    }
+
+    public List<TbSewalapangan> getFilterSewa() {
+        return filterSewa;
+    }
+
+    public void setFilterSewa(List<TbSewalapangan> filterSewa) {
+        this.filterSewa = filterSewa;
+    }
+
+    public TbSewalapangan getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(TbSewalapangan current) {
+        this.current = current;
+    }
+
+    public List<TbBank> getListBank() {
+        return listBank;
+    }
+
+    public void setListBank(List<TbBank> listBank) {
+        this.listBank = listBank;
+    }
+
+
+
+    public String getSewaLapanganbyID(String id){
+        idFutsal = Integer.valueOf(id);
+        listSewa = ejbFacade.getLapanganByID(Integer.valueOf(id));
+        return null;
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+
+    public Date getCurrentDatePlus(Integer year){
+        // convert date to localdatetime
+        LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        System.out.println("localDateTime : " + dateFormat8.format(localDateTime));
+
+        // plus one
+        localDateTime = localDateTime.plusYears(year);
+
+
+        // convert LocalDateTime to date
+        Date currentDatePlusYear = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        return currentDatePlusYear;
+    }
+
+    public void sumTotalSewa(){
+        jumlahUang = waktuSewa * 300000;
+    }
+
+    public TbFutsal getFutsal() {
+        return Futsal;
+    }
+
+    public void setFutsal(TbFutsal Futsal) {
+        this.Futsal = Futsal;
+    }
+
+
+    public void cblistBank(){
+        listBank = ejbFacade.getBank();
+    }
+
+    public TbBank getBank() {
+        return bank;
+    }
+
+    public void setBank(TbBank bank) {
+        this.bank = bank;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Part getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(Part gambar) {
+        this.gambar = gambar;
+    }
+
+     public String upload() {
+
+        try {
+            InputStream in = gambar.getInputStream();
+            setGambar(gambar);
+            File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_web_bukti_transfer//" + gambar.getSubmittedFileName());
+            f.createNewFile();
+//            url = f.toString();
+            url = gambar.getSubmittedFileName();
+            FileOutputStream out = new FileOutputStream(f);
+            try (InputStream input = gambar.getInputStream()) {
+                Files.copy(input, new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_web_bukti_transfer//" + gambar.getSubmittedFileName()).toPath());
+            } catch (IOException e) {
+                // Show faces message?
+            }
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer);
+            }
+            out.close();
+            in.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
 
     public String prepareViewAdmin() {
         current = (TbSewalapangan) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "ViewSewaLap";
     }
-    
+
     public String confirmPay() {
         current = (TbSewalapangan) getItems().getRowData();
         try {
@@ -261,23 +460,25 @@ public class TbSewalapanganController implements Serializable {
         }
         return "ListSewaLap";
     }
-       
-    TbLapangan lapReserv;
 
-    public TbLapangan getLapReserv() {
-        return lapReserv;
+
+    public String konfirmasiSewa(String id){
+        current = ejbFacade.getSewaByID(id);
+        return "konfirmasiSewaWeb";
     }
 
-    public void setLapReserv(TbLapangan lapReserv) {
-        this.lapReserv = lapReserv;
+    public String konfirmasi() {
+        try {
+            upload();
+            current.setTglPembayaran(currentDate);
+            current.setBuktiTransfer(url);
+            current.setStatusBayar(1);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage("Upload Bukti Transfer Berhasil, Silahkan Tunggu Konfirmasi dari Administrator");
+            return "listSewaWeb";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Upload Bukti Transfer Gagal : "+e.toString());
+            return null;
+        }
     }
-    
-    public String prepareReservasi(TbLapangan revLap) {
-        lapReserv = revLap;
-        current = new TbSewalapangan();
-        selectedItemIndex = -1;
-        return "ReservasiLapangan";
-    }
-
-    
 }

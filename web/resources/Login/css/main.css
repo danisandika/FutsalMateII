@@ -314,6 +314,27 @@ iframe {
   transition: all 0.4s;
 }
 
+
+.label-inputdaftar {
+  font-family: Montserrat-Regular;
+  font-size: 18px;
+  color: #999999;
+  line-height: 1.2;
+
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  width: 100%;
+  padding-left: 24px;
+  left: 0;
+  top: 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
 .input100 {
   display: block;
   width: 100%;
@@ -388,6 +409,11 @@ input.input100 {
 }
 
 .input100:focus + .focus-input100 + .label-input100 {
+  top: 14px;
+  font-size: 13px;
+}
+
+.inputdaftar:focus + .focus-inputdaftar + .label-inputdaftar {
   top: 14px;
   font-size: 13px;
 }
