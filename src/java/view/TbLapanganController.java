@@ -1,5 +1,6 @@
 package view;
 
+import controller.TbFutsalFacade;
 import model.TbLapangan;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
@@ -25,6 +26,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.Part;
+import model.TbFutsal;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
@@ -33,13 +35,14 @@ import org.primefaces.model.file.UploadedFile;
 public class TbLapanganController implements Serializable {
 
     private TbLapangan current;
+    private TbFutsal futsal;
     private DataModel items = null;
     @EJB
     private controller.TbLapanganFacade ejbFacade;
     private controller.TbFutsalFacade ejbFutsalFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-    private int idFutsal;
+    private Integer idFutsal;
     private String url;
     private Part gambar;
 
@@ -58,6 +61,19 @@ public class TbLapanganController implements Serializable {
     public void setGambar(Part gambar) {
         this.gambar = gambar;
     }
+
+    public TbFutsalFacade getEjbFutsalFacade() {
+        return ejbFutsalFacade;
+    }
+
+    public TbFutsal getFutsal() {
+        return futsal;
+    }
+
+    public void setFutsal(TbFutsal futsal) {
+        this.futsal = futsal;
+    }
+    
     
     
     public String upload() {
@@ -66,6 +82,7 @@ public class TbLapanganController implements Serializable {
             InputStream in = gambar.getInputStream();
             setGambar(gambar);
             File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_lapangan_pengelola//" + gambar.getSubmittedFileName());
+            
             f.createNewFile();
 //            url = f.toString();
             url = gambar.getSubmittedFileName();
@@ -74,6 +91,7 @@ public class TbLapanganController implements Serializable {
                 Files.copy(input, new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_lapangan_pengelola//" + gambar.getSubmittedFileName()).toPath());
             } catch (IOException e) {
                 // Show faces message?
+                System.out.println(e.toString());
             }
             byte[] buffer = new byte[1024];
             int length;
@@ -146,12 +164,15 @@ public class TbLapanganController implements Serializable {
         return viewLapanganByIDFutsal(idFutsal);
     }
 
-    public String create() {
+    public String create(TbFutsal fts) {
+        
+        
         try {
+            
             upload();
             current.setGambar(url);
             current.setStatus(1);
-            current.setIdFutsal(listLapangan.get(0).getIdFutsal());
+            current.setIdFutsal(fts);
             getFacade().create(current);
             JsfUtil.addSuccessMessage("Sukses Memasukan Data");
             return prepareCreate();

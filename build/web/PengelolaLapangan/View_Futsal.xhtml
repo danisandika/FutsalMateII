@@ -70,7 +70,7 @@
                                             <div class="widget-subheading">Jumlah Total Lapangan</div>
                                         </div>
                                         <div class="widget-content-right">
-                                            <div class="widget-numbers text-white"><span>#{tbFutsalController.selected.tbLapanganCollection.size()}</span></div>
+                                            <div class="widget-numbers text-white"><span>#{loginController.dasTotalLapangan(session.getAttribute("templateIDFutsal"))}</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                         <div class="widget-content-left">
                                             <div class="widget-heading">Rating</div>
                                             <div class="widget-subheading">
-                                                <p:rating value="#{Math.round(tbFutsalController.selected.rating)}" stars="5" readonly="true" rendered="#{tbFutsalController.selected.rating != null}"/>
+                                                <p:rating value="#{tbFutsalController.selected.rating}" stars="5" readonly="true" rendered="#{tbFutsalController.selected.rating != null}"/>
                                                 <p:rating value="0" stars="5" readonly="true" rendered="#{tbFutsalController.selected.rating == null}"/>
                                             </div>
                                         </div>

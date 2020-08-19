@@ -100,7 +100,7 @@ public class TbPengelolaFacade extends AbstractFacade<TbPengelola> {
     
     public String getSUMBayarLapangan(Integer id){
         
-       String res = em.createQuery("SELECT SUM(k.jumlahBayar) FROM TbKonfirmasi k WHERE k.idPemesanan.idLapangan.idFutsal.idFutsal= :idFutsal AND k.idPemesanan.status > 0")
+       String res = em.createQuery("SELECT SUM(k.jumlahBayar) FROM TbKonfirmasi k WHERE k.idPemesanan.idLapangan.idFutsal.idFutsal= :idFutsal AND k.idPemesanan.status > 1")
                 .setParameter("idFutsal", id)
                 .getSingleResult().toString();
        return  res;

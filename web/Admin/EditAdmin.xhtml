@@ -59,13 +59,30 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Email</span>
                                             </div>
-                                             <h:inputText id="email" value="#{tbAdminController.selected.email}" a:type="email"  title="#{bundle.CreateTbAdminTitle_email}" required="true" requiredMessage="#{bundle.CreateTbAdminRequiredMessage_email}" class="form-control"/>
+                                            <h:inputText id="email" value="#{tbAdminController.selected.email}" a:type="email"  title="#{bundle.CreateTbAdminTitle_email}" required="true" requiredMessage="#{bundle.CreateTbAdminRequiredMessage_email}" class="form-control" readonly="true"/>
                                         </div>
                                         <br></br>
                                         <div class="input-group">
                                             <div class="input-group-append"><span class="input-group-text">No Telp</span></div>
                                             <h:inputText id="notelp" value="#{tbAdminController.selected.notelp}" title="#{bundle.CreateTbAdminTitle_notelp}" class="form-control" a:type="number"/>
                                             
+                                        </div>
+                                        <br/>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Alamat</span>
+                                            </div>
+                                            <h:inputTextarea rows="3" id="alamat" value="#{tbAdminController.selected.alamat}" title="Alamat" required="true" requiredMessage="#{bundle.CreateTbAdminRequiredMessage_alamat}" class="form-control" />
+                                        </div>
+                                        <br/>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Tanggal Lahir</span>
+                                            </div>
+                                            <h:inputText a:type="date" class="form-control" id="validationCustom04" value="#{tbAdminController.selected.tglLahir}" required="">
+                                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                            </h:inputText>
+                                           
                                         </div>
                                         <br></br>
                                         <h:commandLink action="#{tbAdminController.update}" value="Update" class="mb-2 mr-2 btn btn-primary"/>

@@ -49,6 +49,17 @@ public class TbAdminFacade extends AbstractFacade<TbAdmin> {
                 .getResultList();
     }
     
+    public boolean getEmailAdminNotExist(String email){
+        try {
+            em.createQuery("SELECT p FROM TbAdmin p WHERE p.email = :Email ")
+                    .setParameter("Email", email)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return false;
+        }
+        return em != null;
+    }
+    
     public TbAdmin getDataLogin(String Email){
         return em.createQuery("SELECT p FROM TbAdmin p WHERE p.email= :Email", TbAdmin.class)
                 .setParameter("Email", Email)

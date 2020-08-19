@@ -150,8 +150,8 @@ public class TbFutsal implements Serializable {
         this.alamatFutsal = alamatFutsal;
     }
 
-    public Double getRating() {
-        return rating;
+    public int getRating() {
+        return (int) Math.round(rating);
     }
 
     public void setRating(Double rating) {

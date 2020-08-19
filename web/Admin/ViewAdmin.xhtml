@@ -17,7 +17,7 @@
                 <h:outputText value="#{bundle.ViewTbAdminTitle}"></h:outputText>
             </ui:define>
             <ui:define name="descript">
-                Administrator Futsalan
+                Administrator Futsal
             </ui:define>
 
             <ui:define name="titleRight">
@@ -31,12 +31,31 @@
                 
             </h:panelGroup>
             <div class="main-card mb-3 card">
-                <div class="card-body"><h5 class="card-title">Details Administrator</h5>
+                <div class="card-body"><h5 class="card-title">Detail Administrator</h5>
                     <hr/>
                     <h:form class="">
-                        <div class="position-relative form-group">
-                            <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Nama</label><br/>
-                            <h5>#{tbAdminController.selected.nama}</h5>
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3"></div>
+                            <div class="col-md-4 mb-3">
+                            <h:graphicImage width="300" height="300" class="rounded-circle" value="/Image_profil_admin/not_found.png" alt="" rendered="#{editUser.tbAdmin.foto == null}"/>
+                            <h:graphicImage width="300" height="300" class="rounded-circle" value="/Image_profil_admin/#{editUser.tbAdmin.foto}" alt="" rendered="#{editUser.tbAdmin.foto != null}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Nama</label><br/>
+                                    <h5>#{tbAdminController.selected.nama}</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                     <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Tanggal Lahir</label>
+                                     <h5><h:outputText value="#{tbAdminController.selected.tglLahir}">
+                                            <f:convertDateTime pattern="dd MMMM yyyy" />
+                                        </h:outputText></h5>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
@@ -52,23 +71,32 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="position-relative form-group">
+                                    <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Alamat</label>
+                                    <h5>#{tbAdminController.selected.alamat}</h5>
+                                </div>
+                            </div>
+                        </div>
                         <br/>
                         <br/>
                         <div class="form-row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="position-relative form-group">
-                                    <h:link outcome="EditAdmin" value="#{bundle.ViewTbAdminEditLink}"  class="mb-6 mr-6 btn btn-primary" style="width: 550px;"/>
+                                    <h:link outcome="EditAdmin" value="#{bundle.ViewTbAdminEditLink}"  class="mb-6 mr-6 btn btn-primary" style="width: 100%"/>
                                 <h:outputText value=" "/>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <div class="position-relative form-group">
-                                        <h:commandLink action="#{tbAdminController.destroy}" value="#{bundle.ListTbAdminDestroyLink}" class="mb-6 mr-6 btn btn-danger" style="width: 550px;"/>
-                                    <h:outputText value=" "/>
-                                    </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="col-md-5">
+                                <div class="position-relative form-group">
+                                    <h:commandLink action="#{tbAdminController.destroy}" value="Hapus" class="mb-6 mr-6 btn btn-danger" style="width: 100%" rendered="#{tbAdminController.selected.status == 1}"/>
+                                    <h:commandLink action="#{tbAdminController.aktif}" value="Aktif" class="mb-6 mr-6 btn btn-info" style="width: 100%" rendered="#{tbAdminController.selected.status == 0}"/>
+                                <h:outputText value=" "/>
                                 </div>
                             </div>
+                            
                         </div>
                     </h:form>
                 </div>

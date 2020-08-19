@@ -31,10 +31,23 @@ public class TbPemainController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private List<TbPemain> pemainByTeam;
+    private List<TbPemain> filterFutsal;
 
     public TbPemainController() {
     }
 
+    public List<TbPemain> getFilterFutsal() {
+        return filterFutsal;
+    }
+
+    public void setFilterFutsal(List<TbPemain> filterFutsal) {
+        this.filterFutsal = filterFutsal;
+    }
+
+    
+    
+    
+    
     public TbPemain getSelected() {
         if (current == null) {
             current = new TbPemain();

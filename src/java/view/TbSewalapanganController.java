@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import loginPackage.SessionUtils;
+import model.TbAdmin;
 import model.TbBank;
 import model.TbFutsal;
 
@@ -448,16 +449,39 @@ public class TbSewalapanganController implements Serializable {
         return "ViewSewaLap";
     }
 
-    public String confirmPay() {
-        current = (TbSewalapangan) getItems().getRowData();
+    public String confirmPay(Integer id) {
+        //current = (TbSewalapangan) getItems().getRowData();
+        TbAdmin admin = ejbFacade.getAdminByID(id);
+        MailController mctr = new MailController();
+        String emailPengelola = ejbFacade.getEmailPengellaFromFutsal(current.getIdFutsal().getIdFutsal());
+        
+        
+        mctr.setFromEmail("pendekarbayangan66@gmail.com");
+        mctr.setUsername("pendekarbayangan66@gmail.com");
+        mctr.setPassword("praditya");
+        mctr.setSubject("Pembayaran Sewa Site Berhasil");
+        mctr.setToMail(emailPengelola);
+        mctr.setMessage("Selamat,"+current.getIdFutsal().getNamaFutsal()+" Pembayaran Anda Berhasil, Silahkan Cek Email anda dan Login ke dalam Site Pengelola. \n Terima Kasih");
+        
+        try{
+            ejbFacade.ubahStatusPengelola(current.getIdFutsal().getIdFutsal());
+        }catch(Exception e){
+            JsfUtil.addErrorMessage("Gagal Mengkonfirmasi Pembayaran : "+e.toString());
+        }
+        
+        
         try {
-            getFacade().ubahStatusBayar(current);
+            current.setStatusBayar(2);
+            current.setIdAdmin(admin);
+            getFacade().edit(current);
             JsfUtil.addSuccessMessage("Pembayaran Terkonfirmasi");
             recreatePagination();
             recreateModel();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, "Gagal Mengkonfirmasi Pembayaran");
+            JsfUtil.addErrorMessage( "Gagal Mengkonfirmasi Pembayaran : "+e.toString());
         }
+        
+        mctr.send();
         return "ListSewaLap";
     }
 

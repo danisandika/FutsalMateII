@@ -102,9 +102,19 @@ public class TbPemesananController implements Serializable {
 
     public String update() {
         try {
+            MailController mctr = new MailController();
+            mctr.setFromEmail("pendekarbayangan66@gmail.com");
+            mctr.setUsername("pendekarbayangan66@gmail.com");
+            mctr.setPassword("praditya");
+            mctr.setSubject("Pembayaran Pemesanan Futsal Berhasil");
+            mctr.setToMail(current.getIdPemain().getEmail());
+            mctr.setMessage("Selamat,Pemesanan Lapangan "+current.getIdLapangan().getNamaLapangan()+" telah di Konfirmasi oleh Pengelola Futsal."
+                    + " Silahkan bermain Futsal Sesuai Jadwal yang telah Anda tentukan dan tetap gunakan Layanan dari Futsalan. \n Terima Kasih");
+
             current.setStatus(2);
             getFacade().edit(current);
             JsfUtil.addSuccessMessage("Sukses Konfirmasi Pemesanan");
+            mctr.send();
             return "listPemesanan";
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Konfirmasi Pemesanan Gagal : "+e.toString());

@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import model.TbAdmin;
 import model.TbBank;
 import model.TbFutsal;
 import model.TbSewalapangan;
@@ -83,10 +84,39 @@ public class TbSewalapanganFacade extends AbstractFacade<TbSewalapangan> {
     }
 
 
-    public void ubahStatusBayar(TbSewalapangan id) {
-        em.createQuery("UPDATE TbSewalapangan t SET t.statusBayar = 2 WHERE t.idSewalapangan = :id")
-                .setParameter("id", id.getIdSewalapangan())
+    public void ubahStatusPengelola(Integer id) {
+        em.createQuery("UPDATE TbPengelola t SET t.status = 1 WHERE t.idFutsal.idFutsal = :idFutsal")
+                .setParameter("idFutsal", id)
                 .executeUpdate();
+    }
+    
+    
+    public TbAdmin getAdminByID(Integer id){
+        return em.createNamedQuery("TbAdmin.findByIdAdmin", TbAdmin.class)
+                .setParameter("idAdmin", id)
+                .getSingleResult();
+    }
+    
+    
+    public String getEmailPengellaFromFutsal(Integer id){
+        return em.createQuery("SELECT t.email FROM TbPengelola t WHERE t.idFutsal.idFutsal = :idFutsal")
+                .setParameter("idFutsal", id)
+                .getSingleResult().toString();
+    }
+    
+    
+    public List<Integer>  getChartData(Integer year){
+        List<Integer> result = em.createQuery("SELECT SUM(t.jumlahUang) as jumlah FROM TbSewalapangan t WHERE FUNCTION('YEAR',t.tglPembayaran)= :Year GROUP BY FUNCTION('MONTH',t.tglPembayaran)")
+                .setParameter("Year", year)
+                .getResultList();
+        return result;
+    }
+    
+    public List<Integer>  getChartLabel(Integer year){
+        List<Integer> result = em.createQuery("SELECT FUNCTION('MONTH',t.tglPembayaran) as bulan FROM TbSewalapangan t WHERE FUNCTION('YEAR',t.tglPembayaran)= :Year GROUP BY FUNCTION('MONTH',t.tglPembayaran)")
+                .setParameter("Year", year)
+                .getResultList();
+        return result;
     }
 
 }

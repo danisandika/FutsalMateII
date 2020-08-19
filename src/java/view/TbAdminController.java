@@ -6,6 +6,7 @@ import view.util.PaginationHelper;
 import controller.TbAdminFacade;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -29,6 +30,17 @@ public class TbAdminController implements Serializable {
     @EJB private controller.TbAdminFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    private List<TbAdmin> filterAdmin;
+
+    public List<TbAdmin> getFilterAdmin() {
+        return filterAdmin;
+    }
+
+    public void setFilterAdmin(List<TbAdmin> filterAdmin) {
+        this.filterAdmin = filterAdmin;
+    }
+    
+    
 
     public TbAdminController() {
     }
@@ -80,13 +92,22 @@ public class TbAdminController implements Serializable {
     }
 
     public String create() {
+        
+        boolean EmailExists = getFacade().getEmailAdminNotExist(current.getEmail());
+        
+        if(EmailExists == false){
         try {
-            current.setPassword("futsalan2020");
+            current.setStatus(1);
+            current.setPassword("futsalan");
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbAdminCreated"));
+            JsfUtil.addSuccessMessage("Sukses Menambahkan Administrator");
             return prepareList();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Gagal Menambahkan Administrator : "+e.toString());
+            return null;
+        }
+        }else{
+            JsfUtil.addErrorMessage("Email yang digunakan sudah ada di Website");
             return null;
         }
     }
@@ -109,11 +130,20 @@ public class TbAdminController implements Serializable {
     }
 
     public String destroy() {
-        current = (TbAdmin)getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        //current = (TbAdmin)getItems().getRowData();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
-        recreatePagination();
-        recreateModel();
+        //recreatePagination();
+        //recreateModel();
+        return "ListAdmin";
+    }
+    
+    public String aktif() {
+        //current = (TbAdmin)getItems().getRowData();
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        performAktif();
+        //recreatePagination();
+        //recreateModel();
         return "ListAdmin";
     }
 
@@ -132,10 +162,21 @@ public class TbAdminController implements Serializable {
 
     private void performDestroy() {
         try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbAdminDeleted"));
+            current.setStatus(0);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage("Admin Berhasil Di hapus");
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Admin Gagal di hapus : "+e.toString());
+        }
+    }
+    
+    private void performAktif() {
+        try {
+            current.setStatus(1);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage("Admin Berhasil di Aktifkan");
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Admin Berhasil di Aktifkan : "+e.toString());
         }
     }
 

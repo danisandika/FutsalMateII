@@ -41,6 +41,17 @@ public class TbFutsalController implements Serializable {
     private int selectedItemIndex;
     private String url;
     private Part gambar;
+    private List<TbFutsal> filterFutsal;
+
+    public List<TbFutsal> getFilterFutsal() {
+        return filterFutsal;
+    }
+
+    public void setFilterFutsal(List<TbFutsal> filterFutsal) {
+        this.filterFutsal = filterFutsal;
+    }
+    
+    
 
     public String getUrl() {
         return url;

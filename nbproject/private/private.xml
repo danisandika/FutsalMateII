@@ -4,10 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/Admin/admin.xhtml</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/controller/TbPengelolaFacade.java</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/web/pengelola.xhtml</file>
-            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/controller/TbAdminFacade.java</file>
+            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/resourceTambahan/ChartJSView.java</file>
+            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/view/TbSewalapanganController.java</file>
+            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/controller/TbSewalapanganFacade.java</file>
             <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/model/TbSewalapangan.java</file>
+            <file>file:/C:/Users/Danis/Desktop/PRG7/FutsalMateII/src/java/resourceTambahan/MarkersView.java</file>
         </group>
     </open-files>
 </project-private>

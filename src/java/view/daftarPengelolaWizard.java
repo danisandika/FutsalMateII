@@ -139,6 +139,7 @@ public class daftarPengelolaWizard implements Serializable {
            try{
                futsal.setLongitude(106.827153);
                futsal.setLatitude(-6.175392);
+               futsal.setRating(0.0);
                futsal.setStatus(1);
                futsal.setNotelpFutsal(pengelola.getNotelp());
                getFacadeFutsal().create(futsal);

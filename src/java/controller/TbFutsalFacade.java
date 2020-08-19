@@ -35,6 +35,13 @@ public class TbFutsalFacade extends AbstractFacade<TbFutsal> {
                 .setParameter("idFutsal", id)
                 .getSingleResult();
     }
+   
+   
+   public TbFutsal getFutsalByID(Integer id){
+       return (TbFutsal) em.createQuery("SELECT t FROM TbFutsal t WHERE t.idFutsal = :idFutsal")
+               .setParameter("idFutsal", id)
+               .getSingleResult();
+   }
     
     public void ubahStatus(TbFutsal t, int stat) {
         em.createQuery("UPDATE TbFutsal t SET t.status = :stat WHERE t.idFutsal = :id")

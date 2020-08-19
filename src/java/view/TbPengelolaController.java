@@ -6,6 +6,7 @@ import view.util.PaginationHelper;
 import controller.TbPengelolaFacade;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -29,6 +30,17 @@ public class TbPengelolaController implements Serializable {
     @EJB private controller.TbPengelolaFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    private List<TbPengelola> filterPengelola;
+
+    public List<TbPengelola> getFilterPengelola() {
+        return filterPengelola;
+    }
+
+    public void setFilterPengelola(List<TbPengelola> filterPengelola) {
+        this.filterPengelola = filterPengelola;
+    }
+    
+    
 
     public TbPengelolaController() {
     }
