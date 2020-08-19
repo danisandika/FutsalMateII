@@ -356,6 +356,12 @@ public class TbTeamController implements Serializable {
         recreateModel();
         return "ListTeam";
     }
+
+    public String prepareViewTeam() {
+        current = (TbTeam)getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewTeam";
+    }
     
     public String joinTeam() {          // Kalo login
         HttpSession session = SessionUtils.getSession();
@@ -374,6 +380,23 @@ public class TbTeamController implements Serializable {
         return "ListTeam";
     }
     
+    public String joinTeam2() {          // Kalo login
+        HttpSession session = SessionUtils.getSession();
+        Integer idPemain = (Integer) session.getAttribute("templateIDPemain");
+        
+//        current = (TbTeam)getItems().getRowData();
+        try {
+            ejbPemainFacade.joinTeam(current, idPemain);
+            session.setAttribute("templateIdTeam", current.getIdTeam());
+            JsfUtil.addSuccessMessage("Join Team Success");
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Join Team Failed");
+        }
+        
+        return "ViewTeam";
+    }
+    
     public String pleaseLogin() {
         return "SignIn";
     }
@@ -381,7 +404,7 @@ public class TbTeamController implements Serializable {
     public String prepareEditMyTeam(TbTeam myTeam) {
         current = myTeam;
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return "EditTeam";
     }
     
     public String upload() {

@@ -237,7 +237,7 @@ public class TbPemainController implements Serializable {
 
     }
 
-    /////////////////////////////////////////// Heiii Hoiii ////////////////////////////////
+    /////////////////////////////////////////// Admin  ///////////////////////////////////////////////////////////////
     
 
     public String prepareViewAdmin() {
@@ -245,6 +245,9 @@ public class TbPemainController implements Serializable {
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "ViewPemain";
     }
+    
+    
+    /////////////////////////////////////////////////////////////// PEMAIN CAPTAIN TEAM /////////////////////////////
     
     public String removeFromTeam(TbPemain player) {          // Kalo login
         player.setIdTeam(null);
@@ -258,5 +261,14 @@ public class TbPemainController implements Serializable {
             JsfUtil.addErrorMessage("Failed kick your member team");
             return null;
         }
+    }
+    
+    /////////////////////////////////////////////////////////////////////// PEMAINNYA SENDIRI ////////////////////////
+    
+    
+    public String prepareEditPemain() {
+        HttpSession session = SessionUtils.getSession();
+        current = (TbPemain) session.getAttribute("templateDataPemain");
+        return "Profil";
     }
 }

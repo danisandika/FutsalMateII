@@ -33,8 +33,14 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                            <div class="col-lg-4 sidebar">
+                                <div class="sb-widget">
+                                    <form class="sb-search">
+                                        <input type="text" placeholder="Search" />
+                                    </form>
+                                </div>
+                            </div>
+                            <br/>
                             <div class="col-12">
                                 <div class="latest-news-widget">
                                         <h:form styleClass="jsfcrud_list_form">
@@ -42,32 +48,43 @@
                                                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                                             </h:panelGroup>
                                             <h:panelGroup rendered="#{tbMatchteamController.items.rowCount > 0}">
-                                                <h:dataTable value="#{tbMatchteamController.items}" var="item" style="border:solid 0px">
+                                                <h:dataTable value="#{tbMatchteamController.items}" var="item" style="border:solid 0px" width="104%">
                                                     <h:column>
                                                         <f:facet name="header">
                                                             <h:outputText value=" "/>
                                                         </f:facet>
-                                                        ________________________________________________________________________________________________________________________________________
                                                         <h:outputText value="#{item.idMatchteam}" style="display: none"/>
                                                         <div class="ln-item">
                                                                 <h:graphicImage url="/Image_logo_team/#{item.idHomeTeam.logo}" alt="" />
                                                                 <div class="ln-text">
-                                                                        <div class="ln-date">
-                                                                            <h:outputText value="#{item.idPemesanan.tglMain}">
-                                                                                <f:convertDateTime pattern="dd MMMM yyyy" />
-                                                                            </h:outputText>
+                                                                    <div class="ln-date">
+                                                                        <h:outputText value="#{item.idPemesanan.tglMain}">
+                                                                            <f:convertDateTime pattern="dd MMMM yyyy" />
+                                                                        </h:outputText>
+                                                                    </div>
+                                                                    
+                                                                    <h6>Home Team <h:outputText value="#{item.idHomeTeam.namaTeam}"/></h6>
+                                                                    <h6><h:outputText value="Away Team#{item.idAwayTeam.namaTeam}" rendered="#{item.idAwayTeam != null}"/></h6>
+                                                                    
+                                                                    <h6><h:outputText value="#{item.deskripsi}"/></h6>
+                                                                    <div class="ln-metas">
+                                                                        <div class="ln-meta">
+                                                                            at 
+                                                                            <h:outputText value="#{item.idPemesanan.jamMainMulai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> - 
+                                                                            <h:outputText value="#{item.idPemesanan.jamMainSelesai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> WIB
                                                                         </div>
-                                                                    <h6>Team <h:outputText value="#{item.idHomeTeam.namaTeam}"/> is Challenging <h:outputText value="vs Team #{item.idAwayTeam.namaTeam}" rendered="#{item.idAwayTeam != null}"/></h6>
-                                                                        <h6><h:outputText value="#{item.deskripsi}"/></h6>
-                                                                        <div class="ln-metas">
-                                                                            <div class="ln-meta">Captain Team : <h:outputText value="#{item.idHomeTeam.captain.nama}"/></div>
-                                                                            <div class="ln-meta">in <h:outputText value="#{item.idPemesanan.idLapangan.namaLapangan}"/>, <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.namaFutsal}"/>, <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.alamatFutsal}"/></div>
-                                                                            <div class="ln-meta">
-                                                                                at 
-                                                                                <h:outputText value="#{item.idPemesanan.jamMainMulai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> - 
-                                                                                <h:outputText value="#{item.idPemesanan.jamMainSelesai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> WIB
-                                                                            </div>
+                                                                        <div class="ln-meta">
+                                                                            in <h:outputText value="#{item.idPemesanan.idLapangan.namaLapangan}"/>, 
+                                                                            <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.namaFutsal}"/>, 
+                                                                            <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.alamatFutsal}"/>
                                                                         </div>
+                                                                        <div class="ln-meta">
+                                                                            <h:outputText value="Just Team vs Team" rendered="#{item.idPemesanan.status == 0}"/>
+                                                                            <h:outputText value="Open to one team and individu" rendered="#{item.idPemesanan.status == 1}"/>
+                                                                            <h:outputText value="Closed to join" rendered="#{item.idPemesanan.status == 2}"/>
+                                                                            <h:outputText value="Ended" rendered="#{item.idPemesanan.status == 3}"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                         </div>
                                                     </h:column>
@@ -75,7 +92,12 @@
                                                         <f:facet name="header">
                                                             <h:outputText value=" "/>
                                                         </f:facet>
-                                                        <h:link class="site-btn" rendered="#{item.idAwayTeam == null}" outcome="/UserTeam/ManageTeam" value="Join"/>
+                                                        <br/>
+                                                        <br/>
+                                                        <h:commandLink class="site-btn" action="#{tbMatchteamController.prepareViewMatch()}" value="Check Detail" />
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
                                                     </h:column>
                                                 </h:dataTable>
                                             </h:panelGroup>

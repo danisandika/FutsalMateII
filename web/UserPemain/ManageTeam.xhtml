@@ -28,10 +28,11 @@
                         display: none;
                     }
                 </style>
-                
+
                 <!-- Blog section -->
                 <section class="blog-section spad">
                     <div class="container">
+
 			<div class="row">
                             <div class="col-lg-12 sidebar">
                                 <div class="sb-widget">
@@ -41,14 +42,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="blog-post">
                                     <h:graphicImage url="/Image_logo_team/#{tbTeamController.teamCaptain.logo}" alt="" width="50" />
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <div class="blog-post">
                                     <p:rating value="#{Math.ceil(tbTeamController.teamCaptain.rate)}" stars="5" readonly="true" styleClass="rating ui-rating-on"/>&nbsp;
                                     <h4>Captain <h:outputText value="#{tbTeamController.teamCaptain.captain.nama}"/></h4>
@@ -69,25 +70,24 @@
                                 </h:form>
                             </div>
                         </div>
-                        
-                        
+
+
                         <div class="blog-post">
                         <br/>
                         <h3>Member Team</h3>
                         <h:form styleClass="jsfcrud_list_form">
-                            <h:outputText escape="false" value="#{bundle.ListTbTeamEmpty}" rendered="#{tbTeamController.items.rowCount == 0}"/>
-                            <h:panelGroup rendered="#{tbTeamController.items.rowCount > 0}">
+                            <h:panelGroup>
                                 <p:dataTable var="item" value="#{tbTeamController.pemainByTeam}" paginator="true" rows="10"
                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                     rowsPerPageTemplate="5,10,15" id="tableStateDT" lazy="true" multiViewState="true" filteredValue="#{tbTeamController.filterPemainTeam}">
-                                    
+
                                     <f:facet name="header">
                                         <p:outputPanel>
                                             <h:outputText value="Search all fields:" />
                                             <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                         </p:outputPanel>
                                     </f:facet>
-                                    
+
                                     <p:column headerText="Nama" sortBy="#{item.nama}" filterBy="#{item.nama}" filterMatchMode="contains">
                                         <h:outputText value="#{item.nama}"/>
                                     </p:column>
@@ -101,30 +101,97 @@
                                         <h:outputText value="#{item.email}"/>
                                     </p:column>
                                     <p:column>
-                                        <h:commandLink action="#{tbPemainController.removeFromTeam(item)}" onclick="return confirm('Are you sure to kick your member?')" rendered="#{item.idPemain != templateDataPemain.idPemain}" value="Nonaktifkan" />
+                                        <h:commandLink action="#{tbPemainController.removeFromTeam(item)}" onclick="return confirm('Are you sure to kick your member?')" rendered="#{item.idPemain != templateDataPemain.idPemain}" value="Kick Member" />
                                         <h:outputLabel rendered="#{item.idPemain == templateDataPemain.idPemain}" value="Captain Team" />
                                     </p:column>
                                 </p:dataTable>
-
                             </h:panelGroup>
-
                         </h:form>
                         </div>
-                        
-			<div class="row">
-                            <div class="col-lg-8 sidebar">
-                                <div class="sb-widget">
-                                    <div class="blog-post">
-                                        <h3>Team #{tbTeamController.teamCaptain.namaTeam}</h3>
-                                    </div>
-                                </div>
-                            </div>
+
+
+
+                        <div class="blog-post">
+                        <br/>
+                        <h3>History Match</h3>
+                        <h:form styleClass="jsfcrud_list_form">
+                            <h:panelGroup>
+                                <p:dataTable var="item" value="#{tbMatchteamController.getMatchByTeam(templateIdTeam)}" paginator="true" rows="10"
+                                    paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                    rowsPerPageTemplate="5,10,15" id="tableStateDT" lazy="true" multiViewState="true" filteredValue="#{tbTeamController.filterPemainTeam}">
+
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="Search all fields:" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        </p:outputPanel>
+                                    </f:facet>
+
+                                    <p:column headerText="Home Team" sortBy="#{item.idHomeTeam}" filterBy="#{item.idHomeTeam}" filterMatchMode="contains">
+                                        Team <h:outputText value="#{item.idHomeTeam.namaTeam}"/>
+                                    </p:column>
+                                    <p:column headerText="Away Team" sortBy="#{item.idAwayTeam}" filterBy="#{item.idAwayTeam}" filterMatchMode="contains">
+                                        <h:outputText value="Team #{item.idAwayTeam.namaTeam}" rendered="#{item.idAwayTeam != null}"/>
+                                        <h:outputText value="-" rendered="#{item.idAwayTeam == null}"/>
+                                    </p:column>
+                                    <p:column headerText="Home Score" sortBy="#{item.homeScore}" filterBy="#{item.homeScore}" filterMatchMode="contains">
+                                        <h:outputText value="-" rendered="#{item.homeScore == null}"/>
+                                        <h:outputText value="#{item.homeScore}" rendered="#{item.homeScore != null}"/>
+                                    </p:column>
+                                    <p:column headerText="Away Score" sortBy="#{item.awayScore}" filterBy="#{item.awayScore}">
+                                        <h:outputText value="-" rendered="#{item.awayScore == null}"/>
+                                        <h:outputText value="#{item.awayScore}" rendered="#{item.awayScore != null}"/>
+                                    </p:column>
+                                    <p:column headerText="Status" sortBy="#{item.status}" filterBy="#{item.status}">
+                                        <h:outputText value="Just Team vs Team" rendered="#{item.status == 0}"/>
+                                        <h:outputText value="Open to one team and individu" rendered="#{item.status == 1}"/>
+                                        <h:outputText value="Closed to join" rendered="#{item.status == 2}"/>
+                                        <h:outputText value="Ended" rendered="#{item.status == 3}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+                        </h:form>
                         </div>
-                        
-                        
+
+
+                        <h:form styleClass="jsfcrud_list_form" rendered="#{templateIsCaptain == true}">
+                        <div class="blog-post">
+                        <br/>
+                        <h3>History Transaction Match</h3>
+                            <h:panelGroup>
+                                <p:dataTable var="item" value="#{tbMatchteamController.getMatchByHomeTeam(templateIdTeam)}" paginator="true" rows="10"
+                                    paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                    rowsPerPageTemplate="5,10,15" id="tableStateDT" lazy="true" multiViewState="true" filteredValue="#{tbTeamController.filterPemainTeam}">
+
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="Search all fields:" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        </p:outputPanel>
+                                    </f:facet>
+
+                                    <p:column headerText="ID Pemesanan" sortBy="#{item.idPemesanan}" filterBy="#{item.idPemesanan}" filterMatchMode="contains">
+                                        <h:outputText value="#{item.idPemesanan}"/>
+                                    </p:column>
+                                    <p:column headerText="Status" sortBy="#{item.status}" filterBy="#{item.status}">
+                                        <h:outputText value="Just Team vs Team" rendered="#{item.status == 0}"/>
+                                        <h:outputText value="Open to one team and individu" rendered="#{item.status == 1}"/>
+                                        <h:outputText value="Closed to join" rendered="#{item.status == 2}"/>
+                                        <h:outputText value="Ended" rendered="#{item.status == 3}"/>
+                                    </p:column>
+                                    <p:column headerText="Check Detail" sortBy="#{item.idPemesanan}" filterBy="#{item.idPemesanan}" filterMatchMode="contains">
+                                        <h:commandLink action="#{tbMatchteamController.prepareViewMatchTrans()}" value="Check Detail" />
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+                        </div>
+                        </h:form>
+
+
+
                     </div>
                 </section>
-                
+
             </ui:define>
 
         </ui:composition>

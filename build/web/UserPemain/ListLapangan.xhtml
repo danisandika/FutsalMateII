@@ -59,11 +59,11 @@
                                         </f:facet>
                                         <div class="col-md-4">
                                             <div class="blog-post">
-                                                <div class="post-date"><h:outputText value="#{item.namaLapangan}"/> Field</div>
-                                                <h4>From <h:outputText value="#{item.idFutsal.namaFutsal}"/></h4>
+                                                <h4><h:outputText value="#{item.namaLapangan}"/> Field</h4>
+                                                <div class="post-date">From <h:outputText value="#{item.idFutsal.namaFutsal}"/></div>
                                                 <div class="post-metas">
                                                     <div class="post-meta">
-                                                        Price Rp. <h:outputText value="#{item.harga}" ><f:convertNumber locale="in_ID" /></h:outputText>
+                                                        Price Rp. <h:outputText value="#{item.harga}" ><f:convertNumber locale="in_ID" /></h:outputText> / hour
                                                     </div>
                                                     <div class="post-meta">Type <h:outputText value="#{item.jenisLapangan}"/></div>
                                                     <div class="post-meta">Location <h:outputText value="#{item.idFutsal.alamatFutsal}"/></div>

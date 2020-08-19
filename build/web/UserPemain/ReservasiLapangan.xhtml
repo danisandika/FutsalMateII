@@ -19,75 +19,6 @@
 
             <ui:define name="BodyBlog">
                 
-                <script type="text/javascript">
-                    PrimeFaces.locales['es'] = {
-                        closeText: 'Cerrar',
-                        prevText: 'Anterior',
-                        nextText: 'Siguiente',
-                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-                        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-                        weekHeader: 'Semana',
-                        firstDay: 1,
-                        isRTL: false,
-                        showMonthAfterYear: false,
-                        yearSuffix: '',
-                        timeOnlyTitle: 'Sólo hora',
-                        timeText: 'Tiempo',
-                        hourText: 'Hora',
-                        minuteText: 'Minuto',
-                        secondText: 'Segundo',
-                        currentText: 'Fecha actual',
-                        ampm: false,
-                        month: 'Mes',
-                        week: 'Semana',
-                        day: 'Día',
-                        allDayText: 'Todo el día'
-                    };
-                    PrimeFaces.locales ['de'] = {
-                        closeText: 'Schließen',
-                        prevText: 'Zurück',
-                        nextText: 'Weiter',
-                        monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember' ],
-                        monthNamesShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez' ],
-                        dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
-                        dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
-                        dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
-                        weekHeader: 'Woche',
-                        firstDay: 1,
-                        isRTL: false,
-                        showMonthAfterYear: false,
-                        yearSuffix:'',
-                        timeOnlyTitle: 'Nur Zeit',
-                        timeText: 'Zeit',
-                        hourText: 'Stunde',
-                        minuteText: 'Minute',
-                        secondText: 'Sekunde',
-                        currentText: 'Aktuelles Datum',
-                        ampm: false,
-                        month: 'Monat',
-                        week: 'Woche',
-                        day: 'Tag',
-                        allDayText: 'Ganzer Tag'
-                    };
-                </script>
-
-                <script type="text/javascript">
-                    //<![CDATA[
-                    function dateTemplateFunc(date) {
-                        return '<span style="background-color:' + ((date.day < 21 && date.day > 10) ? '#81C784' : 'inherit') + ';border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">' + date.day + '</span>';
-                    }
-                    //]]>
-                </script>
-
-                <style type="text/css">
-                    .value {
-                        font-weight: bold;
-                    }
-                </style>
-                
                 <!-- Blog section -->
                 <section class="blog-section spad">
                     <div class="container">
@@ -97,54 +28,33 @@
                                     <p:messages id="messages" showDetail="true" closable="true">
                                         <p:autoUpdate />
                                     </p:messages>
-                                    <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
                                     
                                     <h:form id="form">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <h:outputLabel class="col-lg-6" value="Play Date " for="tglMain" style="color: #ebebeb" />&nbsp;
-                                                <p:datePicker id="tglMain" 
-                                                              value="#{tbPemesananController.dateTgl}" 
-                                                              title="Play Date" required="true"
-                                                              showButtonBar="true"
-                                                              mindate="#{tbPemesananController.minDate}"
-                                                              readonlyInput="true"
-                                                              class="col-lg-6">
-                                                </p:datePicker>
+                                                <h:outputLabel value="Play Date" for="tglMain" style="color: #ebebeb" />&nbsp;
+                                                <p:inputText id="tglMain" value="#{tbPemesananController.selected.tglPemesanan}" 
+                                                             title="Play Date" required="true" a:type="date">
+                                                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                                                </p:inputText>
                                             </div>
                                             <div class="col-md-6">
-                                                <h:outputLabel class="col-lg-6" value="Time to Start Playing " for="jamMainMulai" style="color: #ebebeb" />&nbsp;
-                                                <p:datePicker id="jamMainMulai" 
-                                                              value="#{tbPemesananController.dateJam}" 
-                                                              title="Time to Start Playing" 
-                                                              pattern="HH:mm"
-                                                              class="col-lg-6">
-                                                </p:datePicker>
+                                                <h:outputLabel value="Time to Start Playing " for="jamMainMulai" style="color: #ebebeb" />&nbsp;
+                                                <p:inputText id="jamMainMulai" value="#{tbPemesananController.selected.jamMainMulai}" 
+                                                              title="Time to Start Playing" a:type="time">
+                                                    <f:convertDateTime pattern="HH:mm" />
+                                                </p:inputText>
                                             </div>
                                             <div class="col-md-6">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;<h:outputLabel value="Duration " for="durasi" style="color: #ebebeb" />&nbsp;
-                                                &nbsp;&nbsp;&nbsp;&nbsp;<h:inputText id="durasi" value="#{tbPemesananController.selected.durasi}" title="Duration" a:placeholder="(Hourly)" />
+                                                <h:outputLabel value="Duration " for="durasi" style="color: #ebebeb" />&nbsp;
+                                                <h:inputText a:type="number" id="durasi"  value="#{tbPemesananController.selected.durasi}" title="Duration" a:placeholder="(Hourly)" >
+                                                    <f:convertNumber pattern="#" integerOnly="true" />
+                                                </h:inputText>
                                             </div>
-                                            
-                                            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
-                                                <p:panelGrid id="display" columns="4" columnClasses="label,value,label,value">
-                                                    
-                                                    <h:outputText value="Button Bar:" />
-                                                    <h:outputText value="#{tbPemesananController.dateTgl}">
-                                                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                                                    </h:outputText>
-                                                    
-                                                    <h:outputText value="Time Only (Min-Max):" />
-                                                    <h:outputText value="#{tbPemesananController.dateJam}">
-                                                        <f:convertDateTime pattern="HH:mm" />
-                                                    </h:outputText>
-                                                    
-                                                </p:panelGrid>
-                                            </p:dialog>
                                             
                                             <br/><br/>
                                             <div class="col-md-12">
-                                            <h:commandLink class="site-btn" action="#{tbTeamController.createTeam()}" value="Create Reservation" />
+                                            <h:commandLink class="site-btn" action="#{tbPemesananController.createReservasi()}" value="Create Reservation" />
                                             </div>
                                         </div>
                                     </h:form>
