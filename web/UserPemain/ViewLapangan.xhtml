@@ -29,7 +29,7 @@
                                 <div class="col-lg-8 sidebar">
                                     <div class="sb-widget">
                                         <div class="blog-post">
-                                            <h3><h:outputText value="#{tbLapanganController.selected.namaLapangan}"/></h3>
+                                            <h3><h:outputText value="#{tbLapanganController.selected.namaLapangan}"/> Field</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -38,11 +38,28 @@
                                 <div class="col-lg-12">
                                     <div class="blog-post review-post">
                                         <h:graphicImage url="/Image_lapfutsal/#{tbLapanganController.selected.gambar}" alt="" />
-                                        <p>
-                                            Price Rp. <h:outputText value="#{tbLapanganController.selected.harga}" ><f:convertNumber locale="in_ID" /></h:outputText> hourly <br/>
-                                            Type <h:outputText value="#{tbLapanganController.selected.jenisLapangan}"/><br/>
-                                            Location <h:outputText value="#{tbLapanganController.selected.idFutsal.alamatFutsal}"/>
-                                        </p>
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                                <p>
+                                                    Price Rp. <h:outputText value="#{tbLapanganController.selected.harga}" ><f:convertNumber locale="in_ID" /></h:outputText> hourly <br/>
+                                                    Type <h:outputText value="#{tbLapanganController.selected.jenisLapangan}"/><br/>
+                                                    Location <h:outputText value="#{tbLapanganController.selected.idFutsal.alamatFutsal}"/>
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h:commandLink rendered="#{templateIsCaptain == true}" action="#{tbPemesananController.prepareReservasi(tbLapanganController.selected)}" class="site-btn">Make A Reservation</h:commandLink>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <p>
+                                                <h:outputLabel rendered="#{loginPemainController.dataPemain == null || isCaptain == false}">
+                                                Only the captain team can make a reservation<br/>
+                                                please suggest this field to your captain team for reservation<br/>
+                                                Thank You
+                                                </h:outputLabel>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
                                         <br/>
                                         <h3>About Futsal Location</h3>
                                         <div class="rating">
@@ -58,7 +75,6 @@
                                             Telephone &nbsp; : &nbsp; #{tbLapanganController.selected.idFutsal.notelpFutsal}
                                             <br/>
                                             Facilities &nbsp;&nbsp;&nbsp;&nbsp; : &nbsp; #{tbLapanganController.selected.idFutsal.fasilitas}
-                                            <br/>#{tbLapanganController.selected.idFutsal.latitude},#{tbLapanganController.selected.idFutsal.longitude}
                                         </p>
                                         <br/>
                                         <h3>Maps Location Futsal</h3>

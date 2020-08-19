@@ -1,11 +1,15 @@
 package view;
 
 import model.TbMatchteam;
+import model.TbTeam;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbMatchteamFacade;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -17,6 +21,8 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
+import loginPackage.SessionUtils;
 
 
 @Named("tbMatchteamController")
@@ -232,4 +238,87 @@ public class TbMatchteamController implements Serializable {
 
     }
 
+    
+    
+    
+    ///////////////////////////////////////////////////////////////////////////// Do your thang /////////////////
+    
+
+    public String prepareCreateByPemain() {
+        current = new TbMatchteam();
+        selectedItemIndex = -1;
+        return "CreateMatch";
+    }
+
+    public String createMatch() {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = new Date();
+            
+            HttpSession session = SessionUtils.getSession();
+            
+            current.setIdMatchteam(formatter.format(date));
+            current.setIdHomeTeam((TbTeam) session.getAttribute("templateIdTeam"));
+            
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbMatchteamCreated"));
+            return prepareCreate();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+    }
+    
+    
+    private List<TbMatchteam> matchByTeam;
+    private List<TbMatchteam> matchByHomeTeam;
+
+    public List<TbMatchteam> getMatchByTeam(TbTeam idTeam) {
+        return matchByTeam = ejbFacade.getMatchByTeam(idTeam.getIdTeam());
+    }
+
+    public void setMatchByTeam(List<TbMatchteam> matchByTeam) {
+        this.matchByTeam = matchByTeam;
+    }
+
+    public List<TbMatchteam> getMatchByHomeTeam(TbTeam idTeam) {
+        return matchByHomeTeam = ejbFacade.getMatchByHomeTeam(idTeam.getIdTeam());
+    }
+
+    public void setMatchByHomeTeam(List<TbMatchteam> matchByHomeTeam) {
+        this.matchByHomeTeam = matchByHomeTeam;
+    }
+
+    public String prepareViewMatchTrans() {
+        current = (TbMatchteam)getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewDetailMatchCap";
+    }
+
+    public String prepareViewMatch() {
+        current = (TbMatchteam)getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewDetailMatch";
+    }
+    
+    public String pleaseLogin() {
+        return "SignIn";
+    }
+    
+    public String joinMatchTeam() {          // Kalo login
+        HttpSession session = SessionUtils.getSession();
+        TbTeam team = (TbTeam) session.getAttribute("templateIdTeam");
+        
+        try {
+            current.setIdAwayTeam(team);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage("Join Match with Your Team Success");
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Join Match with Your Team Failed");
+        }
+        
+        return "ViewDetailMatch";
+    }
+    
 }

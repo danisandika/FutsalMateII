@@ -20,31 +20,25 @@
                 <!-- Blog section -->
                 <section class="blog-section spad">
                     <div class="container">
-                        <form class="comment-form">
+                        <div class="comment-form">
                             <div class="row">
                                 <div class="col-md-12">
                                     <p:messages id="messages" showDetail="true" closable="true">
                                         <p:autoUpdate />
                                     </p:messages>
                                     
-                                    
-                                    <h:form>
-                                        <h:inputText id="idTeam" a:placeholder="ID Team" value="#{tbTeamController.selected.idTeam}" title="#{bundle.CreateTbTeamTitle_idTeam}" />
-                                        <h:inputText id="win" value="0" title="#{bundle.CreateTbTeamTitle_win}" required="true" requiredMessage="#{bundle.CreateTbTeamRequiredMessage_win}"/>
-                                        <h:inputText id="lose" value="0" title="#{bundle.CreateTbTeamTitle_lose}" required="true" requiredMessage="#{bundle.CreateTbTeamRequiredMessage_lose}"/>
-                                        <h:inputText id="rate" value="0" title="#{bundle.CreateTbTeamTitle_rate}" required="true" requiredMessage="#{bundle.CreateTbTeamRequiredMessage_rate}"/>
-                                        <h:inputText id="captain" value="1" title="#{bundle.CreateTbTeamTitle_captain}" required="true" requiredMessage="#{bundle.CreateTbTeamRequiredMessage_captain}"/>
-                                        <h:inputText id="logo" value="futsalEiyo.png" title="#{bundle.CreateTbTeamTitle_captain}" required="true" requiredMessage="#{bundle.CreateTbTeamRequiredMessage_captain}"/>
-
+                                    <h:form enctype="multipart/form-data">
                                         <h:inputText id="namaTeam" value="#{tbTeamController.selected.namaTeam}" required="true" a:placeholder="Name Team"/>
                                         <h:inputTextarea id="deskripsi" value="#{tbTeamController.selected.deskripsi}" required="true" a:placeholder="Description"/>
                                         <h:outputLabel value="Your Logo " for="logo" style="color: #ebebeb" />&nbsp;
+                                        <h:inputFile id="logo" value="#{tbTeamController.logo}"
+                                                      required="true" style="color: #ebebeb" requiredMessage="Photos must be uploaded"/>
                                         <br/><br/>
                                         <h:commandLink class="site-btn" action="#{tbTeamController.createTeam()}" value="Create Team" />
                                     </h:form>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </section>
                 

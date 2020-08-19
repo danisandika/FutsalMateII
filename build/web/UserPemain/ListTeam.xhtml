@@ -13,8 +13,14 @@
             <ui:define name="TitlePage">
                 <h2>Choose Your Team</h2>
                 <p>You can be part of a Team or become the Captain</p>
-                <h:link outcome="/UserTeam/ManageTeam" class="site-btn">Manage Your Team</h:link>
-                <h:link outcome="/UserPemain/CreateTeam" class="site-btn">Create One</h:link>
+                <h:form>
+                    <h:link rendered="#{templateIdTeam != null}" outcome="/UserPemain/ManageTeam" class="site-btn">Check My Team</h:link>
+                    <h:commandLink rendered="#{templateIsCaptain == false &amp;&amp; templateIdTeam == null}" 
+                                   action="#{tbTeamController.prepareCreateByPemain()}" class="site-btn">Create One</h:commandLink>
+                    
+                    <h:commandLink class="site-btn" action="#{tbTeamController.pleaseLogin()}" onclick="return confirm('Please SignIn first!')" 
+                                   rendered="#{loginPemainController.dataPemain == null &amp;&amp; templateIdTeam == null}" value="Create One" />
+                </h:form>
             </ui:define>
 
             <ui:define name="BodyBlog">
@@ -26,7 +32,7 @@
                             <div class="col-lg-8 sidebar">
                                 <div class="sb-widget">
                                     <div class="blog-post">
-                                        <h3>Upcoming Match</h3>
+                                        <h3>Team</h3>
                                     </div>
                                 </div>
                             </div>
@@ -37,17 +43,15 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="row">
+                            <br/>
                             <div class="col-12">
-                                <div class="latest-news-widget col-12">
+                                <div class="latest-news-widget">
                                         <h:form styleClass="jsfcrud_list_form">
-                                            <h:panelGroup id="messagePanel" layout="block">
-                                                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                                            </h:panelGroup>
+                                            <p:messages id="messages" showDetail="true" closable="true">
+                                                <p:autoUpdate />
+                                            </p:messages>
                                             <h:panelGroup rendered="#{tbTeamController.items.rowCount > 0}">
-                                                <h:dataTable value="#{tbTeamController.items}" var="item" style="border:solid 0px" width="147%">
+                                                <h:dataTable value="#{tbTeamController.items}" var="item" style="border:solid 0px" width="131%">
                                                     <h:column>
                                                         <f:facet name="header">
                                                             <h:outputText value=" "/>
@@ -57,7 +61,7 @@
                                                             <h:graphicImage url="/Image_logo_team/#{item.logo}" alt="" />
                                                             <div class="ln-text">
                                                                 <div class="ln-date">
-                                                                    Team <h:outputText value="#{item.namaTeam}" />
+                                                                    <h:commandLink action="#{tbTeamController.prepareViewTeam()}" style="color: #000000">Team <h:outputText value="#{item.namaTeam}" /></h:commandLink>
                                                                 </div>
                                                                 <h6><h:outputText value="#{item.deskripsi}"/></h6>
                                                                 <div class="ln-metas">
@@ -75,7 +79,13 @@
                                                         <f:facet name="header">
                                                             <h:outputText value=" "/>
                                                         </f:facet>
-                                                        <h:link class="site-btn" outcome="/UserPemain/CreateTeam" value="Join"/>
+                                                        <br/>
+                                                        <br/>
+                                                        <h:commandLink class="site-btn" action="#{tbTeamController.joinTeam()}" onclick="return confirm('Are you sure to Join the team?')" rendered="#{loginPemainController.dataPemain != null &amp;&amp; templateIdTeam == null}" value="Join" />
+                                                        <h:commandLink class="site-btn" action="#{tbTeamController.pleaseLogin()}" onclick="return confirm('Please SignIn first!')" rendered="#{loginPemainController.dataPemain == null &amp;&amp; templateIdTeam == null}" value="Join" />
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
                                                     </h:column>
                                                 </h:dataTable>
                                             </h:panelGroup>
@@ -85,6 +95,7 @@
                         </div>
                     </div>
                 </section>
+                
             </ui:define>
 
         </ui:composition>

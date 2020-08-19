@@ -6,6 +6,9 @@ import view.util.PaginationHelper;
 import controller.TbPemesananFacade;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -18,9 +21,13 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import model.TbFutsal;
+import javax.servlet.http.HttpSession;
+import jdk.nashorn.internal.objects.NativeString;
+import loginPackage.SessionUtils;
+import model.TbTeam;
 import model.TbKonfirmasi;
 import model.TbLapangan;
+import model.TbPemain;
 
 
 @Named("tbPemesananController")
@@ -303,5 +310,83 @@ public class TbPemesananController implements Serializable {
     }
     
     
+    
+    
+    
+    
+    
+    ///////////////////////////////////////////////////////////////////////// ceritanya pemainnya mau reservasi lapnya
+    
+    
+    
+    TbLapangan lapReserv;
+
+    public TbLapangan getLapReserv() {
+        return lapReserv;
+    }
+
+    public void setLapReserv(TbLapangan lapReserv) {
+        this.lapReserv = lapReserv;
+    }
+    
+    public String prepareReservasi(TbLapangan revLap) {
+        lapReserv = revLap;
+        current = new TbPemesanan();
+        selectedItemIndex = -1;
+        return "ReservasiLapangan";
+    }
+    
+    public String createReservasi() {
+        try {
+            HttpSession session = SessionUtils.getSession();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = new Date();
+            
+            current.setIdPemesanan(formatter.format(date));
+            current.setIdLapangan(lapReserv);
+            current.setIdPemain((TbPemain) session.getAttribute("templateDataPemain"));
+            current.setTglPemesanan(date);
+            current.setStatus(0);
+            
+            // Catatan
+            // yg masih blm bisa jam mulai gamenya, blm dapet nilai yg bener
+            // kalo udh dpt nilai yg bener, tinggal gmn caranya nambah ke durassinya
+            // 
+            // Spekulasi1 : ambil jamnya tambahin, trus balikin lg
+            //          kemungkiinan bakal haris ubh ke string > substr > tambah sama durasi > string + gabung > date
+            
+            SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String ubah = format2.format(current.getJamMainMulai());
+            Date jamMulai = format2.parse(ubah);
+            
+            String hari = NativeString.substr(ubah, 0, 9);
+            String menit = NativeString.substring(ubah, 12);
+            
+            int jam = jamMulai.getHours();
+            int count = jam + current.getDurasi();
+            
+            String temp = hari + Integer.toString(count) + menit;
+            Date jamSelesai = format2.parse(temp);
+            current.setJamMainSelesai(jamSelesai);
+            
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbPemesananCreated"));
+            return prepareCreate();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+    }
+    
+    
+    private List<TbPemesanan> pemesananByPemain;
+
+    public List<TbPemesanan> getPemesananByPemain(TbPemain player) {
+        return pemesananByPemain = ejbFacade.getPemesananByIDPemain(player.getIdPemain());
+    }
+
+    public void setPemesananByPemain(List<TbPemesanan> reservByTeam) {
+        this.pemesananByPemain = reservByTeam;
+    }
     
 }

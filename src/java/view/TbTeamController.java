@@ -4,11 +4,18 @@ import model.TbTeam;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbTeamFacade;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileOutputStream;
 
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.List;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -19,6 +26,10 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import loginPackage.SessionUtils;
+
 import model.TbPemain;
 
 
@@ -30,14 +41,28 @@ public class TbTeamController implements Serializable {
     private TbTeam current;
     private DataModel items = null;
     @EJB private controller.TbTeamFacade ejbFacade;
+    @EJB private controller.TbPemainFacade ejbPemainFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     
     private TbTeam teamCaptain;
     private List<TbPemain> pemainByTeam;
     private List<TbPemain> filterPemainTeam;
+    
+    private Part logo;
+    private String url;
+    
+    TbPemainController pemainController;
 
     public TbTeamController() {
+    }
+
+    public Part getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Part logo) {
+        this.logo = logo;
     }
 
     public List<TbPemain> getFilterPemainTeam() {
@@ -53,7 +78,9 @@ public class TbTeamController implements Serializable {
     }
 
     public TbTeam getTeamCaptain() {
-        return teamCaptain = ejbFacade.getByID(1);
+        HttpSession session = SessionUtils.getSession();
+        TbTeam myTeam = (TbTeam) session.getAttribute("templateIdTeam");
+        return teamCaptain = ejbFacade.getByID(myTeam);
     }
 
     public void setTeamCaptain(TbTeam teamCaptain) {
@@ -103,21 +130,10 @@ public class TbTeamController implements Serializable {
     public String prepareCreate() {
         current = new TbTeam();
         selectedItemIndex = -1;
-        return "CreateTeam";
+        return "xCreate";
     }
 
     public String create() {
-        try {
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbTeamCreated"));
-            return prepareCreate();
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            return null;
-        }
-    }
-
-    public String createTeam() {
         try {
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbTeamCreated"));
@@ -133,14 +149,27 @@ public class TbTeamController implements Serializable {
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
+    
+    public void deleteFile(String urlLogoLama) {
+        File f = new File("D://github//FutsalMateII//web//Image_logo_team//" + urlLogoLama);
+        f.delete();
+    }
 
     public String update() {
         try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbTeamUpdated"));
-            return "View";
+            if (logo == null) {
+                getFacade().edit(current);
+            } else {
+                deleteFile(current.getLogo());
+                upload();
+                current.setLogo(url);
+                getFacade().edit(current);
+            }
+                JsfUtil.addSuccessMessage("Your team information has been successfully edited");
+                recreateModel();
+                return "ManageTeam";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Your team information failed to edit");
             return null;
         }
     }
@@ -271,6 +300,16 @@ public class TbTeamController implements Serializable {
     }
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //////////////////////////////////////////// Harus gila untuk tetap waras di dunia yg gila /////////////////////////
     
 
@@ -278,6 +317,125 @@ public class TbTeamController implements Serializable {
         current = (TbTeam)getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "ViewTeam";
+    }
+
+    public String prepareCreateByPemain() {
+        current = new TbTeam();
+        selectedItemIndex = -1;
+        return "CreateTeam";
+    }
+
+    public String createTeam() {
+        try {
+            upload();
+            HttpSession session = SessionUtils.getSession();
+            TbPemain player = (TbPemain) session.getAttribute("templateDataPemain");
+            current.setLogo(url);
+            current.setLose(0);
+            current.setRate(0);
+            current.setWin(0);
+            current.setCaptain(player);
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage("Your team has been created");
+            recreateModel();
+            
+            ejbPemainFacade.joinTeam(current, player.getIdPemain());
+            
+            session.setAttribute("templateIsCaptain", true);
+            session.setAttribute("templateIdTeam", current);
+            session.setAttribute("templateDataPemain", player);
+            
+            return "ListTeam";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Your team has failed to create");
+            return null;
+        }
+    }
+
+    public String prepareListPemain() {
+        recreateModel();
+        return "ListTeam";
+    }
+
+    public String prepareViewTeam() {
+        current = (TbTeam)getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "ViewTeam";
+    }
+    
+    public String joinTeam() {          // Kalo login
+        HttpSession session = SessionUtils.getSession();
+        Integer idPemain = (Integer) session.getAttribute("templateIDPemain");
+        
+        current = (TbTeam)getItems().getRowData();
+        try {
+            ejbPemainFacade.joinTeam(current, idPemain);
+            session.setAttribute("templateIdTeam", current.getIdTeam());
+            JsfUtil.addSuccessMessage("Join Team Success");
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Join Team Failed");
+        }
+        
+        return "ListTeam";
+    }
+    
+    public String joinTeam2() {          // Kalo login
+        HttpSession session = SessionUtils.getSession();
+        Integer idPemain = (Integer) session.getAttribute("templateIDPemain");
+        
+//        current = (TbTeam)getItems().getRowData();
+        try {
+            ejbPemainFacade.joinTeam(current, idPemain);
+            session.setAttribute("templateIdTeam", current.getIdTeam());
+            JsfUtil.addSuccessMessage("Join Team Success");
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Join Team Failed");
+        }
+        
+        return "ViewTeam";
+    }
+    
+    public String pleaseLogin() {
+        return "SignIn";
+    }
+
+    public String prepareEditMyTeam(TbTeam myTeam) {
+        current = myTeam;
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        return "EditTeam";
+    }
+    
+    public String upload() {
+        try {
+            InputStream in = logo.getInputStream();
+            setLogo(logo);
+            
+            File f = new File("D://github//FutsalMateII//web//Image_logo_team//" + logo.getSubmittedFileName());
+            f.createNewFile();
+            
+            url = logo.getSubmittedFileName();
+            FileOutputStream out = new FileOutputStream(f);
+            try (InputStream input = logo.getInputStream()) {
+                Files.copy(input, new File("D://github//FutsalMateII//web//Image_logo_team//" + logo.getSubmittedFileName()).toPath());
+            } catch (IOException e) {
+                
+            }
+            
+            byte[] buffer = new byte[1024];
+            int length;
+            
+            while((length = in.read(buffer)) > 0) {
+                out.write(buffer);
+            }
+            out.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return url;
     }
 
 }

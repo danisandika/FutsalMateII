@@ -58,4 +58,9 @@ public class TbPemesananFacade extends AbstractFacade<TbPemesanan> {
                 .getSingleResult();
     }
     
+    public List<TbPemesanan> getPemesananByIDPemain(Integer id){
+        return em.createQuery("SELECT t FROM TbPemesanan t WHERE t.idPemain.idPemain = :idPemain")
+                .setParameter("idPemain", id)
+                .getResultList();
+    }
 }

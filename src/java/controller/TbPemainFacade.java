@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.TbPemain;
+import model.TbTeam;
 
 /**
  *
@@ -38,7 +39,7 @@ public class TbPemainFacade extends AbstractFacade<TbPemain> {
     
     public boolean getAutentikasiCaptain(Integer idCaptain) {
         try {
-            em.createQuery("SELECT t FROM TbTeam t WHERE t.captain = :captain")
+            em.createQuery("SELECT t FROM TbTeam t WHERE t.captain.idPemain = :captain")
                     .setParameter("captain", idCaptain)
                     .getSingleResult();
         } catch (Exception e) {
@@ -69,5 +70,12 @@ public class TbPemainFacade extends AbstractFacade<TbPemain> {
         return em.createQuery("SELECT t FROM TbPemain t WHERE t.email = :email", TbPemain.class)
                 .setParameter("email", Email)
                 .getSingleResult();
+    }
+    
+    public void joinTeam(TbTeam idTeam, Integer idPemain) {
+        em.createQuery("UPDATE TbPemain t SET t.idTeam = :idTeam WHERE t.idPemain = :idPemain")
+                .setParameter("idTeam", idTeam)
+                .setParameter("idPemain", idPemain)
+                .executeUpdate();
     }
 }
