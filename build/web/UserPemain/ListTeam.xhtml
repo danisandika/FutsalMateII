@@ -51,7 +51,7 @@
                                                 <p:autoUpdate />
                                             </p:messages>
                                             <h:panelGroup rendered="#{tbTeamController.items.rowCount > 0}">
-                                                <h:dataTable value="#{tbTeamController.items}" var="item" style="border:solid 0px" width="131%">
+                                                <h:dataTable value="#{tbTeamController.items}" var="item" style="border:solid 0px" width="124%">
                                                     <h:column>
                                                         <f:facet name="header">
                                                             <h:outputText value=" "/>
@@ -61,15 +61,13 @@
                                                             <h:graphicImage url="/Image_logo_team/#{item.logo}" alt="" />
                                                             <div class="ln-text">
                                                                 <div class="ln-date">
-                                                                    <h:commandLink action="#{tbTeamController.prepareViewTeam()}" style="color: #000000">Team <h:outputText value="#{item.namaTeam}" /></h:commandLink>
+                                                                    Team <h:outputText value="#{item.namaTeam}" />
                                                                 </div>
                                                                 <h6><h:outputText value="#{item.deskripsi}"/></h6>
                                                                 <div class="ln-metas">
                                                                     <div class="ln-meta">Captain Team : <h:outputText value="#{item.captain.nama}"/></div>
-                                                                </div>
-                                                                <div class="ln-metas">
                                                                     <div class="ln-meta">
-                                                                        <p:rating value="#{Math.round(item.rate)}" stars="5" readonly="true" styleClass="rating ui-rating-on"/>
+                                                                        Rate Game : <h:outputLabel value="#{item.rate}" />%
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -80,9 +78,7 @@
                                                             <h:outputText value=" "/>
                                                         </f:facet>
                                                         <br/>
-                                                        <br/>
-                                                        <h:commandLink class="site-btn" action="#{tbTeamController.joinTeam()}" onclick="return confirm('Are you sure to Join the team?')" rendered="#{loginPemainController.dataPemain != null &amp;&amp; templateIdTeam == null}" value="Join" />
-                                                        <h:commandLink class="site-btn" action="#{tbTeamController.pleaseLogin()}" onclick="return confirm('Please SignIn first!')" rendered="#{loginPemainController.dataPemain == null &amp;&amp; templateIdTeam == null}" value="Join" />
+                                                        <h:commandLink action="#{tbTeamController.prepareViewTeam()}" class="site-btn" value="Check Detail" />
                                                         <br/>
                                                         <br/>
                                                         <br/>

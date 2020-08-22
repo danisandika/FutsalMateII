@@ -47,15 +47,32 @@
                             <div class="col-lg-1"></div>
                             <div class="col-lg-5">
                                 <div class="blog-post">
-                                    <p:rating value="#{Math.ceil(tbTeamController.selected.rate)}" stars="5" readonly="true" styleClass="rating ui-rating-on"/>&nbsp;
+                                    <br/><br/>
                                     <h4>Captain <h:outputText value="#{tbTeamController.selected.captain.nama}"/></h4>
                                     <div class="post-metas">
                                         <div class="post-meta">
                                             Win <h:outputText value="#{tbTeamController.selected.win}" /> Games
                                         </div>
                                         <div class="post-meta">Lose <h:outputText value="#{tbTeamController.selected.lose}"/> Games</div>
+                                        <div class="post-meta">Rate Game <h:outputText value="#{tbTeamController.selected.rate}"/>%</div>
                                     </div>
-                                    <p><h:outputText value="#{tbTeamController.selected.deskripsi}"/></p>
+                                    <p>
+                                        <h:outputText value="#{tbTeamController.selected.deskripsi}"/><br/><br/>
+                                    </p>
+                                    <label style="font-weight: bold; color: #c8cbcf">Info Captain</label>
+                                    <table width="50%" style="color: #888">
+                                        <tr>
+                                            <td>No Telephone</td>
+                                            <td>:</td>
+                                            <td><h:outputText value="#{tbTeamController.selected.captain.notelp}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>E-mail</td>
+                                            <td>:</td>
+                                            <td><h:outputText value="#{tbTeamController.selected.captain.email}"/></td>
+                                        </tr>
+                                    </table>
+                                    <br/>
                                     <h:form>
                                     <h:commandLink class="site-btn" action="#{tbTeamController.joinTeam2()}" value="Join"
                                                    onclick="return confirm('Are you sure to Join the team?')" 

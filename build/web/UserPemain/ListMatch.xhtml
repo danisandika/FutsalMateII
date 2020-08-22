@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
@@ -12,7 +13,6 @@
             <ui:define name="TitlePage">
                 <h2>Choose Your Match</h2>
                 <p>
-                    <h:outputLabel rendered="#{templateIsCaptain == false}">Please join a team to follow the Match, Enjoy!</h:outputLabel>
                     <h:outputLabel rendered="#{templateIsCaptain == true}">You can Join or create a new Match, Enjoy!</h:outputLabel>
                 </p>
                 <h:form>
@@ -21,7 +21,8 @@
             </ui:define>
 
             <ui:define name="BodyBlog">
-                
+                <p:tooltip />
+                <p:growl id="messages" showDetail="true" />
                 <!-- Blog section -->
                 <section class="blog-section spad">
                     <div class="container">
@@ -44,9 +45,6 @@
                             <div class="col-12">
                                 <div class="latest-news-widget">
                                         <h:form styleClass="jsfcrud_list_form">
-                                            <h:panelGroup id="messagePanel" layout="block">
-                                                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                                            </h:panelGroup>
                                             <h:panelGroup rendered="#{tbMatchteamController.items.rowCount > 0}">
                                                 <h:dataTable value="#{tbMatchteamController.items}" var="item" style="border:solid 0px" width="104%">
                                                     <h:column>
@@ -64,7 +62,7 @@
                                                                     </div>
                                                                     
                                                                     <h6>Home Team <h:outputText value="#{item.idHomeTeam.namaTeam}"/></h6>
-                                                                    <h6><h:outputText value="Away Team#{item.idAwayTeam.namaTeam}" rendered="#{item.idAwayTeam != null}"/></h6>
+                                                                    <h6><h:outputText value="Away Team #{item.idAwayTeam.namaTeam}" rendered="#{item.idAwayTeam != null}"/></h6>
                                                                     
                                                                     <h6><h:outputText value="#{item.deskripsi}"/></h6>
                                                                     <div class="ln-metas">

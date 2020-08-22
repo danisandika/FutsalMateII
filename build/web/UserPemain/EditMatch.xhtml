@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template2.xhtml">
+
+            <ui:define name="TitlePage">
+                <h2>Make A New Match</h2>
+            </ui:define>
+
+            <ui:define name="BodyBlog">
+                
+                <!-- Blog section -->
+                <section class="blog-section spad">
+                    <div class="container">
+                        <div class="comment-form">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p:messages id="messages" showDetail="true" closable="true">
+                                        <p:autoUpdate />
+                                    </p:messages>
+                                    
+                                    <h:form>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>Chalange Other Team</p>
+                                                <h:selectOneMenu id="idAwayTeam" style="width: 100%; height: 15" value="#{tbMatchteamController.selected.idAwayTeam}" title="Opposing Team" >
+                                                    <f:selectItem itemLabel="You can choose a team or not" itemValue="" />
+                                                    <f:selectItems value="#{tbTeamController.itemsAvailableSelectOne}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Status Match</p>
+                                                <h:selectOneMenu id="status" style="width: 100%" value="#{tbMatchteamController.selected.status}" title="Status Match" >
+                                                    <f:selectItem itemLabel="Status Match" itemValue="" itemDisabled="true" />
+                                                    <f:selectItem itemValue="0" itemLabel="Just Team vs Team"/>
+                                                    <f:selectItem itemValue="1" itemLabel="Open to one team and individu"/>
+                                                    <f:selectItem itemValue="2" itemLabel="Closed to join"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <br/>
+                                                <p>
+                                                    ID Reservation Field <h:outputText value=": #{tbMatchteamController.selected.idPemesanan.idPemesanan}" /><br/>
+                                                    <h:outputText value="*Can't Edited the reservation" style="color: #8fd19e"
+                                                                  rendered="#{tbMatchteamController.selected.idPemesanan != null}" />
+                                                </p>
+                                                
+                                                <h:inputText id="idPemesanan" value="#{tbMatchteamController.idPesanBayangan}" 
+                                                             rendered="#{tbMatchteamController.selected.idPemesanan == null}"
+                                                             a:placeholder="(You can empty this field if you haven't made a field order)"/>
+                                                <p>Description</p>
+                                                <h:inputTextarea id="deskripsi" value="#{tbMatchteamController.selected.deskripsi}" required="true" 
+                                                                 a:placeholder="(If you haven't reserved the field, you can inform the plan the match will be held)"/>
+                                            </div>
+                                        </div>
+                                        
+                                        <br/><br/>
+                                        <h:commandLink class="site-btn" action="#{tbMatchteamController.updateMatch1()}" value="Create Team"
+                                                       rendered="#{tbMatchteamController.selected.idPemesanan == null}"/>
+                                        <h:commandLink class="site-btn" action="#{tbMatchteamController.updateMatch2()}" value="Create Team" 
+                                                       rendered="#{tbMatchteamController.selected.idPemesanan != null}"/>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

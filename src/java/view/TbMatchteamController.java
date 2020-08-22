@@ -2,6 +2,9 @@ package view;
 
 import model.TbMatchteam;
 import model.TbTeam;
+import model.TbPemain;
+import model.TbIndividuMatch;
+import model.TbPemesanan;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbMatchteamFacade;
@@ -10,6 +13,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -250,22 +254,132 @@ public class TbMatchteamController implements Serializable {
         return "CreateMatch";
     }
 
+    private String idPesanBayangan;
+
+    public String getIdPesanBayangan() {
+        return idPesanBayangan;
+    }
+
+    public void setIdPesanBayangan(String idPesanBayangan) {
+        this.idPesanBayangan = idPesanBayangan;
+    }
+
+    public String prepareEditMatch(TbMatchteam match) {
+        current = match;
+        return "EditMatch";
+    }
+
+    public String updateMatch1() {
+        if (!idPesanBayangan.equals("")) {
+            boolean isReserved, isPesanConfirm;
+            // ngecek idPesan e kii tenan wes dipesen urung?
+            isPesanConfirm = ejbFacade.getAutentikasiPemesananConfrim(idPesanBayangan);
+
+            if (isPesanConfirm) {
+                try {
+                    TbPemesanan objPemesanan = ejbFacade.getDataPemesanan(idPesanBayangan);
+
+                    current.setIdPemesanan(objPemesanan);
+
+                    getFacade().edit(current);
+                    JsfUtil.addSuccessMessage("Update a Match for your team success");
+                    idPesanBayangan = "";
+                    recreateModelMatchByHomeTeam();
+                    return "ManageTeam";
+                } catch (Exception e) {
+                    JsfUtil.addErrorMessage("Update a Match for your team failed");
+                    return null;
+                }
+            } else {
+                idPesanBayangan = "";
+                JsfUtil.addErrorMessage("Your ID Reservation was not found, or make sure the reservation is confirmed by the field owner");
+                return "ManageTeam";
+            }
+            
+        } else {
+            try {
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage("Update a Match for your team success, don't forget to Reserve Field");
+                recreateModelMatchByHomeTeam();
+                return "ManageTeam";
+            } catch (Exception e) {
+                JsfUtil.addErrorMessage("Update a Match for your team failed");
+                return null;
+            }
+        }
+    }
+
+    public String updateMatch2() {
+            try {
+                getFacade().edit(current);
+                JsfUtil.addSuccessMessage("Update a Match for your team success");
+                recreateModelMatchByHomeTeam();
+                return "ManageTeam";
+            } catch (Exception e) {
+                JsfUtil.addErrorMessage("Update a Match for your team failed");
+                return null;
+            }
+    }
+    
     public String createMatch() {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-            Date date = new Date();
+        if (!idPesanBayangan.equals("")) {
+            boolean isReserved, isPesanConfirm;
+            // ngecek idPesan e kii tenan wes dipesen urung?
+            isPesanConfirm = ejbFacade.getAutentikasiPemesananConfrim(idPesanBayangan);
+
+            if (isPesanConfirm) {   // yen pesanane enek + status 2 true
+                // yen iki ngecek idne kii wes pernah dinggo po ra
+                isReserved = ejbFacade.getAutentikasiPemesanan(idPesanBayangan);
+                if (!isReserved) { // yen pesanane durung dinggo
+                    try {
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                        Date date = new Date();
+                        
+                        HttpSession session = SessionUtils.getSession();
+                        
+                        TbPemesanan objPemesanan = ejbFacade.getDataPemesanan(idPesanBayangan);
+                        
+                        current.setIdPemesanan(objPemesanan);
+                        current.setIdMatchteam(formatter.format(date));
+                        current.setIdHomeTeam((TbTeam) session.getAttribute("templateIdTeam"));
+
+                        getFacade().create(current);
+                        JsfUtil.addSuccessMessage("Create a Match for your team success");
+                        recreateModel();
+                        idPesanBayangan = "";
+                        return "ListMatch";
+                    } catch (Exception e) {
+                        JsfUtil.addErrorMessage("Create a Match for your team failed");
+                        return null;
+                    }
+                } else {
+                    JsfUtil.addErrorMessage("Your ID Reservation has been use");
+                    return "CreateMatch";
+                }
+            } else {
+                JsfUtil.addErrorMessage("Your ID Reservation was not found, or make sure the reservation is confirmed by the field owner");
+                return "CreateMatch";
+            }
             
-            HttpSession session = SessionUtils.getSession();
-            
-            current.setIdMatchteam(formatter.format(date));
-            current.setIdHomeTeam((TbTeam) session.getAttribute("templateIdTeam"));
-            
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbMatchteamCreated"));
-            return prepareCreate();
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            return null;
+        } else {
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date date = new Date();
+
+                HttpSession session = SessionUtils.getSession();
+
+                current.setIdMatchteam(formatter.format(date));
+                current.setIdHomeTeam((TbTeam) session.getAttribute("templateIdTeam"));
+
+                getFacade().create(current);
+                JsfUtil.addSuccessMessage("Create a Match for your team success, don't forget to Reserve Field");
+                recreateModel();
+                idPesanBayangan = "";
+                return "ListMatch";
+            } catch (Exception e) {
+                JsfUtil.addErrorMessage("Create a Match for your team failed");
+                return null;
+            }
         }
     }
     
@@ -281,6 +395,11 @@ public class TbMatchteamController implements Serializable {
         this.matchByTeam = matchByTeam;
     }
 
+
+    private void recreateModelMatchByHomeTeam() {
+        matchByHomeTeam = null;
+    }
+    
     public List<TbMatchteam> getMatchByHomeTeam(TbTeam idTeam) {
         return matchByHomeTeam = ejbFacade.getMatchByHomeTeam(idTeam.getIdTeam());
     }
@@ -289,9 +408,18 @@ public class TbMatchteamController implements Serializable {
         this.matchByHomeTeam = matchByHomeTeam;
     }
 
-    public String prepareViewMatchTrans() {
-        current = (TbMatchteam)getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    TbMatchteam matchCek;
+
+    public TbMatchteam getMatchCek() {
+        return matchCek;
+    }
+
+    public void setMatchCek(TbMatchteam matchCek) {
+        this.matchCek = matchCek;
+    }
+    
+    public String prepareViewMatchTrans(TbMatchteam match) {
+        matchCek = match;
         return "ViewDetailMatchCap";
     }
 
@@ -319,6 +447,51 @@ public class TbMatchteamController implements Serializable {
         }
         
         return "ViewDetailMatch";
+    }
+    
+    public String joinMatchIndividu() {          // Kalo login
+        HttpSession session = SessionUtils.getSession();
+        TbPemain pemain = (TbPemain) session.getAttribute("templateDataPemain");
+        
+        boolean isJoin = false;
+        isJoin = ejbFacade.getAutentikasiIndividuMatch(current.getIdMatchteam(), pemain.getIdPemain());
+        
+        if (!isJoin) {
+            if (!pemain.getIdTeam().getIdTeam().equals(current.getIdHomeTeam().getIdTeam())) {
+                if (!pemain.getIdTeam().getIdTeam().equals(current.getIdAwayTeam().getIdTeam())) {
+                    try {
+                        ejbFacade.joinMatchIndividu(current, pemain);
+                        JsfUtil.addSuccessMessage("Join Match Success");
+                        recreateModelIndividuMatch();
+                    } catch (Exception e) {
+                        JsfUtil.addErrorMessage("Join Match Failed");
+                    }
+                } else {
+                    JsfUtil.addErrorMessage("Your team has joined in this match, as away team");
+                }
+            } else {
+                JsfUtil.addErrorMessage("Your team has joined in this match, as home team");
+            }
+        } else {
+            JsfUtil.addErrorMessage("You have joined this match");
+        }
+        
+        
+        return "ViewDetailMatch";
+    }
+    
+    List<TbIndividuMatch> listIndividuMatch;
+
+    private void recreateModelIndividuMatch() {
+        listIndividuMatch = null;
+    }
+
+    public List<TbIndividuMatch> getListIndividuMatch(TbMatchteam match) {
+        return listIndividuMatch = ejbFacade.getMatchIndividu(match);
+    }
+
+    public void setListIndividuMatch(List<TbIndividuMatch> listIndividuMatch) {
+        this.listIndividuMatch = listIndividuMatch;
     }
     
 }

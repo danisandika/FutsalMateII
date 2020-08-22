@@ -9,7 +9,7 @@
 
     <body>
 
-        <ui:composition template="./../Template2.xhtml">
+        <ui:composition template="./../Template2_1.xhtml">
 
             <ui:define name="TitlePage">
                 <h:form>
@@ -32,18 +32,9 @@
                                     <h:form id="form">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <h:outputLabel value="Play Date" for="tglMain" style="color: #ebebeb" />&nbsp;
-                                                <p:inputText id="tglMain" value="#{tbPemesananController.selected.tglPemesanan}" 
-                                                             title="Play Date" required="true" a:type="date">
-                                                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
-                                                </p:inputText>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h:outputLabel value="Time to Start Playing " for="jamMainMulai" style="color: #ebebeb" />&nbsp;
-                                                <p:inputText id="jamMainMulai" value="#{tbPemesananController.selected.jamMainMulai}" 
-                                                              title="Time to Start Playing" a:type="time">
-                                                    <f:convertDateTime pattern="HH:mm" />
-                                                </p:inputText>
+                                                <h:outputLabel value="Play Date" for="tglMain" style="color: #ebebeb" /><br/>
+                                                <p:calendar id="datetime" value="#{tbPemesananController.datetimePlay}"
+                                                              title="Play Date" required="true" pattern="MM/dd/yyyy HH:mm" />
                                             </div>
                                             <div class="col-md-6">
                                                 <h:outputLabel value="Duration " for="durasi" style="color: #ebebeb" />&nbsp;
@@ -63,7 +54,7 @@
                         </div>
                     </div>
                 </section>
-                        
+                
             </ui:define>
 
         </ui:composition>

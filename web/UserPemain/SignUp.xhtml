@@ -1,18 +1,69 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
         <ui:composition template="./../Template3.xhtml">
 
             <ui:define name="TitlePage">
-                TitlePage
+                Sign Up
             </ui:define>
 
             <ui:define name="BodyPage">
-                BodyPage
+                <div class="blog-post">
+                <h:form>
+                <h5>Already have an account? You can <h:commandLink action="/UserPemain/Sign In" class="read-more">Sign In</h:commandLink> first</h5>
+                </h:form>
+                </div>
+                <p:tooltip />
+                <h:form class="comment-form">
+                    <p:growl id="messages" showDetail="true" />
+                    <div class="row">
+                        <div class="col-md-10">
+                            
+                            <p:message for="email" showDetail="true" />
+                            <h:inputText id="email" value="#{tbPemainController.selected.email}" a:type="email" validatorMessage="Must enter a valid email address"
+                                         class="form-control" a:placeholder="E-mail" required="true" requiredMessage="E-mail cannot be empty">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+                            </h:inputText>
+                            
+                            <p:message for="password" showDetail="true" />
+                            <h:inputText id="password" value="#{tbPemainController.selected.password}" a:type="password" 
+                                         class="form-control" a:placeholder="Password" required="true" requiredMessage="Password cannot be empty" />
+                            
+                            <p:message for="nama" showDetail="true" />
+                            <h:inputText id="nama" value="#{tbPemainController.selected.nama}" a:type="text" class="form-control" 
+                                         a:placeholder="Name" required="true" requiredMessage="Name cannot be empty" />
+                            
+                            <p:message for="alamat" showDetail="true" />
+                            <h:inputTextarea id="alamat" value="#{tbPemainController.selected.alamat}" class="form-control" a:placeholder="Address" 
+                                             required="true" requiredMessage="Address cannot be empty"/>
+                            
+                            <p:message for="noTelp" showDetail="true" />
+                            <h:inputText id="noTelp" value="#{tbPemainController.selected.notelp}" class="form-control" a:placeholder="Telephone" 
+                                         required="true" requiredMessage="Telephone cannot be empty" validatorMessage="Telephone must be number">
+                                <f:validateRegex pattern="^[0-9]{1,15}$"/> 
+                            </h:inputText>
+                            
+                            <h:outputLabel value="Gender" style="color: #ebebeb" />
+                            <p:message for="gender" showDetail="true" />
+                            <h:selectOneRadio value="#{tbPemainController.selected.gender}" style="color: #ebebeb" required="true"
+                                              id="gender" requiredMessage="Gender cannot be empty"> 
+                                <f:selectItem itemValue = "1" itemLabel = "Male" /> 
+                                <f:selectItem itemValue = "0" itemLabel = "Female" />
+                            </h:selectOneRadio> 
+                        </div>
+                    </div>
+                    <br/>
+                    
+                    <h:commandLink class="site-btn" action="#{tbPemainController.create}" value="Login" />
+                </h:form>
             </ui:define>
 
         </ui:composition>

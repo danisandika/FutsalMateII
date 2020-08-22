@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+	<title>Login</title>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!--===============================================================================================-->	
+        <h:outputStylesheet name="/Login/images/icons/favicon.ico" />
+        <h:outputStylesheet name="/Login/vendor/bootstrap/css/bootstrap.min.css" />
+        <h:outputStylesheet name="/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <h:outputStylesheet name="/Login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" />
+        <h:outputStylesheet name="/Login/vendor/animate/animate.css" />
+        <h:outputStylesheet name="/Login/vendor/css-hamburgers/hamburgers.min.css" />
+        
+        <h:outputStylesheet name="/Login/vendor/animsition/css/animsition.min.css" />
+        <h:outputStylesheet name="/Login/vendor/select2/select2.min.css" />
+        <h:outputStylesheet name="/Login/vendor/daterangepicker/daterangepicker.css" />
+        <h:outputStylesheet name="/Login/css/util.css" />
+        <h:outputStylesheet name="/Login/css/main.css" />
+        
+    </h:head>
+    <h:body style="background-color: #666666;">
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<h:form class="login100-form validate-form">
+					<span class="login100-form-title p-b-43">
+						Login Pengelola Futsal
+					</span>
+					<p:messages id="messages" showDetail="true" closable="true">
+                                            <p:autoUpdate />
+                                        </p:messages>
+					
+                                            <p:datePicker id="datetime" value="#{tbPemesananController.datetimePlay}" 
+                                                          title="Play Date" required="true" pattern="MM/dd/yyyy HH:mm:ss" />
+					
+
+					<div class="container-login100-form-btn">
+                                            <h:commandButton action="#{loginController.loginPengelola()}" value="Login" class="login100-form-btn" />
+						
+					</div>
+					
+					<div class="text-center p-t-46 p-b-20">
+						<span class="txt2">
+                                                    <h:link outcome="/loginAdministrator" >Login Administrator</h:link>  atau <h:link outcome="/daftarPengelolaFutsal" >Daftar Pengelola</h:link>
+						</span>
+					</div>
+
+					</h:form>
+
+				<div class="login100-more" style="background-image: url('resources/Login/images/bg-2.jpg');">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	
+	<h:outputScript name="/Login/vendor/jquery/jquery-3.2.1.min.js" />
+        <h:outputScript name="/Login/vendor/animsition/js/animsition.min.js" />
+        <h:outputScript name="/Login/vendor/bootstrap/js/popper.js" />
+        <h:outputScript name="/Login/vendor/bootstrap/js/bootstrap.min.js" />
+        
+        <h:outputScript name="/Login/vendor/select2/select2.min.js" />
+        <h:outputScript name="/Login/vendor/daterangepicker/moment.min.js" />
+        <h:outputScript name="/Login/vendor/daterangepicker/daterangepicker.js" />
+        <h:outputScript name="/Login/vendor/countdowntime/countdowntime.js" />
+        <h:outputScript name="/Login/js/main.js" />
+        
+
+    </h:body>
+</html>
+

@@ -45,7 +45,7 @@ public class TbMatchteam implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 20)
     @Column(name = "id_matchteam")
     private String idMatchteam;
     @Column(name = "home_score")

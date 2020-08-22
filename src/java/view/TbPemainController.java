@@ -94,16 +94,16 @@ public class TbPemainController implements Serializable {
     public String prepareCreate() {
         current = new TbPemain();
         selectedItemIndex = -1;
-        return "Create";
+        return "SignUp";
     }
 
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbPemainCreated"));
-            return prepareCreate();
+            JsfUtil.addSuccessMessage("Success create account, Please Sign In first");
+            return "SignIn";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Failed to create an account");
             return null;
         }
     }
@@ -118,7 +118,7 @@ public class TbPemainController implements Serializable {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbPemainUpdated"));
-            return "View";
+            return "Profil";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -282,6 +282,10 @@ public class TbPemainController implements Serializable {
     public String prepareEditPemain() {
         HttpSession session = SessionUtils.getSession();
         current = (TbPemain) session.getAttribute("templateDataPemain");
-        return "Profil";
+        return "EditProfil";
+    }
+    
+    public String signIn() {
+        return "Signin";
     }
 }

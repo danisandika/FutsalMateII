@@ -34,23 +34,25 @@
                                     <h:form>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <p:selectOneMenu id="idAwayTeam" style="width:552px" value="#{tbMatchteamController.selected.idAwayTeam}" title="Opposing Team" >
+                                                <p>Chalange Other Team</p>
+                                                <h:selectOneMenu id="idAwayTeam" style="width: 100%; height: 15" value="#{tbMatchteamController.selected.idAwayTeam}" title="Opposing Team" >
+                                                    <f:selectItem itemLabel="You can choose a team or not" itemValue="" />
                                                     <f:selectItems value="#{tbTeamController.itemsAvailableSelectOne}"/>
-                                                </p:selectOneMenu>
+                                                </h:selectOneMenu>
                                             </div>
                                             <div class="col-md-6">
-                                                <p:selectOneMenu id="status" style="width:552px" value="#{tbMatchteamController.selected.status}" title="Status Match" >
-                                                    <f:facet name="header">
-                                                        <h:outputText value="Choose status Match" style="font-weight:bold;"/>
-                                                        <p:separator />
-                                                    </f:facet>
-                                                    <f:selectItems itemValue="1" itemLabel="Private Match"/>
-                                                    <f:selectItems itemValue="2" itemLabel="Just Open to others Team"/>
-                                                    <f:selectItems itemValue="3" itemLabel="Open to others Team or Individu"/>
-                                                </p:selectOneMenu>
+                                                <p>Status Match</p>
+                                                <h:selectOneMenu id="status" style="width: 100%; height: 15" value="#{tbMatchteamController.selected.status}" title="Status Match" >
+                                                    <f:selectItem itemLabel="Status Match" itemValue="" itemDisabled="true" />
+                                                    <f:selectItem itemValue="0" itemLabel="Just Team vs Team"/>
+                                                    <f:selectItem itemValue="1" itemLabel="Open to one team and individu"/>
+                                                    <f:selectItem itemValue="2" itemLabel="Closed to join"/>
+                                                </h:selectOneMenu>
                                             </div>
                                             <div class="col-md-12">
-                                                <h:inputText id="idPemesanan" value="#{tbMatchteamController.selected.idPemesanan}" required="true" a:placeholder="ID Pemesanan"/>
+                                                <br/>
+                                                <h:inputText id="idPemesanan" value="#{tbMatchteamController.idPesanBayangan}" 
+                                                             a:placeholder="ID Pemesanan (You can empty this field if you haven't made a field order)"/>
                                                 <h:inputTextarea id="deskripsi" value="#{tbMatchteamController.selected.deskripsi}" required="true" a:placeholder="Description"/>
                                             </div>
                                         </div>

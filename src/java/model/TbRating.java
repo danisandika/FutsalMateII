@@ -116,11 +116,11 @@ public class TbRating implements Serializable {
         return "model.TbRating[ idRating=" + idRating + " ]";
     }
 
-    public double getRating() {
-        return rating;
+    public int getRating() {
+        return (int) Math.round(rating);
     }
 
-    public void setRating(double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

@@ -7,9 +7,10 @@ import controller.TbPemesananFacade;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -320,6 +321,15 @@ public class TbPemesananController implements Serializable {
     
     
     TbLapangan lapReserv;
+    Date datetimePlay;
+
+    public Date getDatetimePlay() {
+        return datetimePlay;
+    }
+
+    public void setDatetimePlay(Date datetimePlay) {
+        this.datetimePlay = datetimePlay;
+    }
 
     public TbLapangan getLapReserv() {
         return lapReserv;
@@ -333,16 +343,16 @@ public class TbPemesananController implements Serializable {
         lapReserv = revLap;
         current = new TbPemesanan();
         selectedItemIndex = -1;
-        return "ReservasiLapangan";
+        return "CreateReservasiLap";
     }
     
     public String createReservasi() {
         try {
             HttpSession session = SessionUtils.getSession();
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            SimpleDateFormat formatID = new SimpleDateFormat("yyyyMMddHHmmss");
             Date date = new Date();
             
-            current.setIdPemesanan(formatter.format(date));
+            current.setIdPemesanan(formatID.format(date));
             current.setIdLapangan(lapReserv);
             current.setIdPemain((TbPemain) session.getAttribute("templateDataPemain"));
             current.setTglPemesanan(date);
@@ -355,29 +365,60 @@ public class TbPemesananController implements Serializable {
             // Spekulasi1 : ambil jamnya tambahin, trus balikin lg
             //          kemungkiinan bakal haris ubh ke string > substr > tambah sama durasi > string + gabung > date
             
-            SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String ubah = format2.format(current.getJamMainMulai());
-            Date jamMulai = format2.parse(ubah);
+            SimpleDateFormat formatTglMain = new SimpleDateFormat("dd/MM/yyyy");
+            current.setTglMain(datetimePlay);
+            current.setJamMainMulai(datetimePlay);
             
-            String hari = NativeString.substr(ubah, 0, 9);
-            String menit = NativeString.substring(ubah, 12);
+            SimpleDateFormat formatJamMulai = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            String ubah = formatJamMulai.format(datetimePlay);
             
-            int jam = jamMulai.getHours();
+            String hari = NativeString.substr(ubah, 0, 10);
+            String menit = NativeString.substring(ubah, 13);
+            
+            int jam = datetimePlay.getHours();
             int count = jam + current.getDurasi();
             
-            String temp = hari + Integer.toString(count) + menit;
-            Date jamSelesai = format2.parse(temp);
+            String temp = hari +" "+ Integer.toString(count) + menit;
+            
+            Date jamSelesai = formatJamMulai.parse(temp);
             current.setJamMainSelesai(jamSelesai);
             
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbPemesananCreated"));
-            return prepareCreate();
+            sendEmail(current);
+            JsfUtil.addSuccessMessage("Your Reservation Success, please check your E-mail to continue your payment");
+            return "ViewLapangan";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Failed to Reservation");
             return null;
         }
     }
     
+    private void sendEmail(TbPemesanan pesanan) {
+        SimpleDateFormat formatTgl = new SimpleDateFormat("dd MMMM yyyy");
+        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
+        MailController mctr = new MailController();
+        Locale locale = new Locale("in", "ID");      
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+        
+        int total = pesanan.getIdLapangan().getHarga() * pesanan.getDurasi();
+        
+        mctr.setFromEmail("pendekarbayangan66@gmail.com");
+        mctr.setUsername("pendekarbayangan66@gmail.com");
+        mctr.setPassword("praditya");
+        mctr.setSubject("Invoice Reservation Field Futsalan.com");
+        mctr.setToMail(pesanan.getIdPemain().getEmail());
+        mctr.setMessage("<b>Note Payment</b> <br/>"
+                + "<br/> ID Reservation : " + pesanan.getIdPemesanan()
+                + "<br/> Field : " + pesanan.getIdLapangan().getNamaLapangan() + ", Futsal " + pesanan.getIdLapangan().getIdFutsal().getNamaFutsal()
+                + "<br/> In the name of : " + pesanan.getIdPemain().getNama()
+                + "<br/> Date Reservation : " + formatTgl.format(pesanan.getTglPemesanan())
+                + "<br/> Date Play : " + formatTgl.format(pesanan.getTglMain())
+                + "<br/> Time Play : " + formatJam.format(pesanan.getJamMainMulai()) + " - " + formatJam.format(pesanan.getJamMainSelesai()) + " WIB (" + pesanan.getDurasi() + " Hour)"
+                + "<br/><br/> <b>Total payment : " + currencyFormatter.format(total) + "</b><br/>"
+                + "<br/> Please make a payment then confirm payment via Futsalan.com website"
+                + "<br/> Thank You for Your Reservation");
+        mctr.send();
+    }
     
     private List<TbPemesanan> pemesananByPemain;
 

@@ -16,6 +16,8 @@
 
             <ui:define name="BodyBlog">
                 
+                <p:tooltip />
+                <p:growl id="messages" showDetail="true" />
                 <!-- Blog section -->
                 <section class="blog-section spad">
                     <div class="container">
@@ -111,12 +113,10 @@
                                     <p:column headerText="Jam Mulai" sortBy="#{item.jamMainMulai}" filterBy="#{item.jamMainMulai}">
                                         <h:outputText value="#{item.jamMainMulai}" >
                                             <f:convertDateTime pattern="HH:mm" />
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Jam Selesai" sortBy="#{item.jamMainSelesai}" filterBy="#{item.jamMainSelesai}">
+                                        </h:outputText> - 
                                         <h:outputText value="#{item.jamMainSelesai}" >
                                             <f:convertDateTime pattern="HH:mm" />
-                                        </h:outputText>
+                                        </h:outputText> WIB
                                     </p:column>
                                     <p:column headerText="Status" sortBy="#{item.status}" filterBy="#{item.status}">
                                         <h:outputText value="Payment Confirmation" rendered="#{item.status == 0}"/>

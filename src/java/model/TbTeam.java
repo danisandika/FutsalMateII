@@ -166,7 +166,7 @@ public class TbTeam implements Serializable {
 
     @Override
     public String toString() {
-        return "model.TbTeam[ idTeam=" + idTeam + " ]";
+        return namaTeam;
     }
 
    

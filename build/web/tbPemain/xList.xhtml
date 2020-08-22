@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTbPemainTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTbPemainEmpty}" rendered="#{tbPemainController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tbPemainController.items.rowCount > 0}">
+                    <h:outputText value="#{tbPemainController.pagination.pageFirstItem + 1}..#{tbPemainController.pagination.pageLastItem + 1}/#{tbPemainController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tbPemainController.previous}" value="#{bundle.Previous} #{tbPemainController.pagination.pageSize}" rendered="#{tbPemainController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tbPemainController.next}" value="#{bundle.Next} #{tbPemainController.pagination.pageSize}" rendered="#{tbPemainController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tbPemainController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTbPemainTitle_idPemain}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPemain}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTbPemainTitle_nama}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nama}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTbPemainTitle_gender}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.gender}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTbPemainTitle_alamat}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.alamat}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTbPemainTitle_notelp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.notelp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTbPemainTitle_email}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.email}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTbPemainTitle_password}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.password}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTbPemainTitle_idTeam}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idTeam}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{tbPemainController.prepareCreate}
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tbPemainController.prepareView}" value="#{bundle.ListTbPemainViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tbPemainController.prepareEdit}" value="#{bundle.ListTbPemainEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tbPemainController.destroy}" value="#{bundle.ListTbPemainDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tbPemainController.prepareCreate}" value="#{bundle.ListTbPemainCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListTbPemainIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

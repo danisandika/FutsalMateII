@@ -56,7 +56,7 @@ public class TbPemesanan implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 20)
     @Column(name = "id_pemesanan")
     private String idPemesanan;
     @Column(name = "jam_main_mulai")

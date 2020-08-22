@@ -354,4 +354,21 @@ public class TbFutsalController implements Serializable {
     }
     
 
+    
+    ////////////////////////////////////////////////////////////////////////////////////// I'AM 1, I'AM 2 ///////////
+    
+    TbFutsal futsalKey;
+
+    public TbFutsal getFutsalKey() {
+        return futsalKey;
+    }
+
+    public void setFutsalKey(TbFutsal futsalKey) {
+        this.futsalKey = futsalKey;
+    }
+    
+    public String viewFutsal(TbFutsal futsal) {
+        futsalKey = futsal;
+        return "ViewFutsal";
+    }
 }

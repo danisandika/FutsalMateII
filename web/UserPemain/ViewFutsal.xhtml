@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template2.xhtml">
+
+            <ui:define name="TitlePage">
+                <h:form>
+                    <h2>Futsal <h:outputText value="#{tbLapanganController.selected.idFutsal.namaFutsal}"/></h2>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="BodyBlog">
+                
+                <h:form>
+                    
+                    <!-- Blog section -->
+                    <section class="blog-section spad">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <div class="blog-post">
+                                        <p>Rating</p>
+                                        <p:rating value="#{tbFutsalController.futsalKey.rating}" stars="5" 
+                                                  readonly="true" styleClass="rating ui-rating-on"/>
+                                        <br/>
+                                        <h:outputText value="#{tbFutsalController.futsalKey.gambar}" />
+                                        <h:graphicImage url="/Image_futsal_gambar/#{tbFutsalController.futsalKey.gambar}" 
+                                                        alt="" width="50" rendered="#{tbFutsalController.futsalKey.gambar != null}" />
+                                        <h:graphicImage url="/Image_futsal_gambar/no_image.jpg" 
+                                                        alt="" width="50" rendered="#{tbFutsalController.futsalKey.gambar == null}" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-6">
+                                    <div class="blog-post">
+                                        <p>Futsal Address</p>
+                                        <h4><h:outputText value="#{tbFutsalController.futsalKey.alamatFutsal}"/></h4>
+                                        <br/>
+                                        <p>Decription</p>
+                                        <h4><h:outputText value="#{tbFutsalController.futsalKey.deskripsiFutsal}"/></h4>
+                                        <br/>
+                                        <p>Telephone</p>
+                                        <h4><h:outputText value="#{tbFutsalController.futsalKey.notelpFutsal}"/></h4>
+                                        <br/>
+                                        <p>Decription</p>
+                                        <h4><h:outputText value="#{tbFutsalController.futsalKey.deskripsiFutsal}"/></h4>
+                                        <br/>
+                                        <p>Facilities</p>
+                                        <h4><h:outputText value="#{tbFutsalController.futsalKey.fasilitas}"/></h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="blog-post review-post">
+                                        <h3>Maps Location Futsal</h3>
+                                        <p>Address : <h:outputText value="#{tbFutsalController.futsalKey.alamatFutsal}"/></p>
+                                        <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+                                        <p:gmap center="#{tbLapanganController.selected.idFutsal.latitude},#{tbLapanganController.selected.idFutsal.longitude}" 
+                                                zoom="17" type="HYBRID" style="width:100%;height:400px" model="#{markersView.simpleModel}" />
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-8">
+                                    <div class="comments">
+                                        <h:form styleClass="jsfcrud_list_form">
+                                            <h5>Review (<h:outputText value="#{tbRatingController.items.rowCount}" />)</h5>
+                                            <p:tooltip />
+                                            <p:growl id="messages" showDetail="true" />
+
+                                            <h:panelGroup rendered="#{tbTeamController.items.rowCount > 0}">
+                                                <ul class="comments-list">
+                                                <h:dataTable value="#{tbRatingController.items}" var="item" style="border:solid 0px" width="124%">
+                                                    <h:column>
+                                                        <f:facet name="header">
+                                                            <h:outputText value=" "/>
+                                                        </f:facet>
+                                                        <li>
+                                                            <p:rating value="#{item.rating}" stars="5" readonly="true" styleClass="rating ui-rating-on"/>
+                                                            
+                                                            <div class="comment-text">
+                                                                <h6>#{item.idPemain.nama}<a href="#" class="reply">from Team #{item.idPemain.idTeam.namaTeam}</a></h6>
+                                                                <p>#{item.komentar}</p>
+                                                            </div>
+                                                        </li>
+                                                    </h:column>
+                                                </h:dataTable>
+                                                </ul>
+                                            </h:panelGroup>
+                                        </h:form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Blog section end -->
+                    
+                </h:form>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

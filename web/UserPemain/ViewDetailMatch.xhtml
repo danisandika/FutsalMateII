@@ -49,7 +49,7 @@
                                     <h4>
                                         <h:outputText value="#{tbMatchteamController.selected.idPemesanan.jamMainMulai}" >
                                             <f:convertDateTime pattern="HH:mm" />
-                                        </h:outputText> WIB - 
+                                        </h:outputText> - 
                                         <h:outputText value="#{tbMatchteamController.selected.idPemesanan.jamMainSelesai}" >
                                             <f:convertDateTime pattern="HH:mm" />
                                         </h:outputText> WIB 
@@ -124,15 +124,40 @@
                                 <div class="blog-post">
                                     <br/><br/>
                                     <h3>Individu Participant</h3>
-                                    <br/>
-                                    <h:commandLink class="site-btn" action="#{tbMatchteamController.joinMatchIndividu()}" 
-                                                   onclick="return confirm('Are you sure to Join the Match?')" 
-                                                   rendered="#{loginPemainController.dataPemain != null}" 
-                                                   value="Join Match Individually" />
-                                    <h:commandLink class="site-btn" action="#{tbMatchteamController.pleaseLogin()}" 
-                                                   onclick="return confirm('Please SignIn first!')" 
-                                                   rendered="#{loginPemainController.dataPemain == null}" 
-                                                   value="Join Match Individually" />
+                                    <h:form styleClass="jsfcrud_list_form">
+                                        <p:tooltip />
+                                        <p:growl id="messages" showDetail="true" />
+                                        
+                                        <h:panelGroup>
+                                            <p:dataTable var="item" value="#{tbMatchteamController.getListIndividuMatch(tbMatchteamController.selected)}" paginator="true" rows="10"
+                                                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                rowsPerPageTemplate="5,10,15" id="tableStateDT" lazy="true" multiViewState="true" filteredValue="#{tbTeamController.filterPemainTeam}">
+
+                                                <f:facet name="header">
+                                                    <p:outputPanel>
+                                                        <h:outputText value="Search all fields:" />
+                                                        <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                                    </p:outputPanel>
+                                                </f:facet>
+
+                                                <p:column headerText="Nama" sortBy="#{item[1]}" filterBy="#{item[1]}" filterMatchMode="contains">
+                                                    <h:outputText value="#{item[1]}"/>
+                                                </p:column>
+                                                <p:column headerText="Alamat" sortBy="#{item[3]}" filterBy="#{item[3]}" filterMatchMode="contains">
+                                                    <h:outputText value="#{item[3]}"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </h:panelGroup>
+                                        <br/>
+                                        <h:commandLink class="site-btn" action="#{tbMatchteamController.joinMatchIndividu()}" 
+                                                       onclick="return confirm('Are you sure to Join the Match?')" 
+                                                       rendered="#{loginPemainController.dataPemain != null}" 
+                                                       value="Join Match Individually" />
+                                        <h:commandLink class="site-btn" action="#{tbMatchteamController.pleaseLogin()}" 
+                                                       onclick="return confirm('Please SignIn first!')" 
+                                                       rendered="#{loginPemainController.dataPemain == null}" 
+                                                       value="Join Match Individually" />
+                                    </h:form>
                                 </div>
                             </div>
                             

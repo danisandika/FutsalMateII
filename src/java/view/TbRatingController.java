@@ -1,6 +1,8 @@
 package view;
 
 import model.TbRating;
+import model.TbFutsal;
+import model.TbPemain;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbRatingFacade;
@@ -17,6 +19,8 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
+import loginPackage.SessionUtils;
 
 
 @Named("tbRatingController")
@@ -78,7 +82,7 @@ public class TbRatingController implements Serializable {
         selectedItemIndex = -1;
         return "Create";
     }
-
+    
     public String create() {
         try {
             getFacade().create(current);
@@ -230,6 +234,43 @@ public class TbRatingController implements Serializable {
             }
         }
 
+    }
+
+    
+    
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////// RATE
+    
+    TbFutsal futsalRate;
+
+    public TbFutsal getFutsalRate() {
+        return futsalRate;
+    }
+
+    public void setFutsalRate(TbFutsal futsalRate) {
+        this.futsalRate = futsalRate;
+    }
+
+    public String prepareCreateRate(TbFutsal futsal) {
+        futsalRate = futsal;
+        current = new TbRating();
+        selectedItemIndex = -1;
+        return "CreateRateFutsal";
+    }
+    
+    public String createRate() {
+        HttpSession session = SessionUtils.getSession();
+        
+        try {
+            current.setIdFutsal(futsalRate);
+            current.setIdPemain((TbPemain) session.getAttribute("templateDataPemain"));
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbRatingCreated"));
+            return "ManageTeam";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
     }
 
 }

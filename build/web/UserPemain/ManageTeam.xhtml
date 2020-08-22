@@ -42,6 +42,9 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <p:tooltip />
+                        <p:growl id="messages" showDetail="true" />
 
                         <div class="row">
                             <div class="col-lg-4">
@@ -64,8 +67,6 @@
                             </div>
                             <div class="col-lg-3">
                                 <h:form>
-                                    <h:commandLink action="#{tbTeamController.prepareEditMyTeam(tbTeamController.teamCaptain)}" rendered="#{templateIsCaptain == true}" class="site-btn" value="Edit Info Team"/>
-                                    <br/><br/>
                                     <h:commandLink action="#{tbTeamController.prepareEditMyTeam(tbTeamController.teamCaptain)}" rendered="#{templateIsCaptain == true}" class="site-btn" value="Edit Info Team"/>
                                 </h:form>
                             </div>
@@ -100,7 +101,7 @@
                                     <p:column headerText="E-mail" sortBy="#{item.email}" filterBy="#{item.email}">
                                         <h:outputText value="#{item.email}"/>
                                     </p:column>
-                                    <p:column>
+                                    <p:column rendered="#{templateIsCaptain == true}">
                                         <h:commandLink action="#{tbPemainController.removeFromTeam(item)}" onclick="return confirm('Are you sure to kick your member?')" rendered="#{item.idPemain != templateDataPemain.idPemain}" value="Kick Member" />
                                         <h:outputLabel rendered="#{item.idPemain == templateDataPemain.idPemain}" value="Captain Team" />
                                     </p:column>
@@ -154,10 +155,10 @@
                         </div>
 
 
-                        <h:form styleClass="jsfcrud_list_form" rendered="#{templateIsCaptain == true}">
+                        <h:form styleClass="jsfcrud_list_form">
                         <div class="blog-post">
-                        <br/>
-                        <h3>History Transaction Match</h3>
+                            <br/>
+                            <h3>History Transaction Match</h3>
                             <h:panelGroup>
                                 <p:dataTable var="item" value="#{tbMatchteamController.getMatchByHomeTeam(templateIdTeam)}" paginator="true" rows="10"
                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -171,7 +172,8 @@
                                     </f:facet>
 
                                     <p:column headerText="ID Pemesanan" sortBy="#{item.idPemesanan}" filterBy="#{item.idPemesanan}" filterMatchMode="contains">
-                                        <h:outputText value="#{item.idPemesanan}"/>
+                                        <h:outputText value="Reserv a Field to Match" rendered="#{item.idPemesanan == null}" style="color: #61d097"/>
+                                        <h:outputText value="#{item.idPemesanan}" rendered="#{item.idPemesanan != null}"/>
                                     </p:column>
                                     <p:column headerText="Status" sortBy="#{item.status}" filterBy="#{item.status}">
                                         <h:outputText value="Just Team vs Team" rendered="#{item.status == 0}"/>
@@ -179,8 +181,10 @@
                                         <h:outputText value="Closed to join" rendered="#{item.status == 2}"/>
                                         <h:outputText value="Ended" rendered="#{item.status == 3}"/>
                                     </p:column>
-                                    <p:column headerText="Check Detail" sortBy="#{item.idPemesanan}" filterBy="#{item.idPemesanan}" filterMatchMode="contains">
-                                        <h:commandLink action="#{tbMatchteamController.prepareViewMatchTrans()}" value="Check Detail" />
+                                    <p:column headerText="Action" sortBy="#{item.idPemesanan}" filterBy="#{item.idPemesanan}" filterMatchMode="contains">
+                                        <h:commandLink action="#{tbMatchteamController.prepareEditMatch(item)}" value="Edit Match" /> | 
+                                        <h:commandLink action="#{tbMatchteamController.prepareViewMatchTrans(item)}" value="Check Detail" /> | 
+                                        <h:commandLink action="#{tbRatingController.prepareCreateRate(item.idPemesanan.idLapangan.idFutsal)}" value="Give a Review" />
                                     </p:column>
                                 </p:dataTable>
                             </h:panelGroup>
