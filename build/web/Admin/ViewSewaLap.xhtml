@@ -97,9 +97,12 @@
                     
                         <div class="form-row">
                             <h:panelGroup rendered="#{tbSewalapanganController.selected.statusBayar == 1}">
-                            <div class="col-md-6">
-                                <h:commandLink class="btn btn-primary" action="#{tbSewalapanganController.confirmPay(loginController.dataAdmin.idAdmin)}" style="width: 95%" value="Konfirmasi"/>
+                            <div class="col-md-12">
+                                <h:commandLink class="btn btn-primary" action="#{tbSewalapanganController.confirmPay(loggedAdmin.idAdmin)}" style="width: 95%" value="Konfirmasi"/>
                             </div>
+                             <div class="col-md-6">
+                                 <h:commandLink class="btn btn-warning" action="#{tbSewalapanganController.tolakSewa(loggedAdmin.idAdmin)}" style="width: 95%" value="Tolak Sewa"/>
+                            </div>   
                             <div class="col-md-6">
                                 <h:commandLink onclick="history.go(-1); return false;" value="Batal" a:type="reset" class="btn btn-danger" style="width: 95%;float: right;"/>
                             </div>

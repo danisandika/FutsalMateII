@@ -7,8 +7,10 @@ package view;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import loginPackage.SessionUtils;
@@ -119,20 +121,13 @@ public class loginController implements Serializable{
             //jabatan = penggunaList.get(0).getMsPenggunaRole();
             //msPenggunaId = penggunaList.get(0).getMsPenggunaId();
             dataPengelola = pengelolaList.get(0);
+            FacesContext context = FacesContext.getCurrentInstance();
 
             if (autentikasi == true) {
-                HttpSession session = SessionUtils.getSession();
-                session.setAttribute("templateEmail", pengelolaList.get(0).getEmail());
-                session.setAttribute("templateNama", pengelolaList.get(0).getNama());
-                session.setAttribute("templateID", pengelolaList.get(0).getIdPengelola());
-                session.setAttribute("templateIDFutsal", pengelolaList.get(0).getIdFutsal().getIdFutsal());
-                session.setAttribute("templateNamaFutsal", pengelolaList.get(0).getIdFutsal().getNamaFutsal());
-                session.setAttribute("templateFoto", pengelolaList.get(0).getFoto());
-                session.setAttribute("templateStatus", pengelolaList.get(0).getStatus());
-
-                return "pengelola";
+                context.getExternalContext().getSessionMap().put("loggedPengelola", dataPengelola);
+                return "Pengelola/pengelola";
             } else {
-                JsfUtil.addErrorMessage("Login Gagal Email : "+loginEmail);
+                JsfUtil.addErrorMessage("Login Gagal Username atau Password Salah");
                 return "loginPengelola";
             }
 
@@ -146,6 +141,41 @@ public class loginController implements Serializable{
         
     }
     
+    protected String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 11) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
+    }
+    
+    public String gantiPassPengelola(){
+        String newPass = getSaltString();
+        MailController mctr = new MailController();
+        
+        mctr.setFromEmail("pendekarbayangan66@gmail.com");
+        mctr.setUsername("pendekarbayangan66@gmail.com");
+        mctr.setPassword("praditya");
+        mctr.setSubject("Ubah Password");
+        mctr.setToMail(loginEmail);
+        mctr.setMessage("Selamat, Ubah Password Anda Berhasil. Silahkan Masukan Password baru anda : "+newPass+". Dan Jangan lupa untuk mengganti password secara berkala.\n Terima Kasih");
+        
+         try{
+             ejbPengelolaFacade.ubahPasswordPengelola(loginEmail, newPass);
+             JsfUtil.addSuccessMessage("Ubah Password Anda Berhasil");
+             mctr.send();
+        }catch(Exception e){
+            JsfUtil.addErrorMessage("Ubah Password Gagal : "+e.toString());
+        }
+        
+        
+        return "loginPengelola";
+    }
     
     public String loginAdministrator() {
         try {
@@ -157,19 +187,13 @@ public class loginController implements Serializable{
             //jabatan = penggunaList.get(0).getMsPenggunaRole();
             //msPenggunaId = penggunaList.get(0).getMsPenggunaId();
             dataAdmin = adminList.get(0);
-
+            FacesContext context = FacesContext.getCurrentInstance();   
             if (auth == true) {
-                HttpSession session = SessionUtils.getSession();
-                session.setAttribute("templateEmailAdmin", adminList.get(0).getEmail());
-                session.setAttribute("templateNamaAdmin", adminList.get(0).getNama());
-                session.setAttribute("templateIDAdmin", adminList.get(0).getIdAdmin());
-              
-                session.setAttribute("templateFotoAdmin", adminList.get(0).getFoto());
-                session.setAttribute("templateStatusAdmin", adminList.get(0).getStatus());
+               context.getExternalContext().getSessionMap().put("loggedAdmin", dataAdmin);
 
                 return "Admin/admin";
             } else {
-                JsfUtil.addErrorMessage("Login Gagal Email : "+loginEmail);
+                JsfUtil.addErrorMessage("Login Gagal Username atau Password Salah");
                 return "loginAdministrator";
             }
 
@@ -289,16 +313,37 @@ public class loginController implements Serializable{
         }
 
         public String logoutPengelola() {
-		HttpSession session = SessionUtils.getSession();
-		session.invalidate();
-		return "loginPengelola";
+		//FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+                session.removeAttribute("loggedPengelola");
+                session.invalidate();
+		return "/loginPengelola";
 	}
         
         public String logoutAdmin() {
-		HttpSession ses = SessionUtils.getSession();
-		ses.invalidate();
-		return "loginAdministrator";
+                //FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		//HttpSession ses = SessionUtils.getSession();
+		//ses.invalidate();
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+                session.removeAttribute("loggedAdmin");
+                session.invalidate();
+		return "/loginAdministrator";
 	}
         
-        
+        private boolean showChart;
+
+        public boolean isShowChart() {
+            return showChart;
+        }
+
+        public void setShowChart(boolean showChart) {
+            this.showChart = showChart;
+        }
+
+        public void tampilChart()
+        {
+            showChart =  ejbPengelolaFacade.getBooleanchart(dataPengelola.getIdFutsal().getIdFutsal());
+        }
 }

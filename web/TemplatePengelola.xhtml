@@ -73,23 +73,23 @@
                                 <div class="widget-content-left">
                                     <div class="btn-group">
                                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                            <h:graphicImage width="42" height="42" class="rounded-circle" value="/Image_profil_pengelola/#{loginController.dataPengelola.foto}" alt="" rendered="#{loginController.dataPengelola.foto != null}"/>
+                                            <h:graphicImage width="42" height="42" class="rounded-circle" value="/Image_profil_pengelola/#{loggedPengelola.foto}" alt="" rendered="#{loginController.dataPengelola.foto != null}"/>
                                             <h:graphicImage width="42" height="42" class="rounded-circle" value="/Image_profil_pengelola/not_found.png" alt="" rendered="#{loginController.dataPengelola.foto == null}"/>
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                            <h:link outcome="/editProfilPengelola" tabindex="0" class="dropdown-item">Edit User</h:link>
-                                            <h:link outcome="/editPasswordPengelola" tabindex="0" class="dropdown-item">Edit Password</h:link>
+                                            <h:link outcome="/Pengelola/editProfilPengelola" tabindex="0" class="dropdown-item">Edit User</h:link>
+                                            <h:link outcome="/Pengelola/editPasswordPengelola" tabindex="0" class="dropdown-item">Edit Password</h:link>
                                             <h:commandLink tabindex="0" class="dropdown-item" value="Logout" action="#{loginController.logoutPengelola()}"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="widget-content-left  ml-3 header-user-info">
                                     <div class="widget-heading">
-                                         #{session.getAttribute("templateNama")}
+                                         #{loggedPengelola.nama}
                                     </div>
                                     <div class="widget-subheading">
-                                        Pengelola #{session.getAttribute("templateNamaFutsal")}
+                                        Pengelola #{loggedPengelola.idFutsal.namaFutsal}
                                         
                                     </div>
                                 </div>
@@ -141,15 +141,13 @@
                             
                             <li class="app-sidebar__heading">Dashboards</li>
                             <li>
-                                <h:link outcome="/pengelola"><i class="metismenu-icon pe-7s-leaf"></i>Dashboard </h:link>
+                                <h:link outcome="/Pengelola/pengelola"><i class="metismenu-icon pe-7s-leaf"></i>Dashboard </h:link>
                             </li>
-                            <h:panelGroup rendered="#{loginController.dataPengelola.status == 1}"> 
+                            <h:panelGroup rendered="#{loggedPengelola.status == 1}"> 
                             <li class="app-sidebar__heading">Kelola Lapangan Futsal</li>
                             <li>
                                 <h:link outcome="/PengelolaLapangan/View_Futsal" > <i class="metismenu-icon pe-7s-user"></i> Pengelola Lapangan </h:link>
                             </li>
-                                                   
-                           
                             <li class="app-sidebar__heading">Penyewaan</li>
                             <li>
                                 <h:link outcome="/PengelolaPemesanan/listPemesanan"  > <i class="metismenu-icon pe-7s-diamond"></i> Daftar Pemesanan </h:link>
@@ -157,8 +155,13 @@
                             <li>
                                 <h:link outcome="/PengelolaPemesanan/listRiwayat" > <i class="metismenu-icon pe-7s-ball"></i> Daftar Riwayat </h:link>
                             </li>
+                            <li class="app-sidebar__heading">Laporan Sewa Lapangan</li>
+                            <li>
+                                <h:link outcome="/PengelolaLaporan/listLaporanPemesanan"> <i class="metismenu-icon pe-7s-news-paper"></i> Laporan Pemesanan </h:link>
+                            </li>
+                            
                             </h:panelGroup>
-                            <h:panelGroup rendered="#{loginController.dataPengelola.status == 0}">
+                            <h:panelGroup rendered="#{loggedPengelola.status == 0}">
                                 <li class="app-sidebar__heading">Penyewaan Website</li>
                                     <li>
                                         <h:link outcome="/PengelolaSewaWeb/listSewaWeb" > <i class="metismenu-icon pe-7s-diamond"></i> Penyewaan Website </h:link>
@@ -197,37 +200,8 @@
                 <div class="app-wrapper-footer">
                     <div class="app-footer">
                         <div class="app-footer__inner">
-                            <div class="app-footer-left">
-                                <ul class="nav">
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="nav-link">
-                                            Footer Link 1
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="nav-link">
-                                            Footer Link 2
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="app-footer-right">
-                                <ul class="nav">
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="nav-link">
-                                            Footer Link 3
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="nav-link">
-                                            <div class="badge badge-success mr-1 ml-0">
-                                                <small>NEW</small>
-                                            </div>
-                                            Footer Link 4
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            
+                            
                         </div>
                     </div>
                 </div>    

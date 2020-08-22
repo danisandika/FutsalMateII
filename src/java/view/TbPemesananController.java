@@ -28,6 +28,7 @@ import model.TbTeam;
 import model.TbKonfirmasi;
 import model.TbLapangan;
 import model.TbPemain;
+import model.TbPengelola;
 
 
 @Named("tbPemesananController")
@@ -40,7 +41,11 @@ public class TbPemesananController implements Serializable {
     @EJB private controller.TbPemesananFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-
+    private Date dateAwal;
+    private Date dateAkhir;
+    private Date currentDate = new Date();
+    private TbPengelola tbPengelola;
+    
     public TbPemesananController() {
     }
 
@@ -51,6 +56,42 @@ public class TbPemesananController implements Serializable {
         }
         return current;
     }
+
+    public Date getDateAwal() {
+        return dateAwal;
+    }
+
+    public void setDateAwal(Date dateAwal) {
+        this.dateAwal = dateAwal;
+    }
+
+    public Date getDateAkhir() {
+        return dateAkhir;
+    }
+
+    public void setDateAkhir(Date dateAkhir) {
+        this.dateAkhir = dateAkhir;
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+    
+    
+    public void reportlistKonfirmasi(){
+        tbPengelola = ejbFacade.getPengelolaFutsal(loginPackage.SessionUtils.getId());
+        listKonfirmasi = ejbFacade.getListKonfirmasi(tbPengelola.getIdFutsal().getIdFutsal());
+    }
+    
+    
+    public void filterByDate(){
+        tbPengelola = ejbFacade.getPengelolaFutsal(loginPackage.SessionUtils.getId());
+        if(dateAwal == null){
+            dateAwal = getCurrentDate();
+        }
+        listKonfirmasi = ejbFacade.getPemesananFilterByDate(dateAwal, dateAkhir,tbPengelola.getIdFutsal().getIdFutsal());
+    }
+    
 
     private TbPemesananFacade getFacade() {
         return ejbFacade;
@@ -119,6 +160,28 @@ public class TbPemesananController implements Serializable {
                     + " Silahkan bermain Futsal Sesuai Jadwal yang telah Anda tentukan dan tetap gunakan Layanan dari Futsalan. \n Terima Kasih");
 
             current.setStatus(2);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage("Sukses Konfirmasi Pemesanan");
+            mctr.send();
+            return "listPemesanan";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Konfirmasi Pemesanan Gagal : "+e.toString());
+            return null;
+        }
+    }
+    
+    public String tolakPemesanan() {
+        try {
+            MailController mctr = new MailController();
+            mctr.setFromEmail("pendekarbayangan66@gmail.com");
+            mctr.setUsername("pendekarbayangan66@gmail.com");
+            mctr.setPassword("praditya");
+            mctr.setSubject("Pembayaran Pemesanan Futsal di Tolak");
+            mctr.setToMail(current.getIdPemain().getEmail());
+            mctr.setMessage("Maaf,Pemesanan Lapangan "+current.getIdLapangan().getNamaLapangan()+" telah di Tolak oleh Pengelola Futsal."
+                    + " karena terindikasi penipuan. Info lebih lanjut silahkan hubungi Pengelola Futsal terkait. \n Terima Kasih");
+
+            current.setStatus(4);
             getFacade().edit(current);
             JsfUtil.addSuccessMessage("Sukses Konfirmasi Pemesanan");
             mctr.send();
@@ -260,7 +323,17 @@ public class TbPemesananController implements Serializable {
     private List<TbPemesanan> listPemesanan;
     private List<TbPemesanan> filterPemesanan;
     private TbKonfirmasi tbkonfirmasi;
- 
+    private List<TbKonfirmasi> listKonfirmasi;
+
+    public List<TbKonfirmasi> getListKonfirmasi() {
+        
+        return listKonfirmasi;
+    }
+
+    public void setListKonfirmasi(List<TbKonfirmasi> listKonfirmasi) {
+        this.listKonfirmasi = listKonfirmasi;
+    }
+    
     
     public void getPemesanan(String id,Integer sts) {
         listPemesanan = ejbFacade.getPemesanan(Integer.valueOf(id),sts);

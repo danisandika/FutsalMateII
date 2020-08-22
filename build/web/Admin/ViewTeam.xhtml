@@ -36,7 +36,7 @@
                         <div class="card mb-3 widget-content bg-midnight-bloom">
                             <div class="widget-content-wrapper text-white">
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Win</div>
+                                    <div class="widget-heading">Menang</div>
                                     <div class="widget-subheading">Jumlah Total Kemenangan Bermain</div>
                                 </div>
                                 <div class="widget-content-right">
@@ -49,7 +49,7 @@
                         <div class="card mb-3 widget-content bg-arielle-smile">
                             <div class="widget-content-wrapper text-white">
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Lose</div>
+                                    <div class="widget-heading">Kalah</div>
                                     <div class="widget-subheading">Jumlah Total Kekalahan Bermain</div>
                                 </div>
                                 <div class="widget-content-right">
@@ -62,18 +62,18 @@
                         <div class="card mb-3 widget-content bg-grow-early">
                             <div class="widget-content-wrapper text-white">
                                 <div class="widget-content-left">
-                                    <div class="widget-heading">Rating</div>
-                                    <div class="widget-subheading"><p:rating value="#{Math.round(tbTeamController.selected.rate)}" stars="5" readonly="true" styleClass="rating ui-rating-on"/></div>
+                                    <div class="widget-heading">Presentase Kemenangan</div>
+                                    <div class="widget-subheading">Presentase Kemenangan Tim</div>
                                 </div>
                                 <div class="widget-content-right">
-                                    <div class="widget-numbers text-white"><span>#{tbTeamController.selected.rate}</span></div>
+                                    <div class="widget-numbers text-white"><span>#{tbTeamController.selected.rate} %</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="main-card mb-3 card">
-                    <div class="card-body"><h5 class="card-title">Details Team Futsal</h5>
+                    <div class="card-body"><h5 class="card-title">Detail Team Futsal</h5>
                         <hr/>
                         <form class="">
                             <div class="form-row">
@@ -94,7 +94,7 @@
                                         <h5>#{tbTeamController.selected.deskripsi}</h5>
                                     </div>
                                     <div class="position-relative form-group">    
-                                        <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Captain</label>
+                                        <label for="exampleCity" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Nama Kapten</label>
                                         <h5>#{tbTeamController.selected.captain.nama}</h5>
                                    </div>
                                 </div>

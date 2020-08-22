@@ -167,6 +167,7 @@ public class editUser implements Serializable{
         try {
             if(gambar != null){
                 uploadPengelola();
+                tbPengelola.setFoto(url);
             }
             getEjbPengelolaFacade().edit(tbPengelola);
             JsfUtil.addSuccessMessage("Sukses Update Profil Pengelola");
@@ -181,6 +182,7 @@ public class editUser implements Serializable{
         try {
             if(gambar != null){
                 uploadAdmin();
+                tbAdmin.setFoto(url);
             }
             getEjbAdminFacade().edit(tbAdmin);
             JsfUtil.addSuccessMessage("Sukses Update Profil Administrator");

@@ -5,12 +5,14 @@
  */
 package controller;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.TbKonfirmasi;
 import model.TbPemesanan;
+import model.TbPengelola;
 
 /**
  *
@@ -63,4 +65,46 @@ public class TbPemesananFacade extends AbstractFacade<TbPemesanan> {
                 .setParameter("idPemain", id)
                 .getResultList();
     }
+    
+    public List<Integer>  getChartData(Integer year,Integer id){
+        List<Integer> result = em.createQuery("SELECT SUM(t.jumlahBayar) as jumlah FROM TbKonfirmasi t WHERE FUNCTION('YEAR',t.idPemesanan.tglPemesanan)= :Year AND t.idPemesanan.status > 1 AND t.idPemesanan.idLapangan.idFutsal.idFutsal = :idFutsal GROUP BY FUNCTION('MONTH',t.idPemesanan.tglPemesanan)")
+                .setParameter("Year", year)
+                .setParameter("idFutsal", id)
+                .getResultList();
+        return result;
+    }
+    
+
+    
+    
+    public List<Integer>  getChartLabel(Integer year,Integer id){
+        List<Integer> result = em.createQuery("SELECT FUNCTION('MONTH',t.idPemesanan.tglPemesanan) as bulan FROM TbKonfirmasi t WHERE FUNCTION('YEAR',t.idPemesanan.tglPemesanan)= :Year AND t.idPemesanan.status > 1 AND t.idPemesanan.idLapangan.idFutsal.idFutsal = :idFutsal GROUP BY FUNCTION('MONTH',t.idPemesanan.tglPemesanan)")
+                .setParameter("Year", year)
+                .setParameter("idFutsal", id)
+                .getResultList();
+        return result;
+    }
+    
+    
+    public TbPengelola getPengelolaFutsal(Integer id){
+        return (TbPengelola) em.createQuery("SELECT t FROM TbPengelola t WHERE t.idPengelola = :idPengelola")
+                .setParameter("idPengelola", id)
+                .getSingleResult();
+    }
+    
+    public List<TbKonfirmasi> getPemesananFilterByDate(Date awal,Date akhir,Integer id){
+        return em.createQuery("SELECT t FROM TbKonfirmasi t WHERE t.idPemesanan.tglPemesanan BETWEEN :DateAwal AND :DateAkhir AND t.idPemesanan.status > 1 AND t.idPemesanan.idLapangan.idFutsal.idFutsal= :idFutsal")
+                .setParameter("DateAwal", awal)
+                .setParameter("DateAkhir", akhir)
+                .setParameter("idFutsal", id)
+                .getResultList();
+        
+    }
+    
+    public List<TbKonfirmasi> getListKonfirmasi(Integer id){
+        return em.createQuery("SELECT t FROM TbKonfirmasi t WHERE t.idPemesanan.status > 1 AND t.idPemesanan.idLapangan.idFutsal.idFutsal= :idFutsal")
+                .setParameter("idFutsal", id)
+                .getResultList();
+    }
+    
 }

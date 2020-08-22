@@ -85,8 +85,17 @@
                                            
                                         </div>
                                         <br></br>
-                                        <h:commandLink action="#{tbAdminController.update}" value="Update" class="mb-2 mr-2 btn btn-primary"/>
-                                        <button class="mb-2 mr-2 btn btn-danger" type="reset" onclick="history.go(-1)">Cancel</button>
+                                        <div class="form-row">
+                            
+                                            <div class="col-md-6">
+                                                <h:commandLink class="btn btn-primary" action="#{tbAdminController.update}" style="width: 95%" value="Ubah"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h:commandLink onclick="history.go(-1); return false;" value="Batal" a:type="reset" class="btn btn-danger" style="width: 95%;float: right;"/>
+                                            </div>
+                                        </div>
+                            
+                                        
                                         </h:form>
                                     </div>
                                 </div>

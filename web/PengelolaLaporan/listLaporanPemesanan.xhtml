@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+        <ui:composition template="/TemplatePengelola.xhtml">
+            <style type="text/css">
+                .ui-datatable .ui-datatable-header {
+                    text-align: right !important;
+                }
+
+                .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+                    display: none;
+                }
+            </style>
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                List
+            </ui:define>
+
+            <ui:define name="descript">
+                Laporan Pemesanan Lapangan
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+                <!--Untuk get Data Futsal By IDFutsal dari Session-->
+                #{tbPemesananController.reportlistKonfirmasi()}
+                <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                    <li class="nav-item">
+                        <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                            <span>List</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content">
+                    
+                    <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Laporan Pemesanan Lapangan</h5>
+                                        
+                                       <br/>
+                                        
+                                        <h:form>
+                                            
+                                            <p:growl id="message" showDetail="true" />
+                                            <h:panelGroup id="messagePanel" layout="block" >
+                                            </h:panelGroup>
+                                            
+                                            <h:outputText escape="false" value="Daftar Kosong" rendered="#{tbPemesananController.listKonfirmasi.size() == 0}"/>
+                                            <h:panelGroup rendered="#{tbPemesananController.listKonfirmasi.size() > 0}">
+                                                
+                                                <p:dataTable id="tableStateDT" var="item" value="#{tbPemesananController.listKonfirmasi}" widgetVar="PemesananReport" multiViewState="true"
+                                                    rows="10" paginator="true"
+                                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                    rowsPerPageTemplate="5,10,15"
+                                                    selectionMode="single" selection="#{tbPemesananController.tbkonfirmasi}" rowKey="#{item.idKonfirmasi}"
+                                                    emptyMessage="Tidak ada Pemesanan yang Sesuai Kriteria" >
+
+                                                   <f:facet name="filter">
+                                                        <!-- to hide default filter input -->
+                                                        <h:inputHidden />
+                                                   </f:facet>
+                                                   <f:facet name="header">
+                                                        <p:outputLabel value="Tanggal Pemesanan" /><br />
+                                                        <p:calendar id="from" value="#{tbPemesananController.dateAwal}"   styleClass="customCalendar" pattern="dd/MM/yyyy">
+                                                            <p:ajax event="dateSelect" />
+                                                        </p:calendar>
+                                                        s / d
+                                                        <p:calendar id="to" value="#{tbPemesananController.dateAkhir}" styleClass="customCalendar" pattern="dd/MM/yyyy">
+                                                            <p:ajax event="dateSelect" oncomplete="PF('PemesananReport').filter()" listener="#{tbPemesananController.filterByDate()}" update="tableStateDT"/>
+                                                        </p:calendar>
+                                                    </f:facet>
+
+    
+                                               <p:column headerText="Nama Pemesan" sortBy="#{item.idPemesanan.idPemain.nama}">
+                                                        <h:outputText value="#{item.idPemesanan.idPemain.nama}" />
+                                               </p:column>
+                                                    
+                                               <p:column headerText="Lapangan" sortBy="#{item.idPemesanan.idLapangan.namaLapangan}" >
+                                                        <h:outputText value="#{item.idPemesanan.idLapangan.namaLapangan}" />
+                                               </p:column>
+                                                    
+                                               <p:column headerText="Tanggal Pesan" sortBy="#{item.idPemesanan.tglPemesanan}" >
+                                                   <h:outputText value="#{item.idPemesanan.tglPemesanan}">
+                                                       <f:convertDateTime pattern="dd MMMM yyyy" />
+                                                   </h:outputText>
+                                               </p:column>
+                                               
+                                               <p:column headerText="Durasi" sortBy="#{item.idPemesanan.durasi}">
+                                                        <h:outputText value="#{item.idPemesanan.durasi} Jam" />
+                                               </p:column>
+                                                    
+                                               <p:column headerText="Jumlah" sortBy="#{item.jumlahBayar}">
+                                                   <f:facet name="header">
+                                                       <h:outputText value="Jumlah Pembayaran"/>
+                                                   </f:facet>
+                                                   Rp. <h:outputText value="#{item.jumlahBayar}" ><f:convertNumber locale="in_ID" /></h:outputText>
+                                               </p:column>
+                                               <p:columnGroup type="footer">
+                                                    <p:row>
+                                                        <p:column colspan="4" style="text-align:right" footerText="Total:" />
+                                                        <p:column footerText="\Rp.#{tbPemesananController.listKonfirmasi.stream().map(item->item.jumlahBayar).sum()}"/>
+                                                    </p:row>
+                                                </p:columnGroup>
+                                           </p:dataTable>
+                                                
+                                            </h:panelGroup>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

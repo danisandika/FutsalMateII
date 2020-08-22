@@ -30,6 +30,7 @@
     <h:body>
 
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        <h:form>
         <div class="app-header header-shadow bg-dark header-text-light">
             <div class="app-header__logo">
                 <div class="logo-src"></div>
@@ -71,34 +72,38 @@
                                 <div class="widget-content-left">
                                     <div class="btn-group">
                                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                            <h:graphicImage width="42" height="42" class="rounded-circle" value="/Image_profil_admin/#{loginController.dataAdmin.foto}" alt="" rendered="#{loginController.dataAdmin.foto != null}"/>
-                                            <h:graphicImage width="42" height="42" class="rounded-circle" value="/Image_profil_admin/not_found.png" alt="" rendered="#{loginController.dataAdmin.foto == null}"/>
+                                            <h:graphicImage width="42" height="42" class="rounded-circle" value="/Image_profil_admin/#{loggedAdmin.foto}" alt="" rendered="#{loggedAdmin.foto != null}"/>
+                                            <h:graphicImage width="42" height="42" class="rounded-circle" value="/Image_profil_admin/not_found.png" alt="" rendered="#{loggedAdmin.foto == null}"/>
                                             <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                         </a>
                                          <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                             <h:link outcome="/Admin/editProfilAdmin" tabindex="0" class="dropdown-item">Edit User</h:link>
                                             <h:link outcome="/Admin/editPasswordAdmin" tabindex="0" class="dropdown-item">Edit Password</h:link>
-                                            <h:commandLink tabindex="0" class="dropdown-item" value="Log out" actionListener="#{loginController.logoutAdmin()}"/>
-                                            
+                                            <h:commandLink  class="dropdown-item" value="Logout" action="#{loginAdministratorController.logoutAdmin()}"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="widget-content-left  ml-3 header-user-info">
                                     <div class="widget-heading">
-                                        #{session.getAttribute("templateNamaAdmin")}
+                                        #{loggedAdmin.nama}
                                     </div>
                                     <div class="widget-subheading">
-                                        #{session.getAttribute("templateEmailAdmin")}
+                                        #{loggedAdmin.email}
                                     </div>
                                 </div>
-                                
+                                <div class="widget-content-right header-user-info ml-3">
+                                    <h:commandLink value="Batas Sewa" class="btn btn-primary" action="#{tbPengelolaController.nonAktifPengelola()}">
+                                        <span class="badge badge-pill badge-light">#{tbSewalapanganController.batasSewaHabis()}</span>
+                                    </h:commandLink>
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>        
                 </div>
             </div>
         </div>        
-        
+        </h:form>
         
         <div class="app-main">
             <div class="app-sidebar sidebar-shadow">
@@ -165,6 +170,10 @@
                             <li>
                                 <h:link outcome="/Admin/ListAdmin"> <i class="metismenu-icon pe-7s-user"></i> Daftar Administrator </h:link>
                             </li>
+                             <li class="app-sidebar__heading">Laporan Sewa Site</li>
+                            <li>
+                                <h:link outcome="/Admin/ListReportSewa"> <i class="metismenu-icon pe-7s-news-paper"></i> Laporan Sewa Site </h:link>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -196,44 +205,7 @@
                     
                 </div>
                 
-                <!-- FOOTER -->
-                <div class="app-wrapper-footer">
-                    <div class="app-footer">
-                        <div class="app-footer__inner">
-                            <div class="app-footer-left">
-                                <ul class="nav">
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="nav-link">
-                                            Footer Link 1
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="nav-link">
-                                            Footer Link 2
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="app-footer-right">
-                                <ul class="nav">
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="nav-link">
-                                            Footer Link 3
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0);" class="nav-link">
-                                            <div class="badge badge-success mr-1 ml-0">
-                                                <small>NEW</small>
-                                            </div>
-                                            Footer Link 4
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
+  
                 
             </div>
         </div>

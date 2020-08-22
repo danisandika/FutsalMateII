@@ -94,4 +94,21 @@ public class TbAdminFacade extends AbstractFacade<TbAdmin> {
                 .getSingleResult().toString();
        return  res;
     }
+    
+    public boolean getBooleanchart() {
+        try {
+            em.createQuery("SELECT t FROM TbSewalapangan t")
+                    .getResultList().get(0);
+        } catch (Exception e) {
+            return false;
+        }
+        return em != null;
+    }
+    
+    public void ubahPasswordAdmin(String email,String password) {
+        em.createQuery("UPDATE TbAdmin t SET t.password = :password WHERE t.email= :email")
+                .setParameter("password", password)
+                .setParameter("email", email)
+                .executeUpdate();
+    }
 }

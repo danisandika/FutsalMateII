@@ -69,6 +69,13 @@
                                                                 </p:outputPanel>
                                                             </f:facet>
                                                             
+                                                            <p:column headerText="Nama" filterBy="#{item.nama}" sortBy="#{item.nama}" filterMatchMode="contains">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nama"/>
+                                                                </f:facet>
+                                                                <h:outputText value="#{item.nama}"/>
+                                                            </p:column>
+                                                            
                                                              <p:column headerText="Email" filterBy="#{item.email}" sortBy="#{item.email}" filterMatchMode="contains">
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Email"/>
@@ -76,6 +83,13 @@
                                                                 <h:outputText value="#{item.email}"/>
                                                             </p:column>
                                                            
+                                                            <p:column headerText="No.Telp" filterBy="#{item.notelp}" sortBy="#{item.notelp}" filterMatchMode="contains">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="No.Telp"/>
+                                                                </f:facet>
+                                                                <h:outputText value="#{item.notelp}"/>
+                                                            </p:column>
+                                                            
                                                              <p:column headerText="Alamat" filterBy="#{item.alamat}" sortBy="#{item.alamat}" filterMatchMode="contains">
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Alamat"/>
@@ -90,25 +104,13 @@
                                                                     <f:convertDateTime pattern="dd MMMM yyyy" />
                                                                 </h:outputText>
                                                             </p:column>
-                                                            <p:column headerText="Foto Identitas Diri">
-                                                                <f:facet name="header">
-                                                                    <h:outputText value="Foto Identitas Diri"/>
-                                                                </f:facet>
-                                                                <h:graphicImage value="/Image_ktp_pengelola/#{item.fotoKtp}" width="85" height="53"/>
-                                                         
-                                                            </p:column >
-                                                            <p:column headerText="Foto Diri">
-                                                                <f:facet name="header">
-                                                                    <h:outputText value="Foto Diri"/>
-                                                                </f:facet>
-                                                                <h:graphicImage value="/Image_profil_pengelola/#{item.foto}" class="rounded-circle" width="80" height="80"/>
-                                                             
-                                                            </p:column>
+                                                            
+                                                            
                                                             <p:column headerText="Aksi">
                                                                 <f:facet name="header">
                                                                     <h:outputText value="Aksi"/>
                                                                 </f:facet>
-                                                                <h:commandLink action="#{tbPengelolaController.prepareViewAdmin()}" value="#{bundle.ListTbPengelolaViewLink}"  class="mb-2 mr-2 btn btn-info"/>
+                                                                <h:commandLink action="#{tbPengelolaController.prepareViewAdmin()}" value="Detail"  class="mb-2 mr-2 btn btn-info"/>
                                                                 
                                                             </p:column>
                                                         </p:dataTable>

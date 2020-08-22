@@ -37,7 +37,7 @@
                 
             <h:form>
              <!--Untuk get Data Futsal By IDFutsal dari Session-->
-             #{tbFutsalController.getFutsal(session.getAttribute("templateIDFutsal"))}
+             #{tbFutsalController.getFutsal(loggedPengelola.idFutsal.idFutsal)}
             <div class="main-card mb-3 card">
                 <div class="card-body">
                     <h5 class="card-title">Details Tempat Futsal</h5>
@@ -70,7 +70,7 @@
                                             <div class="widget-subheading">Jumlah Total Lapangan</div>
                                         </div>
                                         <div class="widget-content-right">
-                                            <div class="widget-numbers text-white"><span>#{loginController.dasTotalLapangan(session.getAttribute("templateIDFutsal"))}</span></div>
+                                            <div class="widget-numbers text-white"><span>#{loginController.dasTotalLapangan(loggedPengelola.idFutsal.idFutsal)}</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -115,40 +115,40 @@
                   <div class="form-row">                   
                     <div class="col-md-6">
                         <div class="position-relative form-group">
-                            <label for="examplePassword11" class="">Nomor Telepon</label>
+                            <label for="examplePassword11" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Nomor Telepon</label>
                             <h5>#{tbFutsalController.selected.notelpFutsal}</h5>
                         </div>
                     </div>
                     <div class="col-md-6">
                         
                         <div class="position-relative form-group">
-                            <label for="examplePassword11" class="">Bank</label>
+                            <label for="examplePassword11" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Bank</label>
                             <h5>#{tbFutsalController.selected.noRekening} / ${tbFutsalController.selected.namaBank}</h5>
                         </div>
                     </div>
                       <div class="col-md-6">
                         <div class="position-relative form-group">
-                            <label for="examplePassword11" class="">Alamat</label><br/>
+                            <label for="examplePassword11" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Alamat</label><br/>
                             <h5>#{tbFutsalController.selected.alamatFutsal}</h5>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="position-relative form-group">
-                            <label for="examplePassword11" class="">Nama Rekening Bank</label><br/>
+                            <label for="examplePassword11" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Nama Rekening Bank</label><br/>
                             <h5>#{tbFutsalController.selected.namaRekening}</h5>
                         </div>
                    </div>
                    </div>
                     <div class="position-relative form-group">
-                            <label for="examplePassword11" class="">Deskripsi</label><br/>
+                            <label for="examplePassword11" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Deskripsi</label><br/>
                             <h5>#{tbFutsalController.selected.deskripsiFutsal}</h5>
                     </div>
                     <div class="position-relative form-group">
-                            <label for="examplePassword11" class="">Fasilitas</label><br/>
+                            <label for="examplePassword11" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Fasilitas</label><br/>
                             <h5>#{tbFutsalController.selected.fasilitas}</h5>
                     </div>
                     <div class="position-relative form-group">
-                            <label for="examplePassword11" class="">Lokasi Futsal</label>
+                            <label for="examplePassword11" style="font-weight: bold" class="mb-2 mr-2 badge badge-focus">Lokasi Futsal</label>
                             <p:gmap center="#{tbFutsalController.selected.latitude},#{tbFutsalController.selected.longitude}" zoom="13" type="HYBRID" style="width:100%;height:400px" model="#{markersView.simpleModel}" />
                     </div>  
                    

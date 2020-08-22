@@ -52,8 +52,34 @@ public class TbSewalapanganController implements Serializable {
     private int idFutsal;
     private String url;
     private Part gambar;
+    private Date dateAwal;
+    private Date dateAkhir;
 
     public TbSewalapanganController() {
+    }
+
+    public Date getDateAwal() {
+        return dateAwal;
+    }
+
+    public void setDateAwal(Date dateAwal) {
+        this.dateAwal = dateAwal;
+    }
+
+    public Date getDateAkhir() {
+        return dateAkhir;
+    }
+
+    public void setDateAkhir(Date dateAkhir) {
+        this.dateAkhir = dateAkhir;
+    }
+    
+    public void filterByDate(){
+        if(dateAwal == null){
+            dateAwal = getCurrentDate();
+        }
+        System.out.println(dateAwal.toString());
+        listSewa = ejbFacade.getSewaFilterByDate(dateAwal, dateAkhir);
     }
 
     public TbSewalapangan getSelected() {
@@ -346,12 +372,13 @@ public class TbSewalapanganController implements Serializable {
         this.listBank = listBank;
     }
 
+    public void reportSewa(){
+        listSewa = ejbFacade.getListSewa();
+    }
 
-
-    public String getSewaLapanganbyID(String id){
-        idFutsal = Integer.valueOf(id);
-        listSewa = ejbFacade.getLapanganByID(Integer.valueOf(id));
-        return null;
+    public void getSewaLapanganbyID(Integer id){
+        idFutsal = id;
+        listSewa = ejbFacade.getLapanganByID(id);
     }
 
     public Date getCurrentDate() {
@@ -464,7 +491,9 @@ public class TbSewalapanganController implements Serializable {
         mctr.setMessage("Selamat,"+current.getIdFutsal().getNamaFutsal()+" Pembayaran Anda Berhasil, Silahkan Cek Email anda dan Login ke dalam Site Pengelola. \n Terima Kasih");
         
         try{
-            ejbFacade.ubahStatusPengelola(current.getIdFutsal().getIdFutsal());
+            
+            ejbFacade.ubahStatusPengelola(current.getIdFutsal().getIdFutsal(),current.getTglBerakhir());
+            //ejbFacade.ubahStatusSewaBerakhir(current.getIdFutsal().getIdFutsal());
         }catch(Exception e){
             JsfUtil.addErrorMessage("Gagal Mengkonfirmasi Pembayaran : "+e.toString());
         }
@@ -485,7 +514,46 @@ public class TbSewalapanganController implements Serializable {
         return "ListSewaLap";
     }
 
-
+    
+    public String tolakSewa(Integer id) {
+        //current = (TbSewalapangan) getItems().getRowData();
+        TbAdmin admin = ejbFacade.getAdminByID(id);
+        MailController mctr = new MailController();
+        String emailPengelola = ejbFacade.getEmailPengellaFromFutsal(current.getIdFutsal().getIdFutsal());
+        
+        
+        mctr.setFromEmail("pendekarbayangan66@gmail.com");
+        mctr.setUsername("pendekarbayangan66@gmail.com");
+        mctr.setPassword("praditya");
+        mctr.setSubject("Pembayaran Sewa Site di Tolak");
+        mctr.setToMail(emailPengelola);
+        mctr.setMessage("Maaf ,"+current.getIdFutsal().getNamaFutsal()+" Pembayaran Anda di Tolak oleh Administrator Futsalan, dikarenakan terindikasi Penipuan oleh Sistem. Silahkan balas email ini untuk informasi lebih lanjut. \n Terima Kasih");
+        
+        
+        
+        try {
+            current.setStatusBayar(4);
+            current.setIdAdmin(admin);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage("Pembayaran di Tolak");
+            recreatePagination();
+            recreateModel();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage( "Gagal Mengkonfirmasi Pembayaran : "+e.toString());
+        }
+        
+        mctr.send();
+        return "ListSewaLap";
+    }
+    
+    
+    public String batasSewaHabis(){
+        Date sekarang = currentDate;
+        String batas = ejbFacade.getBatasSewaAkhir(sekarang);
+        return batas;
+    }
+    
+    
     public String konfirmasiSewa(String id){
         current = ejbFacade.getSewaByID(id);
         return "konfirmasiSewaWeb";

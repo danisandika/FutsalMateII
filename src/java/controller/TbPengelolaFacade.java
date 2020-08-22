@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -106,4 +107,36 @@ public class TbPengelolaFacade extends AbstractFacade<TbPengelola> {
        return  res;
     }
     
+    
+    public boolean getBooleanchart(Integer id) {
+        try {
+            em.createQuery("SELECT t FROM TbPemesanan t WHERE t.idLapangan.idFutsal.idFutsal= :idFutsal")
+                    .setParameter("idFutsal", id)
+                    .getResultList().get(0);
+        } catch (Exception e) {
+            return false;
+        }
+        return em != null;
+    }
+    
+    public void ubahPasswordPengelola(String email,String password) {
+        em.createQuery("UPDATE TbPengelola t SET t.password = :password WHERE t.email= :email")
+                .setParameter("password", password)
+                .setParameter("email", email)
+                .executeUpdate();
+    }
+    
+    
+    public List<TbPengelola> listNonAktifPengelola(Date current){
+        return em.createQuery("SELECT t FROM TbPengelola t WHERE t.tglBerakhir < :tglAkhir AND t.status = 1")
+                .setParameter("tglAkhir", current)
+                .getResultList();
+    }
+    
+    
+    public void ubahStatusSewaBerakhir(Integer id) {
+        em.createQuery("UPDATE TbSewalapangan t SET t.statusBayar = 3 WHERE t.idFutsal.idFutsal = :idFutsal")
+                .setParameter("idFutsal", id)
+                .executeUpdate();
+    }
 }

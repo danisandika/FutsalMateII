@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import model.TbAdmin;
 import model.TbBank;
 import model.TbFutsal;
@@ -60,6 +61,11 @@ public class TbSewalapanganFacade extends AbstractFacade<TbSewalapangan> {
                 .setParameter("idSewalapangan", id)
                 .getSingleResult();
     }
+    
+    public List<TbSewalapangan> getListSewa(){
+        return em.createNamedQuery("TbSewalapangan.findAll")
+                .getResultList();
+    }
 
     public String getLastIDSewa()
     {
@@ -79,22 +85,37 @@ public class TbSewalapanganFacade extends AbstractFacade<TbSewalapangan> {
         } catch (NumberFormatException ex) {
             System.out.println("ErrorLastID: " + ex);
 
-        }
+        } catch(ArrayIndexOutOfBoundsException ex) { 
+            System.out.println("Exception caught in Catch block"); 
+            return "SW"+dateFormat.format(date)+"01";
+        } 
         return "SW"+dateFormat.format(date)+"01";
     }
 
 
-    public void ubahStatusPengelola(Integer id) {
-        em.createQuery("UPDATE TbPengelola t SET t.status = 1 WHERE t.idFutsal.idFutsal = :idFutsal")
+    public void ubahStatusPengelola(Integer id,Date tglAkhir) {
+        em.createQuery("UPDATE TbPengelola t SET t.status = 1,t.tglBerakhir = :tglAkhir WHERE t.idFutsal.idFutsal = :idFutsal")
+                .setParameter("tglAkhir", tglAkhir)
                 .setParameter("idFutsal", id)
                 .executeUpdate();
     }
+    
+    
+
     
     
     public TbAdmin getAdminByID(Integer id){
         return em.createNamedQuery("TbAdmin.findByIdAdmin", TbAdmin.class)
                 .setParameter("idAdmin", id)
                 .getSingleResult();
+    }
+    
+    
+    public String getBatasSewaAkhir(Date batas){
+        String jumlah =  em.createQuery("SELECT COUNT(t.idPengelola) FROM TbPengelola t WHERE t.tglBerakhir < :tglAkhir AND t.status = 1")
+                .setParameter("tglAkhir", batas)
+                .getSingleResult().toString();
+        return jumlah;
     }
     
     
@@ -119,4 +140,12 @@ public class TbSewalapanganFacade extends AbstractFacade<TbSewalapangan> {
         return result;
     }
 
+    
+    public List<TbSewalapangan> getSewaFilterByDate(Date awal,Date akhir){
+        return em.createQuery("SELECT t FROM TbSewalapangan t WHERE t.tglPembayaran BETWEEN :DateAwal AND :DateAkhir")
+                .setParameter("DateAwal", awal)
+                .setParameter("DateAkhir", akhir)
+                .getResultList();
+        
+    }
 }

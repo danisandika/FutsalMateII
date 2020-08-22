@@ -36,7 +36,7 @@
 
             <ui:define name="main">
                 <!--Untuk get Data Futsal By IDFutsal dari Session-->
-                #{tbPemesananController.getPemesanan(session.getAttribute("templateIDFutsal"),1)}
+                #{tbPemesananController.getPemesanan(loggedPengelola.idFutsal.idFutsal,1)}
                 <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
                     <li class="nav-item">
                         <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
@@ -71,7 +71,7 @@
                                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                     rowsPerPageTemplate="5,10,15"
                                                     selectionMode="single" selection="#{tbPemesananController.current}" rowKey="#{item.idPemesanan}"
-                                                    emptyMessage="No cars found with given criteria" filteredValue="#{tbPemesananController.filterPemesanan}">
+                                                    emptyMessage="Tidak ditemukan Pemesanan Sesuai Kriteria" filteredValue="#{tbPemesananController.filterPemesanan}">
 
                                                <f:facet name="header">
                                                    <p:outputPanel>

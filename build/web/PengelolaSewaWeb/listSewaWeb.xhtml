@@ -59,7 +59,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Daftar Transaksi Sewa Futsal</h5>
                                         <br/>
-                                        #{tbSewalapanganController.getSewaLapanganbyID(session.getAttribute("templateIDFutsal"))}
+                                        #{tbSewalapanganController.getSewaLapanganbyID(loggedPengelola.idFutsal.idFutsal)}
                                         <h:form>
                                             
                                             <p:growl id="message" showDetail="true" />
