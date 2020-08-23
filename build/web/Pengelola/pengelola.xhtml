@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../TemplatePengelola.xhtml">
+
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                Dashboard
+            </ui:define>
+
+            <ui:define name="descript">
+                Dashboard Pengelola
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+                <p:growl id="messages" showDetail="true" />
+                <div class="row">
+                    
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="card mb-3 widget-content">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Total Lapangan</div>
+                                                <div class="widget-subheading">Lapangan Terdaftar</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-success"><span>#{loginController.dasTotalLapangan(loggedPengelola.idFutsal.idFutsal)}</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="card mb-3 widget-content">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Total Transaksi</div>
+                                                <div class="widget-subheading">Total Pemesanan Lapangan</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-primary"><span><h:outputText value="#{loginController.dasPemesananLapangan(loggedPengelola.idFutsal.idFutsal)}"></h:outputText></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-4">
+                                    <div class="card mb-3 widget-content">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Uang Masuk</div>
+                                                <div class="widget-subheading">Total Uang </div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-warning"><span><h:outputText value="#{loginController.dasTotalBayarKonfirmasi(loggedPengelola.idFutsal.idFutsal)}"><f:convertNumber  type="currency" currencySymbol="Rp." /></h:outputText></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                         </div>
+                         #{loginController.tampilChart()}
+                        <h:panelGroup rendered="#{loginController.showChart == true}">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Data Keuangan Pengelola tahun <h:outputText value="#{chartJSView.currentDate}"><f:convertDateTime pattern="yyyy"/></h:outputText></h5>
+                                        <br/>
+                                        <p:lineChart model="#{chartJSView.lineModelPemesanan}" style="width: 100%; height: 500px;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

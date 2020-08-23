@@ -29,7 +29,7 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <div class="main-card mb-3 card">
-                <div class="card-body"><h5 class="card-title">Details Pengelola</h5>
+                <div class="card-body"><h5 class="card-title">Detail Pengelola</h5>
                     <hr/>
                     <form class="">
                         <div class="form-row">
@@ -48,23 +48,74 @@
                         </div>
                         <br/>
                         <br/>
-                        <div class="position-relative form-group">
-                            <label for="exampleAddress" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Email</label>
-                            <h5>#{tbPengelolaController.selected.email}</h5>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="exampleAddress" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Nama</label>
+                                    <h5>#{tbPengelolaController.selected.nama}</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="exampleAddress" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Email</label>
+                                    <h5>#{tbPengelolaController.selected.email}</h5>
+                                </div>
+                            </div>
                         </div>
-                        <div class="position-relative form-group">
-                            <label for="exampleAddress2" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Tanggal Lahir</label>
-                            <h5> 
-                                <h:outputText value="#{tbPengelolaController.selected.tglLahir}">
-                                    <f:convertDateTime pattern="dd MMMM yyyy" />
-                                </h:outputText>
-                            </h5>
-                        </div>
-                        <div class="position-relative form-group">    
-                            <label for="exampleCity" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Alamat</label>
-                            <h5>#{tbPengelolaController.selected.alamat}</h5>
-                       </div>
-                           
+                         <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="exampleAddress2" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Tanggal Lahir</label>
+                                    <h5> 
+                                        <h:outputText value="#{tbPengelolaController.selected.tglLahir}">
+                                            <f:convertDateTime pattern="dd MMMM yyyy" />
+                                        </h:outputText>
+                                    </h5>
+                                </div>
+                            </div>
+                             <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="exampleAddress" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">No.Telepon</label>
+                                    <h5>#{tbPengelolaController.selected.notelp}</h5>
+                                </div>
+                            </div>
+                         </div>
+                         <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">    
+                                    <label for="exampleCity" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Alamat</label>
+                                    <h5>#{tbPengelolaController.selected.alamat}</h5>
+                               </div>
+                            </div>
+                             <div class="col-md-6">
+                                <div class="position-relative form-group">    
+                                    <label for="exampleCity" class="mb-2 mr-2 badge badge-focus" style="font-weight: bold">Pengelola Futsal</label>
+                                    <h5>#{tbPengelolaController.selected.idFutsal.namaFutsal}</h5>
+                               </div>
+                            </div>
+                         </div>
+                           <div class="form-row">
+                            
+                             <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="exampleAddress" class="mb-2 mr-2 badge badge-info" style="font-weight: bold">Status</label>
+                                    <h5>
+                                        <h:outputLabel value="Aktif" rendered="#{tbPengelolaController.selected.status eq 1}"/>
+                                        <h:outputLabel value="Nonaktif" rendered="#{tbPengelolaController.selected.status eq 0}"/>
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="exampleAddress2" class="mb-2 mr-2 badge badge-warning" style="font-weight: bold">Tanggal Berakhir Sewa</label>
+                                    <h5> 
+                                        <h:outputText value="#{tbPengelolaController.selected.tglBerakhir}">
+                                            <f:convertDateTime pattern="dd MMMM yyyy" />
+                                        </h:outputText>
+                                    </h5>
+                                </div>
+                            </div>
+                         </div>
                        
                     </form>
                 </div>

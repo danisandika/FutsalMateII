@@ -6,6 +6,7 @@ import view.util.PaginationHelper;
 import controller.TbPengelolaFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -31,6 +32,18 @@ public class TbPengelolaController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private List<TbPengelola> filterPengelola;
+    private List<TbPengelola> listPengelola;
+
+    public List<TbPengelola> getListPengelola() {
+        return listPengelola;
+    }
+
+    public void setListPengelola(List<TbPengelola> listPengelola) {
+        this.listPengelola = listPengelola;
+    }
+    
+    
+    
 
     public List<TbPengelola> getFilterPengelola() {
         return filterPengelola;
@@ -272,4 +285,41 @@ public class TbPengelolaController implements Serializable {
         
         return "ListPengelola";
     }
+    
+    private Date currentDate = new Date();
+
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+    
+    public String nonAktifPengelola(){
+        listPengelola = ejbFacade.listNonAktifPengelola(currentDate);
+        return "nonakPengelola";
+    }
+    
+    
+    public String nonaktifkan(Integer id){
+         try {
+            
+            current = getFacade().getDataPengelola(id);
+            MailController mctr = new MailController();
+       
+            mctr.setFromEmail("pendekarbayangan66@gmail.com");
+            mctr.setUsername("pendekarbayangan66@gmail.com");
+            mctr.setPassword("praditya");
+            mctr.setSubject("Pembayaran Sewa Site Berhasil");
+            mctr.setToMail(current.getEmail());
+            mctr.setMessage("Dear,"+current.getIdFutsal().getNamaFutsal()+"\nMasa Sewa Website Anda berakhir pada tanggal "+current.getTglBerakhir()+" Silahkan melakukan transaksi penyewaan Site untuk dapat membuka kembali website anda. \n Terima Kasih");
+            
+            current.setStatus(0);
+            getFacade().ubahStatusSewaBerakhir(current.getIdFutsal().getIdFutsal());
+            getFacade().edit(current);
+            mctr.send();
+            JsfUtil.addSuccessMessage("Sewa Pengelola berhasil diakhiri");
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Gagal : "+e.toString());
+        }
+         return "nonakPengelola";
+    }
+    
 }

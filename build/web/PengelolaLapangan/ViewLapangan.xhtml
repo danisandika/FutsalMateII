@@ -38,7 +38,8 @@
                     <hr/>
                         <div class="form-row">
                             <div class="position-relative form-group"> 
-                                <h:graphicImage value="/Image_futsal_gambar/lapangan_fusalid.png" width="400" height="500"/>
+                                <h:graphicImage value="/Image_futsal_gambar/lapangan_fusalid.png" width="400" height="500" rendered="#{loggedPengelola.foto != null}"/>
+                                <h:graphicImage value="/Image_futsal_gambar/blank_image.png" width="400" height="500" rendered="#{loggedPengelola.foto == null}"/>
                             </div>
                         </div>
                 </div>

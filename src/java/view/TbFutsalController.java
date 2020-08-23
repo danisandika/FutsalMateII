@@ -307,9 +307,9 @@ public class TbFutsalController implements Serializable {
     /////////////////////////    PENGELOLA FUTSAL   ////////////////////////////////////
     private List<TbLapangan> listlapangan;
     private List<TbLapangan> listLapangan2 = null;
-    public void getFutsal(String id) {
+    public void getFutsal(Integer id) {
         current = new TbFutsal();
-        current = ejbFacade.getFutsal(Integer.valueOf(id));
+        current = ejbFacade.getFutsalByID(id);
     }
           
 

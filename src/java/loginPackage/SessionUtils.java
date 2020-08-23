@@ -8,6 +8,8 @@ package loginPackage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import model.TbAdmin;
+import model.TbPengelola;
 
 /**
  *
@@ -25,12 +27,18 @@ public class SessionUtils {
     }
     
     public static Integer getId(){
-        HttpSession session = getSession();
-        return Integer.parseInt(session.getAttribute("templateID").toString());
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+        //HttpSession session = getSession();
+        TbPengelola tbPengelola = (TbPengelola) session.getAttribute("loggedPengelola");
+        return tbPengelola.getIdPengelola();
     }
     
     public static Integer getIdAdmin(){
-        HttpSession session = getSession();
-        return Integer.parseInt(session.getAttribute("templateIDAdmin").toString());
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+        //HttpSession session = getSession();
+        TbAdmin tbAdmin = (TbAdmin) session.getAttribute("loggedAdmin");
+        return tbAdmin.getIdAdmin();
     }
 }

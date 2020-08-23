@@ -31,11 +31,6 @@ public class TbFutsalFacade extends AbstractFacade<TbFutsal> {
     }
     
     
-   public TbFutsal getFutsal(Integer id){
-        return em.createNamedQuery("TbFutsal.findByIdFutsal",TbFutsal.class)
-                .setParameter("idFutsal", id)
-                .getSingleResult();
-    }
    
    
    public TbFutsal getFutsalByID(Integer id){

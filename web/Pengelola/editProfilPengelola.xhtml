@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../TemplatePengelola.xhtml">
+
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                Edit Profil
+            </ui:define>
+
+            <ui:define name="descript">
+                Pengelola Lapangan Futsal
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+                
+                <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                    <li class="nav-item">
+                        <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                            <span>Edit Profil Pengelola</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                #{editUser.editProfilPengelola(loggedPengelola.idPengelola)}
+                <div class="main-card mb-3 card">
+                <div class="card-body">
+                                <h5 class="card-title">Edit Profil</h5>
+                                <p:growl id="messages" showDetail="true" />
+                                <h:form class="needs-validation was-validated" enctype="multipart/form-data">
+                                    <div class="form-row">
+                                        <div class="col-md-4 mb-3"></div>
+                                        <div class="col-md-4 mb-3">
+                                        <h:graphicImage width="300" height="300" class="rounded-circle" value="/Image_profil_pengelola/not_found.png" alt="" rendered="#{editUser.tbPengelola.foto == null}"/>
+                                        <h:graphicImage width="300" height="300" class="rounded-circle" value="/Image_profil_pengelola/#{editUser.tbPengelola.foto}" alt="" rendered="#{editUser.tbPengelola.foto != null}"/>
+                                        </div>
+                                        </div>
+                                    <div class="form-row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="validationCustom01">Nama</label>
+                                            <h:inputText a:type="text" class="form-control" id="validationCustom01" a:placeholder="Name" value="#{editUser.tbPengelola.nama}" required="true"/>
+                                            <div class="valid-feedback">
+                                                Sukses!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Masukan Nama yang valid
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="validationCustom02">Email</label>
+                                            <h:inputText a:type="text" class="form-control" id="validationCustom02" value="#{editUser.tbPengelola.email}" required="true" readonly="true"/>
+                                            <div class="valid-feedback">
+                                                Sukses!
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="validationCustomUsername">No.Telepon</label>
+                                            <div class="input-group">
+                                                
+                                                <h:inputText a:type="number" class="form-control" id="validationCustomUsername" a:placeholder="No Telepon" required="true" value="#{editUser.tbPengelola.notelp}"/>
+                                                <div class="invalid-feedback">
+                                                    Masukan Nomor yang valid.
+                                                </div>
+                                                <div class="valid-feedback">
+                                                    Sukses!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-9 mb-3">
+                                            <label for="validationCustom03">Alamat</label>
+                                            <h:inputText a:type="text" class="form-control" id="validationCustom03" a:placeholder="Alamat" value="#{editUser.tbPengelola.alamat}"/>
+                                            <div class="invalid-feedback">
+                                                Masukan alamat
+                                            </div>
+                                            <div class="valid-feedback">
+                                                Sukses!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom04">Tanggal Lahir</label>
+                                            <h:inputText a:type="date" class="form-control" id="validationCustom04" value="#{editUser.tbPengelola.tglLahir}" required="">
+                                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                            </h:inputText>
+                                            <div class="invalid-feedback">
+                                                Masukan tanggal lahir
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="validationCustom05">Foto Profil</label>
+                                        <h:inputFile id="foto" value="#{editUser.gambar}" 
+                                                     title="Foto Profil" class="form-control"/>
+                                       
+                                        <div class="valid-feedback">
+                                            Masukan Foto Jika ingin update Foto!
+                                        </div>
+                                    </div>
+                                     <div class="form-row">
+                                         <div class="col-md-6">
+                                         <h:commandLink class="btn btn-primary" action="#{editUser.updatePengelola}" style="width: 95%" value="Simpan"/>
+                                         </div>
+                                         <div class="col-md-6">
+                                         <h:commandLink onclick="history.go(-1); return false;" value="Batal" a:type="reset" class="btn btn-danger" style="width: 95%;float: right;"/>
+                                         </div>
+                                     </div>
+                                </h:form>
+            
+                                <script>
+                                    // Example starter JavaScript for disabling form submissions if there are invalid fields
+                                    (function() {
+                                        'use strict';
+                                        window.addEventListener('load', function() {
+                                            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                                            var forms = document.getElementsByClassName('needs-validation');
+                                            // Loop over them and prevent submission
+                                            var validation = Array.prototype.filter.call(forms, function(form) {
+                                                form.addEventListener('submit', function(event) {
+                                                    if (form.checkValidity() === false) {
+                                                        event.preventDefault();
+                                                        event.stopPropagation();
+                                                    }
+                                                    form.classList.add('was-validated');
+                                                }, false);
+                                            });
+                                        }, false);
+                                    })();
+                                </script>
+                            </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

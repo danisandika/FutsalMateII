@@ -5,6 +5,7 @@
  */
 package resourceTambahan;
 
+import controller.TbPemesananFacade;
 import controller.TbSewalapanganFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
+import model.TbPemesanan;
+import model.TbPengelola;
 import model.TbSewalapangan;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.charts.ChartData;
@@ -38,76 +42,85 @@ import org.primefaces.model.charts.optionconfig.title.Title;
 public class ChartJSView implements Serializable {
      
     
-    private LineChartModel lineModel;
+    private LineChartModel lineModelPemesanan;
+    private TbPengelola tbPengelola;
+    
     private Date currentDate = new Date();
-    @EJB
-    private TbSewalapanganFacade ejbFacadeSewa;
-    
-    
-    public TbSewalapanganFacade getEjbFacadeSewa() {
-        return ejbFacadeSewa;
-    }
-    
-    
-     
-    @PostConstruct
-    public void init() {
-        createLineModel();
-        
-    }
 
+    @EJB
+    private TbPemesananFacade ejbPemesananFacade;
+    
+    
+
+    public TbPemesananFacade getEjbPemesananFacade() {
+        return ejbPemesananFacade;
+    }
+    
+    @PostConstruct
+    public void init(){
+        
+        createLineModelPemesanan();
+    }
+     
     public Date getCurrentDate() {
         return currentDate;
     }
     
-     
-    public void createLineModel() {
-        lineModel = new LineChartModel();
-        ChartData data = new ChartData();
-        String[] bulan = {"Januari", "Februari", "Maret", "April", "Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"};
+    public void createLineModelPemesanan(){
         
-        LineChartDataSet dataSet = new LineChartDataSet();
+        lineModelPemesanan = new LineChartModel();
+        ChartData dataPemesanan = new ChartData();
+        String[] bulanPemesanan = {"Januari", "Februari", "Maret", "April", "Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"};
+        
+        LineChartDataSet dataSetPemesanan = new LineChartDataSet();
+        
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+        
+        tbPengelola = (TbPengelola) session.getAttribute("loggedPengelola");
         
         //Add Data
-        List<Object> values = new ArrayList<>();
-        List<Integer> resultList = ejbFacadeSewa.getChartData(getYearNow());
-        for(int i=0;i<resultList.size();i++){
-                System.out.println(resultList.get(i));
-                values.add(resultList.get(i));
+        List<Object> valuesP = new ArrayList<>();
+        List<Integer> resultListP = ejbPemesananFacade.getChartData(getYearNow(),tbPengelola.getIdFutsal().getIdFutsal());
+        for(int i=0;i<resultListP.size();i++){
+                //System.out.println(resultListP.get(i));
+                valuesP.add(resultListP.get(i));
         }
         
-        dataSet.setData(values);
-        dataSet.setFill(false);
-        dataSet.setLabel("Pendapatan dalam bentuk Rupiah");
-        dataSet.setBorderColor("rgb(75, 192, 192)");
-        dataSet.setLineTension(0.1);
-        data.addChartDataSet(dataSet);
+        dataSetPemesanan.setData(valuesP);
+        dataSetPemesanan.setFill(false);
+        dataSetPemesanan.setLabel("Pendapatan dalam bentuk Rupiah");
+        dataSetPemesanan.setBorderColor("rgb(75, 192, 192)");
+        dataSetPemesanan.setLineTension(0.1);
+        dataPemesanan.addChartDataSet(dataSetPemesanan);
         
         //Add Tanggal
-        List<String> labels = new ArrayList<>();
-        List<Integer> resultListLabel = ejbFacadeSewa.getChartLabel(getYearNow());
-        for(int i=0;i<resultListLabel.size();i++){
-            System.out.println(resultListLabel.get(i));
-            labels.add(bulan[resultListLabel.get(i)-1]);
+        List<String> labelsP = new ArrayList<>();
+        List<Integer> resultListLabelP = ejbPemesananFacade.getChartLabel(getYearNow(),tbPengelola.getIdFutsal().getIdFutsal());
+        for(int i=0;i<resultListLabelP.size();i++){
+            //System.out.println(resultListLabelP.get(i));
+            labelsP.add(bulanPemesanan[resultListLabelP.get(i)-1]);
             
         }
         
         getYearNow();
         
-        data.setLabels(labels);
+        dataPemesanan.setLabels(labelsP);
          
         //Options
-        LineChartOptions options = new LineChartOptions();        
-        Title title = new Title();
-        title.setDisplay(true);
-        title.setText("Grafik Pendapatan Website");
-        options.setTitle(title);
+        LineChartOptions optionsP = new LineChartOptions();        
+        Title titleP = new Title();
+        titleP.setDisplay(true);
+        titleP.setText("Grafik Pendapatan dari Pemesanan Futsal");
+        optionsP.setTitle(titleP);
         
         
         
-        lineModel.setOptions(options);
-        lineModel.setData(data);
+        lineModelPemesanan.setOptions(optionsP);
+        lineModelPemesanan.setData(dataPemesanan);
     }
+     
+    
      
     
     public Integer getYearNow(){
@@ -116,7 +129,7 @@ public class ChartJSView implements Serializable {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"));
         cal.setTime(date);
         int year = cal.get(Calendar.YEAR);
-        System.out.println(year);
+        //System.out.println(year);
         return year;
     }
     
@@ -129,12 +142,13 @@ public class ChartJSView implements Serializable {
      
    
  
-    public LineChartModel getLineModel() {
-        return lineModel;
+
+    public LineChartModel getLineModelPemesanan() {
+        return lineModelPemesanan;
     }
- 
-    public void setLineModel(LineChartModel lineModel) {
-        this.lineModel = lineModel;
+
+    public void setLineModelPemesanan(LineChartModel lineModelPemesanan) {
+        this.lineModelPemesanan = lineModelPemesanan;
     }
  
     

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../TemplateAdmin.xhtml">
+
+            <ui:define name="iconTitle">
+                <i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
+            </ui:define>
+
+            <ui:define name="title">
+                Laporan Penyewaan Site
+            </ui:define>
+
+            <ui:define name="descript">
+                Penyewaan Site untuk kerjasama dengan Pengelola Lapangan
+            </ui:define>
+
+            <ui:define name="titleRight">
+                
+            </ui:define>
+
+            <ui:define name="main">
+                
+                <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                    <li class="nav-item">
+                        <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+                <div class="tab-content">
+                    
+                    <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">List Sewa Site</h5>
+                                        <br/>
+                                        #{tbSewalapanganController.reportSewa()}
+                                        <h:form styleClass="jsfcrud_list_form">
+                                            <p:messages id="messages" showDetail="true" closable="true">
+                                                <p:autoUpdate />
+                                            </p:messages>
+                                            <h:outputText escape="false" value="#{bundle.ListTbSewalapanganEmpty}" rendered="#{tbSewalapanganController.listSewa.size() == 0}"/>
+                                            <h:panelGroup rendered="#{tbSewalapanganController.listSewa.size() > 0}">
+                                                <p:dataTable value="#{tbSewalapanganController.listSewa}" var="item" class="mb-0 table table-striped table-hover table-bordered"
+                                                    id="tableStateDT" widgetVar="dateRangeWidget" multiViewState="true"
+                                                    rows="5" paginator="true"
+                                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                    rowsPerPageTemplate="5,10,15"
+                                                    selectionMode="single" selection="#{tbSewalapanganController.current}" rowKey="#{item.idSewalapangan}"
+                                                    emptyMessage="Tidak ada List Sewa yang sesuai kriteria" >
+                                                   <f:facet name="filter">
+                                                        <!-- to hide default filter input -->
+                                                        <h:inputHidden />
+                                                   </f:facet>
+                                                   <f:facet name="header">
+                                                        <p:outputLabel value="Tanggal Transaksi" /><br />
+                                                        <p:calendar id="from" value="#{tbSewalapanganController.dateAwal}"   styleClass="customCalendar" pattern="dd/MM/yyyy">
+                                                            <p:ajax event="dateSelect" />
+                                                        </p:calendar>
+                                                        s / d
+                                                        <p:calendar id="to" value="#{tbSewalapanganController.dateAkhir}" styleClass="customCalendar" pattern="dd/MM/yyyy">
+                                                            <p:ajax event="dateSelect" oncomplete="PF('dateRangeWidget').filter()" listener="#{tbSewalapanganController.filterByDate()}" update="tableStateDT"/>
+                                                        </p:calendar>
+                                                    </f:facet>
+                                                    
+                                                    <p:column headerText="Nama Futsal"  sortBy="#{item.idFutsal.namaFutsal}" >
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Nama Futsal"/>
+                                                        </f:facet>
+                                                        <h:outputText value="#{item.idFutsal.namaFutsal}"/>
+                                                    </p:column>
+                                                    
+                                                    
+                                                    
+                                                    <p:column width="100" headerText="Durasi" sortBy="#{item.waktuSewa}" >
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Durasi"/>
+                                                        </f:facet>
+                                                        <h:outputText value="#{item.waktuSewa} Tahun"/>
+                                                    </p:column>
+                                                   
+                                                   
+                                                    <p:column headerText="Tanggal Bayar" sortBy="#{item.tglPembayaran}">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Tanggal Pembayaran"/>
+                                                        </f:facet>
+                                                        <h:outputText value="-" rendered="#{item.tglPembayaran == null}"/>
+                                                        <h:outputText value="#{item.tglPembayaran}" rendered="#{item.tglPembayaran != null}">
+                                                            <f:convertDateTime pattern="dd MMMM yyyy" />
+                                                        </h:outputText>
+                                                    </p:column>
+                                                    
+                                                     <p:column headerText="Jumlah" sortBy="#{item.jumlahUang}">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="Jumlah Pembayaran"/>
+                                                        </f:facet>
+                                                        Rp. <h:outputText value="#{item.jumlahUang}" ><f:convertNumber locale="in_ID" /></h:outputText>
+                                                    </p:column>
+                                                    
+                                                    <p:columnGroup type="footer">
+                                                        <p:row>
+                                                            <p:column colspan="3" style="text-align:right" footerText="Total:" />
+                                                            <p:column footerText="#{tbSewalapanganController.listSewa.stream().map(item->item.jumlahUang).sum()}"/>
+                                                        </p:row>
+                                                    </p:columnGroup>
+                                                    
+                                                </p:dataTable>
+                                                <br/>
+                                                
+                                                
+                                            </h:panelGroup>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
