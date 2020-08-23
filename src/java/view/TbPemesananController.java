@@ -393,6 +393,14 @@ public class TbPemesananController implements Serializable {
         }
     }
     
+    public void updateStatus(TbPemesanan pesanan, Integer stat) {
+        try {
+            pesanan.setStatus(stat);
+            getFacade().edit(pesanan);
+        } catch (Exception e) {
+        }
+    }
+    
     private void sendEmail(TbPemesanan pesanan) {
         SimpleDateFormat formatTgl = new SimpleDateFormat("dd MMMM yyyy");
         SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
@@ -405,7 +413,7 @@ public class TbPemesananController implements Serializable {
         mctr.setFromEmail("pendekarbayangan66@gmail.com");
         mctr.setUsername("pendekarbayangan66@gmail.com");
         mctr.setPassword("praditya");
-        mctr.setSubject("Invoice Reservation Field Futsalan.com");
+        mctr.setSubject("Futsalan.com | Invoice Reservation Field");
         mctr.setToMail(pesanan.getIdPemain().getEmail());
         mctr.setMessage("<b>Note Payment</b> <br/>"
                 + "<br/> ID Reservation : " + pesanan.getIdPemesanan()
@@ -422,6 +430,10 @@ public class TbPemesananController implements Serializable {
     
     private List<TbPemesanan> pemesananByPemain;
 
+    public void recreateListPemesananByPemain() {
+        pemesananByPemain = null;
+    }
+    
     public List<TbPemesanan> getPemesananByPemain(TbPemain player) {
         return pemesananByPemain = ejbFacade.getPemesananByIDPemain(player.getIdPemain());
     }

@@ -9,11 +9,161 @@
         <ui:composition template="./../Template1.xhtml">
 
             <ui:define name="Intro">
-                
+                <div class="hero-item set-bg" data-setbg="./../resources/guest/img/slider/5.jpg" >
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-10 offset-lg-1">
+                                <h2>Welcome to Futsalan</h2>
+                                <p>In this website, you can find your friends, your team, or your rival for a futsal match. 
+                                Who will top the rank this week? We are waiting for your name or your team to be on top.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </ui:define>
 
             <ui:define name="BodyBlog">
                 
+                <!-- Game section -->
+                <section class="game-section character-one">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="about-game">
+                                    <div class="game-title mb-0">
+                                        <h:graphicImage url="/resources/guest/img/game-characters/title-icon.png" alt="" />
+                                        <h2>About the Futsalan</h2>
+                                    </div>
+                                    <p>
+                                        The Futsalan application is an application that is used to search for futsal 
+                                        opponents and can select a field to place an order for a futsal game. To play futsal 
+                                        together, you can join the match as a team or individually. If you play with a team, 
+                                        of course you have to join one of the teams that you want, and build good relationships 
+                                        between team members.
+                                    </p>
+                                    <p>
+                                        For those of you who have a Futsal field, you can work with us to provide a place to play.
+                                    </p>
+                                    <h:link outcome="/loginPengelola" class="site-btn">Let's Work Together</h:link>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="about-game-img">
+                                    <h:graphicImage url="/resources/guest/img/game-characters/Index1.png" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Game section end -->
+                
+                <!-- Characters boxes section -->
+                <section class="characters-boxes-section">
+                    <div class="container">
+                        <div class="game-title">
+                            <h:graphicImage url="/resources/guest/img/game-characters/title-icon.png" alt="" />
+                            <h2>Top 4 Team</h2>
+                        </div>
+                        <div class="row">
+                            <ui:repeat value="#{tbTeamController.listTop4Team}" var="item">
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="characters-box">
+                                        <h:graphicImage url="/Image_logo_team/#{item[3]}" alt="" />
+                                        <h4>#{item[1]}</h4>
+                                        <p>
+                                            Rate games #{item[7]}% <br/>
+                                            #{item[2]}
+                                        </p>
+                                        <h:commandLink action="#{tbTeamController.prepareViewTeam(item[0])}" class="rm">See More</h:commandLink>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                        <br/><br/><br/>
+                        <div class="game-title">
+                            <h:graphicImage url="/resources/guest/img/game-characters/title-icon.png" alt="" />
+                            <h2>Top 4 Futsal Place</h2>
+                        </div>
+                        <div class="row">
+                            <ui:repeat value="#{tbFutsalController.listTop4Futsal}" var="item">
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="characters-box">
+                                        <h:graphicImage url="/Image_futsal_gambar/#{item[7]}" alt="" />
+                                        <h4>#{item[1]}</h4>
+                                        <p>
+                                            Rating #{item[3]}<br/>
+                                            #{item[2]}
+                                        </p>
+                                        <h:commandLink action="#{tbFutsalController.viewFutsal2(item[0])}" class="rm">See More</h:commandLink>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </div>
+                </section>
+                <!-- Characters boxes section end -->
+
+                <!-- Work steps section -->
+                <section class="work-steps-section">
+                    <div class="container">
+                        <div class="game-title">
+                            <h:graphicImage url="/resources/guest/img/game-characters/title-icon.png" alt="" />
+                            <h2>Role in website</h2>
+                        </div>
+                        <div class="row work-steps">
+                            <div class="col-md-4">
+                                <div class="work-step-box">
+                                    <div class="ws-icon">
+                                        <h:graphicImage url="/resources/guest/img/icons/1.png" alt="" />
+                                    </div>
+                                    <h4>Team Futsal</h4>
+                                    <p>
+                                        Team work make a dream work
+                                    </p>
+                                    <ul>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Join a Team</li>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Create a Team</li>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Reserv an Field</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="work-step-box">
+                                    <div class="ws-icon">
+                                        <h:graphicImage url="/resources/guest/img/icons/3.png" alt="" />
+                                    </div>
+                                    <h4>Match Futsal</h4>
+                                    <p>
+                                        Let's fight in the match by using the ball as a weapon
+                                    </p>
+                                    <ul>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Join a match Individually</li>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Create a match if you Captain Team</li>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Be a Top 4 Team by winning lots of matches</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="work-step-box">
+                                    <div class="ws-icon">
+                                        <h:graphicImage url="/resources/guest/img/icons/2.png" alt="" />
+                                    </div>
+                                    <h4>Field Manager</h4>
+                                    <p>
+                                        Give players the best place to compete
+                                    </p>
+                                    <ul>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Rent your field to compete</li>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Get review from player</li>
+                                        <li><h:graphicImage url="/resources/guest/img/icons/check.png" alt=""/>Together managing the website</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Work steps section end -->
+
             </ui:define>
 
         </ui:composition>

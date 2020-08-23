@@ -9,6 +9,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.TbKonfirmasi;
+import model.TbPengelola;
+import model.TbPemesanan;
 
 /**
  *
@@ -28,7 +30,19 @@ public class TbKonfirmasiFacade extends AbstractFacade<TbKonfirmasi> {
     public TbKonfirmasiFacade() {
         super(TbKonfirmasi.class);
     }
+
+    public TbPengelola getDataPengelola(Integer idFutsal) {
+        return (TbPengelola) em.createQuery("SELECT t FROM TbPengelola t WHERE t.idFutsal.idFutsal = :idFutsal")
+                .setParameter("idFutsal", idFutsal)
+                .getSingleResult();
+    }
     
+    public void setStatusPesanan(String idPesan, Integer stat) {
+        em.createQuery("UPDATE TbPemesanan t SET t.status = :stat WHERE t.idPemesanan = :idPesan")
+                .setParameter("stat", stat)
+                .setParameter("idPesan", idPesan)
+                .executeUpdate();
+    }
 
     
 }

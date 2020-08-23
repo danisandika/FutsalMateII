@@ -37,26 +37,31 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="blog-post">
-                                    <br/><br/><br/>
-                                    <p>Play Date</p>
+                                    <h:panelGroup rendered="#{tbMatchteamController.selected.idPemesanan != null}" >
+                                        <br/><br/><br/>
+                                        <p>Play Date</p>
+                                        <h4>
+                                            <h:outputText value="#{tbMatchteamController.selected.idPemesanan.tglMain}" >
+                                                <f:convertDateTime pattern="dd MMMM yyyy" />
+                                            </h:outputText>
+                                        </h4>
+                                        <br/>
+                                        <p>Play Time</p>
+                                        <h4>
+                                            <h:outputText value="#{tbMatchteamController.selected.idPemesanan.jamMainMulai}" >
+                                                <f:convertDateTime pattern="HH:mm" />
+                                            </h:outputText> - 
+                                            <h:outputText value="#{tbMatchteamController.selected.idPemesanan.jamMainSelesai}" >
+                                                <f:convertDateTime pattern="HH:mm" />
+                                            </h:outputText> WIB 
+                                            ( <h:outputText value="#{tbMatchteamController.selected.idPemesanan.durasi}" /> hour )
+                                        </h4>
+                                    </h:panelGroup>
                                     <h4>
-                                        <h:outputText value="#{tbMatchteamController.selected.idPemesanan.tglMain}" >
-                                            <f:convertDateTime pattern="dd MMMM yyyy" />
-                                        </h:outputText>
+                                        <h:outputText value="information about matches not yet available" rendered="#{tbMatchteamController.selected.idPemesanan != null}" />
                                     </h4>
                                     <br/>
-                                    <p>Play Time</p>
-                                    <h4>
-                                        <h:outputText value="#{tbMatchteamController.selected.idPemesanan.jamMainMulai}" >
-                                            <f:convertDateTime pattern="HH:mm" />
-                                        </h:outputText> - 
-                                        <h:outputText value="#{tbMatchteamController.selected.idPemesanan.jamMainSelesai}" >
-                                            <f:convertDateTime pattern="HH:mm" />
-                                        </h:outputText> WIB 
-                                        ( <h:outputText value="#{tbMatchteamController.selected.idPemesanan.durasi}" /> hour )
-                                    </h4>
-                                    <br/>
-                                    <p>Status</p>
+                                    <p>Status Match</p>
                                     <h4>
                                         <h:outputText value="Just Team vs Team" rendered="#{tbMatchteamController.selected.status == 0}"/>
                                         <h:outputText value="Open to one team and individu" rendered="#{tbMatchteamController.selected.status == 1}"/>

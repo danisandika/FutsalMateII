@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template2.xhtml">
+
+            <ui:define name="TitlePage">
+                <h2>Profil Player</h2>
+            </ui:define>
+
+            <ui:define name="BodyBlog">
+                
+                <!-- Blog section -->
+                <section class="blog-section spad">
+                    <div class="container">
+                        <div class="comment-form">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p:messages id="messages" showDetail="true" closable="true">
+                                        <p:autoUpdate />
+                                    </p:messages>
+                                    
+                                    <h:form enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table width="100%" style="color: #ebebeb">
+                                                    <tr>
+                                                        <td>Your ID Reservation</td>
+                                                        <td>:</td>
+                                                        <td><h:outputLabel value="#{tbKonfirmasiController.idPesanan.idPemesanan}" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Futsal Field</td>
+                                                        <td>:</td>
+                                                        <td>
+                                                            <h:outputLabel value="#{tbKonfirmasiController.idPesanan.idLapangan.namaLapangan}" />, from 
+                                                            <h:outputLabel value="#{tbKonfirmasiController.idPesanan.idLapangan.idFutsal.namaFutsal}" /> Futsal
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Play Date</td>
+                                                        <td>:</td>
+                                                        <td>
+                                                            <h:outputLabel value="#{tbKonfirmasiController.idPesanan.tglMain}" >
+                                                                <f:convertDateTime pattern="dd MMMM yyyy" />
+                                                            </h:outputLabel> ( at 
+                                                            <h:outputLabel value="#{tbKonfirmasiController.idPesanan.jamMainMulai}" >
+                                                                <f:convertDateTime pattern="HH:mm" />
+                                                            </h:outputLabel> - 
+                                                            <h:outputLabel value="#{tbKonfirmasiController.idPesanan.jamMainSelesai}" >
+                                                                <f:convertDateTime pattern="HH:mm" />
+                                                            </h:outputLabel> WIB )
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <br/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h:outputLabel value="Name of the sender" for="namaPengirim" style="color: #ebebeb" />&nbsp;
+                                                <h:inputText id="namaPengirim" value="#{tbKonfirmasiController.selected.namaPengirim}" 
+                                                             title="Name of the sender" a:placeholder="Name of the sender" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h:outputLabel value="Sender's account number Bank" for="norekPengirim" style="color: #ebebeb" />&nbsp;
+                                                <p:inputNumber id="norekPengirim" value="#{tbKonfirmasiController.selected.norekPengirim}" 
+                                                             title="Sender's account number Bank" a:placeholder="Sender's account number Bank" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h:outputLabel value="Total Payment" for="fotoTransfer" style="color: #ebebeb" />&nbsp;
+                                                <p:inputNumber id="jumlahBayar" value="#{tbKonfirmasiController.selected.jumlahBayar}" 
+                                                               symbol="Rp. " symbolPosition="p" 
+                                                               title="Total payment" a:placeholder="Rupiah" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h:outputLabel value="Your Proof of Payment " for="fotoTransfer" style="color: #ebebeb" />&nbsp;
+                                                <h:inputFile id="fotoTransfer" value="#{tbKonfirmasiController.foto}" style="color: #ebebeb"
+                                                             title="Proof of payment" a:placeholder="Proof of payment" />
+                                            </div>
+                                            
+                                            <br/><br/>
+                                            <div class="col-md-12">
+                                                <h:commandLink class="site-btn" action="#{tbKonfirmasiController.create()}" value="Create Reservation" />
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

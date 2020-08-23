@@ -371,4 +371,20 @@ public class TbFutsalController implements Serializable {
         futsalKey = futsal;
         return "ViewFutsal";
     }
+    
+    List<TbFutsal> listTop4Futsal;
+
+    public List<TbFutsal> getListTop4Futsal() {
+        return listTop4Futsal = ejbFacade.getTop4Futsal();
+    }
+
+    public void setListTop4Futsal(List<TbFutsal> listTop4Futsal) {
+        this.listTop4Futsal = listTop4Futsal;
+    }
+    
+    public String viewFutsal2(Integer futsal) {
+        futsalKey = ejbFacade.getFutsalByID(futsal);
+        return "UserPemain/ViewFutsal";
+    }
+    
 }

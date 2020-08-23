@@ -13,6 +13,7 @@ import model.TbMatchteam;
 import model.TbPemain;
 import model.TbIndividuMatch;
 import model.TbPemesanan;
+import model.TbTeam;
 
 /**
  *
@@ -101,6 +102,27 @@ public class TbMatchteamFacade extends AbstractFacade<TbMatchteam> {
         return (TbPemesanan) em.createQuery("SELECT t FROM TbPemesanan t WHERE t.idPemesanan = :idPesan")
                 .setParameter("idPesan", idPesan)
                 .getSingleResult();
+    }
+    
+    public TbTeam cekDataTeam(Integer idTeam) {
+        return (TbTeam) em.createQuery("SELECT t FROM TbTeam t WHERE t.idTeam = :idTeam")
+                .setParameter("idTeam", idTeam)
+                .getSingleResult();
+    }
+    
+    public void setResultMatchTeam(Integer win, Integer lose, Integer idTeam) {
+        List<TbMatchteam> matchTeam = em.createQuery("SELECT t FROM TbMatchteam t WHERE t.idHomeTeam.idTeam = :idTeam or t.idAwayTeam.idTeam = :idTeam")
+                .setParameter("idTeam", idTeam)
+                .getResultList();
+        
+        Integer rate = (win / matchTeam.size()) * 100;
+        
+        em.createQuery("UPDATE TbTeam t SET t.win = :win, t.lose = :lose, t.rate = :rate WHERE t.idTeam = :idTeam")
+                .setParameter("win", win)
+                .setParameter("lose", lose)
+                .setParameter("rate", rate)
+                .setParameter("idTeam", idTeam)
+                .executeUpdate();
     }
     
 }

@@ -31,7 +31,7 @@
                                     <p>Decription</p>
                                     <h4><h:outputText value="#{tbMatchteamController.matchCek.deskripsi}"/></h4>
                                     <br/>
-                                    <p>Status</p>
+                                    <p>Status Match</p>
                                     <h4>
                                         <h:outputText value="Just Team vs Team" rendered="#{tbMatchteamController.matchCek.idPemesanan.status == 0}"/>
                                         <h:outputText value="Open to one team and individu" rendered="#{tbMatchteamController.matchCek.idPemesanan.status == 1}"/>
@@ -43,39 +43,28 @@
                             <div class="col-lg-6">
                                 <div class="blog-post">
                                     <br/><br/><br/>
-                                    <p>Play Date</p>
+                                    <h:panelGroup rendered="#{tbMatchteamController.matchCek.idPemesanan != null}" >
+                                        <p>Play Date</p>
+                                        <h4>
+                                            <h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.tglMain}" >
+                                                <f:convertDateTime pattern="dd MMMM yyyy" />
+                                            </h:outputText>
+                                        </h4>
+                                        <br/>
+                                        <p>Play Time</p>
+                                        <h4>
+                                            <h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.jamMainMulai}" >
+                                                <f:convertDateTime pattern="HH:mm" />
+                                            </h:outputText> - 
+                                            <h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.jamMainSelesai}" >
+                                                <f:convertDateTime pattern="HH:mm" />
+                                            </h:outputText> WIB 
+                                            ( <h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.durasi}" /> hour )
+                                        </h4>
+                                    </h:panelGroup>
                                     <h4>
-                                        <h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.tglMain}" >
-                                            <f:convertDateTime pattern="dd MMMM yyyy" />
-                                        </h:outputText>
+                                        <h:outputText value="information about matches not yet available" rendered="#{tbMatchteamController.matchCek.idPemesanan != null}" />
                                     </h4>
-                                    <br/>
-                                    <p>Play Time</p>
-                                    <h4>
-                                        <h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.jamMainMulai}" >
-                                            <f:convertDateTime pattern="HH:mm" />
-                                        </h:outputText> - 
-                                        <h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.jamMainSelesai}" >
-                                            <f:convertDateTime pattern="HH:mm" />
-                                        </h:outputText> WIB 
-                                        ( <h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.durasi}" /> hour )
-                                    </h4>
-                                    <br/>
-                                    <h:form rendered="#{templateIsCaptain == true}">
-                                    <p>Change status to : </p>
-                                    <h:commandLink action="#{tbTeamController.prepareEditMyTeam(tbTeamController.teamCaptain)}" 
-                                                   rendered="#{tbMatchteamController.matchCek.idPemesanan.status != 0}" 
-                                                   class="site-btn" value="Just Team vs Team"/>
-                                    <h:commandLink action="#{tbTeamController.prepareEditMyTeam(tbTeamController.teamCaptain)}" 
-                                                   rendered="#{tbMatchteamController.matchCek.idPemesanan.status != 1}" 
-                                                   class="site-btn" value="Open to one team and individu"/>
-                                    <h:commandLink action="#{tbTeamController.prepareEditMyTeam(tbTeamController.teamCaptain)}" 
-                                                   rendered="#{tbMatchteamController.matchCek.idPemesanan.status != 2}" 
-                                                   class="site-btn" value="Closed to join"/>
-                                    <h:commandLink action="#{tbTeamController.prepareEditMyTeam(tbTeamController.teamCaptain)}" 
-                                                   rendered="#{tbMatchteamController.matchCek.idPemesanan.status != 3}" 
-                                                   class="site-btn" value="Ended"/>
-                                    </h:form>
                                 </div>
                             </div>
                             <br/>

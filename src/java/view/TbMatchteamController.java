@@ -494,4 +494,73 @@ public class TbMatchteamController implements Serializable {
         this.listIndividuMatch = listIndividuMatch;
     }
     
+
+    public String prepareEditConfirmMatch(TbMatchteam match) {
+        if (match.getIdAwayTeam() == null) {
+            JsfUtil.addErrorMessage("Your team has no opponents, you cannot confirm the match for your win");
+            return "ManageTeam";
+        } else {
+            current = match;
+            return "EditMatchConfirmResult";
+        }
+    }
+
+    public String updateConfirmMatch() {
+        Integer resultHome, resultAway;
+        
+        resultHome = current.getHomeScore();
+        resultAway = current.getAwayScore();
+        
+        ////////////////////////////////////////////////////////////////////////////////////// Update home&away TbTeam
+        ////////////////////////////////////////////////////////////////////////////////////// HOME TEAM
+        try {
+            //////////////////////////////////////////////////////////////////// GET DATA HOME TEAM
+            TbTeam homeTeam = ejbFacade.cekDataTeam(current.getIdHomeTeam().getIdTeam());
+            Integer winHome = homeTeam.getWin();
+            Integer loseHome = homeTeam.getLose();
+            
+            if (resultHome > resultAway) {
+                winHome = homeTeam.getWin() + 1;
+            } else if (resultHome < resultAway) {
+                loseHome = homeTeam.getLose() + 1;
+            } else if (resultHome == resultAway) {
+                winHome = homeTeam.getWin() + 1;
+            }
+            
+            ejbFacade.setResultMatchTeam(winHome, loseHome, current.getIdHomeTeam().getIdTeam());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Failed to update data homeTeam");
+        }
+        
+        ////////////////////////////////////////////////////////////////////////////////////// AWAY TEAM
+        try {
+            //////////////////////////////////////////////////////////////////// GET DATA HOME TEAM
+            TbTeam awayTeam = ejbFacade.cekDataTeam(current.getIdAwayTeam().getIdTeam());
+            Integer winAway = awayTeam.getWin();
+            Integer loseAway = awayTeam.getLose();
+
+            if (resultAway > resultHome) {
+                winAway = awayTeam.getWin() + 1;
+            } else if (resultAway < resultHome) {
+                loseAway = awayTeam.getLose() + 1;
+            } else if (resultAway == resultHome) {
+                winAway = awayTeam.getWin() + 1;
+            }
+            
+            ejbFacade.setResultMatchTeam(winAway, loseAway, current.getIdAwayTeam().getIdTeam());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Failed to update data awayTeam");
+        }
+        
+        //////////////////////////////////////////////////////////////////////////////////////////// Update tbMatchTeam
+        try {
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage("Thank you for your Confirmation");
+            recreateModelMatchByHomeTeam();
+            return "ManageTeam";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Your Confirmation failed");
+            return null;
+        }
+    }
 }

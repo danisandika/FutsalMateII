@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,6 +49,11 @@ public class TbFutsalFacade extends AbstractFacade<TbFutsal> {
                 .setParameter("stat", stat)
                 .setParameter("id", t.getIdFutsal())
                 .executeUpdate();
+    }
+    
+    public List<TbFutsal> getTop4Futsal(){
+        return em.createNativeQuery("SELECT TOP 4 * FROM tb_futsal ORDER BY rating DESC")
+                .getResultList();
     }
  
     

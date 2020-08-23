@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,6 +34,17 @@ public class TbTeamFacade extends AbstractFacade<TbTeam> {
         return em.createNamedQuery("TbTeam.findByIdTeam", TbTeam.class)
                 .setParameter("idTeam", id.getIdTeam())
                 .getSingleResult();
+    }
+    
+    public TbTeam getByID2(Integer id) {
+        return em.createNamedQuery("TbTeam.findByIdTeam", TbTeam.class)
+                .setParameter("idTeam", id)
+                .getSingleResult();
+    }
+    
+    public List<TbTeam> getTop4Team(){
+        return em.createNativeQuery("SELECT TOP 4 * FROM tb_team ORDER BY rate DESC")
+                .getResultList();
     }
     
 }

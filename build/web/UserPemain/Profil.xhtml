@@ -84,7 +84,7 @@
                             <h:panelGroup rendered="#{tbPemesananController.items.rowCount > 0}">
                                 <p:dataTable var="item" value="#{tbPemesananController.getPemesananByPemain(templateDataPemain)}" paginator="true" rows="10"
                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                    rowsPerPageTemplate="5,10,15" id="tableStateDT" lazy="true" multiViewState="true" filteredValue="#{tbTeamController.getPemesananByPemain(templateDataPemain)}">
+                                    rowsPerPageTemplate="5,10,15" id="tableStateDT" lazy="true" multiViewState="true">
                                     
                                     <f:facet name="header">
                                         <p:outputPanel>
@@ -119,10 +119,10 @@
                                         </h:outputText> WIB
                                     </p:column>
                                     <p:column headerText="Status" sortBy="#{item.status}" filterBy="#{item.status}">
-                                        <h:outputText value="Payment Confirmation" rendered="#{item.status == 0}"/>
-                                        <h:outputText value="Waiting for confirmation" rendered="#{item.status == 1}"/>
-                                        <h:outputText value="Confirmed" rendered="#{item.status == 2}"/>
-                                        <h:outputText value="Expired" rendered="#{item.status == 3}"/>
+                                        <h:commandLink action="#{tbKonfirmasiController.prepareCreate(item)}" value="Confirm Payment" rendered="#{item.status == 0}"/>
+                                        <h:outputText value="Waiting for confirmation" rendered="#{item.status == 1}" style="color: #f89843"/>
+                                        <h:outputText value="Confirmed" rendered="#{item.status == 2}" style="color: #10ddb4"/>
+                                        <h:outputText value="Expired" rendered="#{item.status == 3}" style="color: #bd2130"/>
                                     </p:column>
                                 </p:dataTable>
                             </h:panelGroup>

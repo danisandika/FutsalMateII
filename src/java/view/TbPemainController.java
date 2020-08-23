@@ -266,6 +266,18 @@ public class TbPemainController implements Serializable {
         player.setIdTeam(null);
         
         try {
+            
+            MailController mctr = new MailController();
+
+            mctr.setFromEmail("pendekarbayangan66@gmail.com");
+            mctr.setUsername("pendekarbayangan66@gmail.com");
+            mctr.setPassword("praditya");
+            mctr.setSubject("Futsalan.com | Confirm Payment by Player");
+
+            mctr.setToMail(player.getEmail());
+            mctr.setMessage("You have been removed from the team " + player.getIdTeam().getNamaTeam() + " by the captain");
+            mctr.send();
+            
             getFacade().edit(player);
             recreateModel();
             JsfUtil.addSuccessMessage("Success kick your member team");

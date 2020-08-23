@@ -1,11 +1,21 @@
 package view;
 
 import model.TbKonfirmasi;
+import model.TbPemesanan;
+import model.TbPengelola;
 import view.util.JsfUtil;
 import view.util.PaginationHelper;
 import controller.TbKonfirmasiFacade;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -17,6 +27,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.Part;
 
 
 @Named("tbKonfirmasiController")
@@ -73,21 +84,114 @@ public class TbKonfirmasiController implements Serializable {
         return "View";
     }
 
-    public String prepareCreate() {
+    TbPemesanan idPesanan;
+
+    public TbPemesanan getIdPesanan() {
+        return idPesanan;
+    }
+
+    public void setIdPesanan(TbPemesanan idPesanan) {
+        this.idPesanan = idPesanan;
+    }
+    
+    TbPemesananController controlPemesanan;
+    
+    public String prepareCreate(TbPemesanan pesanan) {
         current = new TbKonfirmasi();
+        idPesanan = pesanan;
         selectedItemIndex = -1;
-        return "Create";
+        return "CreateKonfirmasiPayment";
     }
 
     public String create() {
+        
         try {
-            getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbKonfirmasiCreated"));
-            return prepareCreate();
+            ejbFacade.setStatusPesanan(idPesanan.getIdPemesanan(), 1);
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Failed Confirm Payment : "+e.toString());
+        }
+        
+        try {
+            upload();
+            current.setIdPemesanan(idPesanan);
+            current.setFotoTransfer(url);
+            getFacade().create(current);
+            JsfUtil.addSuccessMessage("Confirm a Payment has been sent");
+            
+            sendEmail(current);
+            idPesanan = null;
+            return "Profil";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Failed to confirm a payment");
             return null;
         }
+    }
+    
+    private Part foto;
+    private String url;
+
+    public Part getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Part foto) {
+        this.foto = foto;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+    public String upload() {
+        try {
+            InputStream in = foto.getInputStream();
+            setFoto(foto);
+            
+            url = foto.getSubmittedFileName();
+            File f = new File("D://github//FutsalMateII//web//Image_bukti_tranfer_pemain//" + foto.getSubmittedFileName());
+            f.createNewFile();
+            
+            FileOutputStream out = new FileOutputStream(f);
+            try (InputStream input = foto.getInputStream()) {
+                Files.copy(input, new File("D://github//FutsalMateII//web//Image_bukti_tranfer_pemain//" + foto.getSubmittedFileName()).toPath());
+            } catch (IOException e) {
+                
+            }
+            
+            byte[] buffer = new byte[1024];
+            int length;
+            
+            while((length = in.read(buffer)) > 0) {
+                out.write(buffer);
+            }
+            out.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return url;
+    }
+    
+    private void sendEmail(TbKonfirmasi confirm) {
+        MailController mctr = new MailController();
+        
+        mctr.setFromEmail("pendekarbayangan66@gmail.com");
+        mctr.setUsername("pendekarbayangan66@gmail.com");
+        mctr.setPassword("praditya");
+        mctr.setSubject("Futsalan.com | Confirm Payment by Player");
+        
+        TbPengelola pengelola = ejbFacade.getDataPengelola(confirm.getIdPemesanan().getIdLapangan().getIdFutsal().getIdFutsal());
+        
+        mctr.setToMail(pengelola.getEmail());
+        mctr.setMessage("You get paid for the rental of the field. "
+                + "Please check the website and confirm the payment has been received "
+                + "to the player so they can immediately play on your field");
+        mctr.send();
     }
 
     public String prepareEdit() {

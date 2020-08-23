@@ -362,6 +362,11 @@ public class TbTeamController implements Serializable {
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "ViewTeam";
     }
+
+    public String prepareViewTeam(Integer team) {
+        current = ejbFacade.getByID2(team);
+        return "UserPemain/ViewTeam";
+    }
     
     public String joinTeam() {          // Kalo login
         HttpSession session = SessionUtils.getSession();
@@ -372,6 +377,7 @@ public class TbTeamController implements Serializable {
             ejbPemainFacade.joinTeam(current, idPemain);
             session.setAttribute("templateIdTeam", current.getIdTeam());
             JsfUtil.addSuccessMessage("Join Team Success");
+            sendEmailJoinTeam(current);
             recreateModel();
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Join Team Failed");
@@ -384,17 +390,33 @@ public class TbTeamController implements Serializable {
         HttpSession session = SessionUtils.getSession();
         Integer idPemain = (Integer) session.getAttribute("templateIDPemain");
         
-//        current = (TbTeam)getItems().getRowData();
         try {
             ejbPemainFacade.joinTeam(current, idPemain);
             session.setAttribute("templateIdTeam", current.getIdTeam());
             JsfUtil.addSuccessMessage("Join Team Success");
+            sendEmailJoinTeam(current);
             recreateModel();
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Join Team Failed");
         }
         
         return "ViewTeam";
+    }
+    
+    public void sendEmailJoinTeam(TbTeam team) {
+        
+        MailController mctr = new MailController();
+        
+        mctr.setFromEmail("pendekarbayangan66@gmail.com");
+        mctr.setUsername("pendekarbayangan66@gmail.com");
+        mctr.setPassword("praditya");
+        mctr.setSubject("Futsalan.com | New Member Team");
+        
+        mctr.setToMail(team.getCaptain().getEmail());
+        mctr.setMessage("<b>Hello Captain " + team.getCaptain().getNama() + " !</b>"
+                + "<br/>Your team " + team.getNamaTeam()
+                + "got new players, check now on the website.");
+        mctr.send();
     }
     
     public String pleaseLogin() {
@@ -438,4 +460,14 @@ public class TbTeamController implements Serializable {
         return url;
     }
 
+    
+    List<TbTeam> listTop4Team;
+
+    public List<TbTeam> getListTop4Team() {
+        return listTop4Team = ejbFacade.getTop4Team();
+    }
+
+    public void setListTop4Team(List<TbTeam> listTop4Team) {
+        this.listTop4Team = listTop4Team;
+    }
 }

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../Template2.xhtml">
+
+            <ui:define name="TitlePage">
+                <h2>Make A New Match</h2>
+            </ui:define>
+
+            <ui:define name="BodyBlog">
+                
+                <!-- Blog section -->
+                <section class="blog-section spad">
+                    <div class="container">
+                        <div class="comment-form">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p:messages id="messages" showDetail="true" closable="true">
+                                        <p:autoUpdate />
+                                    </p:messages>
+                                    
+                                    <h:form>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>Team Home Score</p>
+                                                <p:inputNumber id="homeScore" value="#{tbMatchteamController.selected.homeScore}" 
+                                                               a:placeholder="(Please be honest as a captain)"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Team Away Score</p>
+                                                <p:inputNumber id="awayScore" value="#{tbMatchteamController.selected.awayScore}" 
+                                                             a:placeholder="(Please be honest as a captain)"/>
+                                            </div>
+                                        </div>
+                                        
+                                        <br/><br/>
+                                        <h:commandLink class="site-btn" action="#{tbMatchteamController.updateConfirmMatch()}" value="Confirm Match" />
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

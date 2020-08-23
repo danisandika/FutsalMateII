@@ -46,45 +46,51 @@
                                 <div class="latest-news-widget">
                                         <h:form styleClass="jsfcrud_list_form">
                                             <h:panelGroup rendered="#{tbMatchteamController.items.rowCount > 0}">
-                                                <h:dataTable value="#{tbMatchteamController.items}" var="item" style="border:solid 0px" width="104%">
+                                                <h:dataTable value="#{tbMatchteamController.items}" var="item" style="border:solid 0px" width="115%">
                                                     <h:column>
                                                         <f:facet name="header">
                                                             <h:outputText value=" "/>
                                                         </f:facet>
-                                                        <h:outputText value="#{item.idMatchteam}" style="display: none"/>
-                                                        <div class="ln-item">
+                                                            <h:outputText value="#{item.idMatchteam}" style="display: none"/>
+                                                            <div class="ln-item">
                                                                 <h:graphicImage url="/Image_logo_team/#{item.idHomeTeam.logo}" alt="" />
                                                                 <div class="ln-text">
                                                                     <div class="ln-date">
-                                                                        <h:outputText value="#{item.idPemesanan.tglMain}">
-                                                                            <f:convertDateTime pattern="dd MMMM yyyy" />
-                                                                        </h:outputText>
+                                                                        <h:panelGroup rendered="#{item.idPemesanan != null}" >
+                                                                            <h:outputText value="#{item.idPemesanan.idLapangan.namaLapangan}"/>, 
+                                                                            <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.namaFutsal}"/>, 
+                                                                            <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.alamatFutsal}"/>
+                                                                        </h:panelGroup>
+                                                                        <h:outputText value="Information not available" rendered="#{item.idPemesanan == null}" />
                                                                     </div>
                                                                     
-                                                                    <h6>Home Team <h:outputText value="#{item.idHomeTeam.namaTeam}"/></h6>
-                                                                    <h6><h:outputText value="Away Team #{item.idAwayTeam.namaTeam}" rendered="#{item.idAwayTeam != null}"/></h6>
+                                                                    <h6 style="color: #10ddb4">
+                                                                        Home Team <h:outputText value="#{item.idHomeTeam.namaTeam}"/>
+                                                                        <h:outputText value=" vs Away Team #{item.idAwayTeam.namaTeam}" rendered="#{item.idAwayTeam != null}"/>
+                                                                    </h6>
                                                                     
                                                                     <h6><h:outputText value="#{item.deskripsi}"/></h6>
                                                                     <div class="ln-metas">
                                                                         <div class="ln-meta">
-                                                                            at 
-                                                                            <h:outputText value="#{item.idPemesanan.jamMainMulai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> - 
-                                                                            <h:outputText value="#{item.idPemesanan.jamMainSelesai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> WIB
+                                                                            <h:panelGroup rendered="#{item.idPemesanan != null}" > 
+                                                                                <h:outputText value="#{item.idPemesanan.tglMain}">
+                                                                                    <f:convertDateTime pattern="dd MMMM yyyy" />
+                                                                                </h:outputText>
+                                                                                at 
+                                                                                <h:outputText value="#{item.idPemesanan.jamMainMulai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> - 
+                                                                                <h:outputText value="#{item.idPemesanan.jamMainSelesai}"><f:convertDateTime pattern="HH:mm" /></h:outputText> WIB
+                                                                            </h:panelGroup>
+                                                                            <h:outputText value="Information not available" rendered="#{item.idPemesanan == null}" />
                                                                         </div>
                                                                         <div class="ln-meta">
-                                                                            in <h:outputText value="#{item.idPemesanan.idLapangan.namaLapangan}"/>, 
-                                                                            <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.namaFutsal}"/>, 
-                                                                            <h:outputText value="#{item.idPemesanan.idLapangan.idFutsal.alamatFutsal}"/>
-                                                                        </div>
-                                                                        <div class="ln-meta">
-                                                                            <h:outputText value="Just Team vs Team" rendered="#{item.idPemesanan.status == 0}"/>
-                                                                            <h:outputText value="Open to one team and individu" rendered="#{item.idPemesanan.status == 1}"/>
-                                                                            <h:outputText value="Closed to join" rendered="#{item.idPemesanan.status == 2}"/>
-                                                                            <h:outputText value="Ended" rendered="#{item.idPemesanan.status == 3}"/>
+                                                                            <h:outputText value="Just Team vs Team" rendered="#{item.status == 0}"/>
+                                                                            <h:outputText value="Open to one team and individu" rendered="#{item.status == 1}"/>
+                                                                            <h:outputText value="Closed to join" rendered="#{item.status == 2}"/>
+                                                                            <h:outputText value="Ended" rendered="#{item.status == 3}"/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                        </div>
+                                                            </div>
                                                     </h:column>
                                                     <h:column>
                                                         <f:facet name="header">
