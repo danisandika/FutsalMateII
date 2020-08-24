@@ -151,7 +151,7 @@ public class TbTeamController implements Serializable {
     }
     
     public void deleteFile(String urlLogoLama) {
-        File f = new File("D://github//FutsalMateII//web//Image_logo_team//" + urlLogoLama);
+        File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_logo_team//" + urlLogoLama);
         f.delete();
     }
 
@@ -434,13 +434,13 @@ public class TbTeamController implements Serializable {
             InputStream in = logo.getInputStream();
             setLogo(logo);
             
-            File f = new File("D://github//FutsalMateII//web//Image_logo_team//" + logo.getSubmittedFileName());
+            File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_logo_team//" + logo.getSubmittedFileName());
             f.createNewFile();
             
             url = logo.getSubmittedFileName();
             FileOutputStream out = new FileOutputStream(f);
             try (InputStream input = logo.getInputStream()) {
-                Files.copy(input, new File("D://github//FutsalMateII//web//Image_logo_team//" + logo.getSubmittedFileName()).toPath());
+                Files.copy(input, new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_logo_team//" + logo.getSubmittedFileName()).toPath());
             } catch (IOException e) {
                 
             }

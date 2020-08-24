@@ -5,8 +5,8 @@
         <property name="serverName" value="localhost"/>
         <property name="portNumber" value="1433"/>
         <property name="databaseName" value="FutsalMate"/>
-        <property name="User" value="rad"/>
-        <property name="Password" value="rika"/>
+        <property name="User" value="sa"/>
+        <property name="Password" value="123"/>
         <property name="URL" value="jdbc:sqlserver://localhost:1433;databaseName=FutsalMate"/>
         <property name="driverClass" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
     </jdbc-connection-pool>

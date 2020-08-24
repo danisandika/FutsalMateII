@@ -47,7 +47,8 @@ public class TbFutsalFacade extends AbstractFacade<TbFutsal> {
     }
     
     public List<TbFutsal> getTop4Futsal(){
-        return em.createNativeQuery("SELECT TOP 4 * FROM tb_futsal ORDER BY rating DESC")
+        return em.createQuery("SELECT t FROM TbFutsal t ORDER BY t.rating DESC")
+                .setMaxResults(4)
                 .getResultList();
     }
  

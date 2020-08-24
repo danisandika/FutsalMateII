@@ -43,7 +43,8 @@ public class TbTeamFacade extends AbstractFacade<TbTeam> {
     }
     
     public List<TbTeam> getTop4Team(){
-        return em.createNativeQuery("SELECT TOP 4 * FROM tb_team ORDER BY rate DESC")
+        return em.createQuery("SELECT t FROM TbTeam t ORDER BY t.rate DESC")
+                .setMaxResults(4)
                 .getResultList();
     }
     
