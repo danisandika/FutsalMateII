@@ -80,14 +80,15 @@
                         <h3>Member Team</h3>
                         <h:form styleClass="jsfcrud_list_form">
                             <h:panelGroup>
-                                <p:dataTable var="item" value="#{tbTeamController.pemainByTeam}" paginator="true" rows="10"
+                                <p:dataTable var="item" value="#{tbTeamController.pemainByTeam}" paginator="true" rows="10" widgetVar="pemainTable"
                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                    rowsPerPageTemplate="5,10,15" id="tableStateDT" lazy="true" multiViewState="true" filteredValue="#{tbTeamController.filterPemainTeam}">
+                                    rowsPerPageTemplate="5,10,15" id="tableStateDT" lazy="true" multiViewState="true" 
+                                    selectionMode="single" rowKey="#{item.idPemain}" filteredValue="#{tbTeamController.filterPemainTeam}">
 
                                     <f:facet name="header">
                                         <p:outputPanel>
                                             <h:outputText value="Search all fields:" />
-                                            <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                            <p:inputText id="globalFilter" onkeyup="PF('pemainTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                         </p:outputPanel>
                                     </f:facet>
 

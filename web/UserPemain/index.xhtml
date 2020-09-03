@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
@@ -68,13 +69,15 @@
                             <ui:repeat value="#{tbTeamController.listTop4Team}" var="item">
                                 <div class="col-lg-3 col-sm-6">
                                     <div class="characters-box">
-                                        <h:graphicImage url="/Image_logo_team/#{item[3]}" alt="" />
-                                        <h4>#{item[1]}</h4>
+                                        <h:graphicImage url="/Image_logo_team/#{item.logo}" alt="" />
+                                        <h4>#{item.namaTeam}</h4>
                                         <p>
-                                            Rate games #{item[7]}% <br/>
-                                            #{item[2]}
+                                            Rate games #{item.rate}% <br/>
+                                            #{item.deskripsi}
                                         </p>
-                                        <h:commandLink action="#{tbTeamController.prepareViewTeam(item[0])}" class="rm">See More</h:commandLink>
+                                        <h:form>
+                                            <h:commandLink action="#{tbTeamController.prepareViewTeam(item.idTeam)}" class="rm">See More</h:commandLink>
+                                        </h:form>
                                     </div>
                                 </div>
                             </ui:repeat>
@@ -88,13 +91,17 @@
                             <ui:repeat value="#{tbFutsalController.listTop4Futsal}" var="item">
                                 <div class="col-lg-3 col-sm-6">
                                     <div class="characters-box">
-                                        <h:graphicImage url="/Image_futsal_gambar/#{item[7]}" alt="" />
-                                        <h4>#{item[1]}</h4>
+                                        <h:graphicImage url="/Image_futsal_gambar/#{item.gambar}" alt="" />
+                                        <h4>#{item.namaFutsal}</h4>
                                         <p>
-                                            Rating #{item[3]}<br/>
-                                            #{item[2]}
+                                            <p:rating value="#{item.rating}" stars="5" readonly="true" rendered="#{item.rating != null}"/>
+                                            <p:rating value="0" stars="5" readonly="true" rendered="#{item.rating == null}"/>
+                                            &nbsp;&nbsp; ( #{item.rating} )<br/><br/>
+                                            #{item.alamatFutsal}
                                         </p>
-                                        <h:commandLink action="#{tbFutsalController.viewFutsal2(item[0])}" class="rm">See More</h:commandLink>
+                                        <h:form>
+                                            <h:commandLink action="#{tbFutsalController.viewFutsal2(item.idFutsal)}" class="rm">See More</h:commandLink>
+                                        </h:form>
                                     </div>
                                 </div>
                             </ui:repeat>

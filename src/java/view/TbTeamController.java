@@ -160,8 +160,8 @@ public class TbTeamController implements Serializable {
             if (logo == null) {
                 getFacade().edit(current);
             } else {
-                deleteFile(current.getLogo());
                 upload();
+                deleteFile(current.getLogo());
                 current.setLogo(url);
                 getFacade().edit(current);
             }

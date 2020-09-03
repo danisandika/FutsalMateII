@@ -134,7 +134,7 @@ public class daftarPengelolaWizard implements Serializable {
            } catch (Exception e) {
                JsfUtil.addErrorMessage("Gagal Memasukan Data Pengelola: "+e.toString());
            }
-
+            
 
            try{
                futsal.setLongitude(106.827153);

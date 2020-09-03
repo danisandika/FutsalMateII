@@ -70,6 +70,8 @@
                                     <br/>
                                     <h:form>
                                     <h:commandLink action="#{tbPemainController.prepareEditPemain()}" class="site-btn">Edit Profil</h:commandLink>
+                                    <br/><br/>
+                                    <h:commandLink action="#{tbPemainController.prepareEditPass(templateDataPemain)}" class="site-btn">Edit Password</h:commandLink>
                                     </h:form>
                                 </div>
                             </div>
@@ -80,7 +82,7 @@
                         <br/>
                         <h3>Reservation Field History</h3>
                         <h:form styleClass="jsfcrud_list_form">
-                            <h:outputText escape="false" value="There is no history of ordering futsal courts" rendered="#{tbPemesananController.items.rowCount == 0}"/>
+                            <h:outputText escape="false" value="There is no history of ordering futsal courts" rendered="#{tbPemesananController.items.rowCount == 0}" style="color: #b9bbbe"/>
                             <h:panelGroup rendered="#{tbPemesananController.items.rowCount > 0}">
                                 <p:dataTable var="item" value="#{tbPemesananController.getPemesananByPemain(templateDataPemain)}" paginator="true" rows="10"
                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"

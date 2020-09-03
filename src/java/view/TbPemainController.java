@@ -300,4 +300,41 @@ public class TbPemainController implements Serializable {
     public String signIn() {
         return "Signin";
     }
+
+    TbPemain editPassPemain;
+
+    public TbPemain getEditPassPemain() {
+        return editPassPemain;
+    }
+
+    public void setEditPassPemain(TbPemain editPassPemain) {
+        this.editPassPemain = editPassPemain;
+    }
+
+    public String prepareEditPass(TbPemain pemain) {
+        current = pemain;
+        return "EditPassword";
+    }
+    
+    private String newPass;
+
+    public String getNewPass() {
+        return newPass;
+    }
+
+    public void setNewPass(String newPass) {
+        this.newPass = newPass;
+    }
+    
+    public String updatePass() {
+        try {
+            current.setPassword(newPass);
+            getFacade().edit(current);
+            JsfUtil.addSuccessMessage("Your Password has been change");
+            return "Profil";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Failed to change password");
+            return null;
+        }
+    }
 }

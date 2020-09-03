@@ -496,7 +496,10 @@ public class TbPemesananController implements Serializable {
                 + "<br/> Date Play : " + formatTgl.format(pesanan.getTglMain())
                 + "<br/> Time Play : " + formatJam.format(pesanan.getJamMainMulai()) + " - " + formatJam.format(pesanan.getJamMainSelesai()) + " WIB (" + pesanan.getDurasi() + " Hour)"
                 + "<br/><br/> <b>Total payment : " + currencyFormatter.format(total) + "</b><br/>"
-                + "<br/> Please make a payment then confirm payment via Futsalan.com website"
+                + "Kirimkan ke " + pesanan.getIdLapangan().getIdFutsal().getNamaRekening()
+                + "( " + pesanan.getIdLapangan().getIdFutsal().getNamaBank()
+                + " a.n " + pesanan.getIdLapangan().getIdFutsal().getNamaRekening()
+                + " )<br/><br/> Please make a payment then confirm payment via Futsalan.com website"
                 + "<br/> Thank You for Your Reservation");
         mctr.send();
     }

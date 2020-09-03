@@ -18,12 +18,11 @@
             <ui:define name="BodyPage">
                 <div class="blog-post">
                 <h:form>
-                <h5>Already have an account? You can <h:commandLink action="/UserPemain/Sign In" class="read-more">Sign In</h:commandLink> first</h5>
+                <h5>Already have an account? You can <h:commandLink action="/UserPemain/SignIn" class="read-more">Sign In</h:commandLink> first</h5>
                 </h:form>
                 </div>
                 <p:tooltip />
                 <h:form class="comment-form">
-                    <p:growl id="messages" showDetail="true" />
                     <div class="row">
                         <div class="col-md-10">
                             
@@ -53,11 +52,11 @@
                             
                             <h:outputLabel value="Gender" style="color: #ebebeb" />
                             <p:message for="gender" showDetail="true" />
-                            <h:selectOneRadio value="#{tbPemainController.selected.gender}" style="color: #ebebeb" required="true"
-                                              id="gender" requiredMessage="Gender cannot be empty"> 
+                            <p:selectOneRadio value="#{tbPemainController.selected.gender}" style="color: #ebebeb" required="true"
+                                              id="gender" requiredMessage="Gender cannot be empty" unselectable="true"> 
                                 <f:selectItem itemValue = "1" itemLabel = "Male" /> 
                                 <f:selectItem itemValue = "0" itemLabel = "Female" />
-                            </h:selectOneRadio> 
+                            </p:selectOneRadio> 
                         </div>
                     </div>
                     <br/>

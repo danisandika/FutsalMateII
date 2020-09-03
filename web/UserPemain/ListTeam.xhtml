@@ -36,22 +36,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 sidebar">
-                                <div class="sb-widget">
-                                    <form class="sb-search">
-                                        <input type="text" placeholder="Search" />
-                                    </form>
-                                </div>
-                            </div>
                             <br/>
                             <div class="col-12">
                                 <div class="latest-news-widget">
                                         <h:form styleClass="jsfcrud_list_form">
-                                            <p:messages id="messages" showDetail="true" closable="true">
-                                                <p:autoUpdate />
-                                            </p:messages>
+                                        <p:growl id="messages" showDetail="true" />
                                             <h:panelGroup rendered="#{tbTeamController.items.rowCount > 0}">
-                                                <h:dataTable value="#{tbTeamController.items}" var="item" style="border:solid 0px" width="124%">
+                                                <h:dataTable value="#{tbTeamController.items}" var="item" style="border:solid 0px" width="116%">
                                                     <h:column>
                                                         <f:facet name="header">
                                                             <h:outputText value=" "/>

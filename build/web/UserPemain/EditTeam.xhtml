@@ -31,9 +31,9 @@
                                         <h:inputText id="idTeam" value="#{tbTeamController.selected.idTeam}" style="display: none" title="ID Team" required="true" a:placeholder="Name Team"/>
                                         <h:inputText id="namaTeam" value="#{tbTeamController.selected.namaTeam}" title="Name Team" required="true" a:placeholder="Name Team"/>
                                         <h:inputTextarea id="deskripsi" value="#{tbTeamController.selected.deskripsi}" title="Description" required="true" a:placeholder="Description"/>
-                                        <h:inputText id="logo" style="display: none" value="#{tbTeamController.selected.logo}" required="true" a:placeholder="Description"/>
+                                        <h:inputText id="logo2" style="display: none" value="#{tbTeamController.selected.logo}" a:placeholder="Description"/>
                                         <h:outputLabel value="Your Logo " for="logo" style="color: #ebebeb" />&nbsp;
-                                        <h:inputFile id="logo2" value="#{tbTeamController.logo}" style="color: #ebebeb"/>
+                                        <h:inputFile id="logo" value="#{tbTeamController.logo}" style="color: #ebebeb"/>
                                         <br/><br/>
                                         <h:commandLink class="site-btn" action="#{tbTeamController.update()}" value="Edit Team" />
                                     </h:form>
