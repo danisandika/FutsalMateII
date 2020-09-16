@@ -15,7 +15,7 @@
                 <p>You can be part of a Team or become the Captain</p>
                 <h:form>
                     <h:link rendered="#{templateIdTeam != null}" outcome="/UserPemain/ManageTeam" class="site-btn">Check My Team</h:link>
-                    <h:commandLink rendered="#{templateIsCaptain == false &amp;&amp; templateIdTeam == null}" 
+                    <h:commandLink rendered="#{templateIsCaptain == false || templateIdTeam == null}" 
                                    action="#{tbTeamController.prepareCreateByPemain()}" class="site-btn">Create One</h:commandLink>
                     
                     <h:commandLink class="site-btn" action="#{tbTeamController.pleaseLogin()}" onclick="return confirm('Please SignIn first!')" 
