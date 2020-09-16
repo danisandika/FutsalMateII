@@ -72,7 +72,8 @@
                             <ui:repeat value="#{tbTeamController.listTop4Team}" var="item">
                                 <div class="col-lg-3 col-sm-6">
                                     <div class="characters-box">
-                                        <h:graphicImage url="/Image_logo_team/#{item.logo}" alt="" />
+                                        <h:graphicImage url="/Image_logo_team/#{item.logo}" alt="" rendered="#{item.logo != null}" />
+                                        <h:graphicImage url="/Image_logo_team/no_image.jpg" alt="" rendered="#{item.logo == null}" />
                                         <h4>#{item.namaTeam}</h4>
                                         <p>
                                             Win rate games #{item.rate}% <br/>
@@ -94,7 +95,8 @@
                             <ui:repeat value="#{tbFutsalController.listTop4Futsal}" var="item">
                                 <div class="col-lg-3 col-sm-6">
                                     <div class="characters-box">
-                                        <h:graphicImage url="/Image_futsal_gambar/#{item.gambar}" alt="" />
+                                        <h:graphicImage url="/Image_futsal_gambar/#{item.gambar}" alt="" rendered="#{item.gambar != null}" />
+                                        <h:graphicImage url="/Image_futsal_gambar/no_image.jpg" alt="" rendered="#{item.gambar == null}" />
                                         <h4>#{item.namaFutsal}</h4>
                                         <p>
                                             <p:rating value="#{item.rating}" stars="5" readonly="true" rendered="#{item.rating != null}"/>

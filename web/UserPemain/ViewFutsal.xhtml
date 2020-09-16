@@ -67,13 +67,13 @@
                                 <div class="col-lg-8">
                                     <div class="comments">
                                         <h:form styleClass="jsfcrud_list_form">
-                                            <h5>Review (<h:outputText value="#{tbRatingController.items.rowCount}" />)</h5>
+                                            <h5>Review (<h:outputText value="#{tbRatingController.getRowRatigBy(tbFutsalController.futsalKey)}" />)</h5>
                                             <p:tooltip />
                                             <p:growl id="messages" showDetail="true" />
 
-                                            <h:panelGroup rendered="#{tbTeamController.items.rowCount > 0}">
+                                            <h:panelGroup rendered="#{tbRatingController.getRowRatigBy(tbFutsalController.futsalKey) > 0}">
                                                 <ul class="comments-list">
-                                                <h:dataTable value="#{tbRatingController.items}" var="item" style="border:solid 0px" width="124%">
+                                                    <h:dataTable value="#{tbRatingController.getRatingBy(tbFutsalController.futsalKey)}" var="item" style="border:solid 0px" width="124%">
                                                     <h:column>
                                                         <f:facet name="header">
                                                             <h:outputText value=" "/>

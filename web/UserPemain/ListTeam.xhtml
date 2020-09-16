@@ -49,7 +49,8 @@
                                                         </f:facet>
                                                         <h:outputText value="#{item.idTeam}" style="display: none"/>
                                                         <div class="ln-item">
-                                                            <h:graphicImage url="/Image_logo_team/#{item.logo}" alt="" />
+                                                            <h:graphicImage url="/Image_logo_team/#{item.logo}" alt="" rendered="#{item.logo != null}" />
+                                                            <h:graphicImage url="/Image_logo_team/no_image.jpg" alt="" rendered="#{item.logo == null}" />
                                                             <div class="ln-text">
                                                                 <div class="ln-date">
                                                                     Team <h:outputText value="#{item.namaTeam}" />

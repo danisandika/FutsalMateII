@@ -25,12 +25,6 @@
                                 <div class="blog-post">
                                     <h3>Info Match</h3>
                                     <br/>
-                                    <p>Home Team</p>
-                                    <h4>Team <h:outputText value="#{tbMatchteamController.selected.idHomeTeam.namaTeam}"/></h4>
-                                    <br/>
-                                    <p>Away Team</p>
-                                    <h4>Team <h:outputText value="#{tbMatchteamController.selected.idAwayTeam.namaTeam}"/></h4>
-                                    <br/>
                                     <p>Decription</p>
                                     <h4><h:outputText value="#{tbMatchteamController.selected.deskripsi}"/></h4>
                                 </div>
@@ -156,11 +150,11 @@
                                         <br/>
                                         <h:commandLink class="site-btn" action="#{tbMatchteamController.joinMatchIndividu()}" 
                                                        onclick="return confirm('Are you sure to Join the Match?')" 
-                                                       rendered="#{loginPemainController.dataPemain != null}" 
+                                                       rendered="#{loginPemainController.dataPemain != null &amp;&amp; tbMatchteamController.selected.status == 1}" 
                                                        value="Join Match Individually" />
                                         <h:commandLink class="site-btn" action="#{tbMatchteamController.pleaseLogin()}" 
                                                        onclick="return confirm('Please SignIn first!')" 
-                                                       rendered="#{loginPemainController.dataPemain == null}" 
+                                                       rendered="#{loginPemainController.dataPemain == null &amp;&amp; tbMatchteamController.selected.status == 1}" 
                                                        value="Join Match Individually" />
                                     </h:form>
                                 </div>

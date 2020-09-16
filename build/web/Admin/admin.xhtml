@@ -81,7 +81,11 @@
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Data Keuangan tahun <h:outputText value="#{chartJSViewAdmin.currentDate}"><f:convertDateTime pattern="yyyy"/></h:outputText></h5>
+                                        <h5 class="card-title">
+                                            Data Keuangan 
+                                            <h:outputText value="#{chartJSViewAdmin.currentDate}"><f:convertDateTime pattern="MMMM"/></h:outputText>, 
+                                            <h:outputText value="#{chartJSViewAdmin.currentDate}"><f:convertDateTime pattern="yyyy"/></h:outputText>
+                                        </h5>
                                         <br/>
                                         <p:lineChart model="#{chartJSViewAdmin.lineModel}" style="width: 100%; height: 500px;"/>
                                     </div>

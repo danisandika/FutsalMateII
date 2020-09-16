@@ -445,7 +445,7 @@ public class TbSewalapanganController implements Serializable {
         try {
             InputStream in = gambar.getInputStream();
             setGambar(gambar);
-            File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_web_bukti_transfer//" + gambar.getSubmittedFileName());
+            File f = new File("D://github//2.3//FutsalMateII//web//Image_web_bukti_transfer//" + gambar.getSubmittedFileName());
             f.createNewFile();
 //            url = f.toString();
             url = gambar.getSubmittedFileName();

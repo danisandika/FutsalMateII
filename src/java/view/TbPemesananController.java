@@ -489,15 +489,16 @@ public class TbPemesananController implements Serializable {
         mctr.setSubject("Futsalan.com | Invoice Reservation Field");
         mctr.setToMail(pesanan.getIdPemain().getEmail());
         mctr.setMessage("<b>Note Payment</b> <br/>"
-                + "<br/> ID Reservation : " + pesanan.getIdPemesanan()
-                + "<br/> Field : " + pesanan.getIdLapangan().getNamaLapangan() + ", Futsal " + pesanan.getIdLapangan().getIdFutsal().getNamaFutsal()
+                + "<br/> <b>ID Reservation : " + pesanan.getIdPemesanan()
+                + "</b><br/> Field : " + pesanan.getIdLapangan().getNamaLapangan() + ", Futsal " + pesanan.getIdLapangan().getIdFutsal().getNamaFutsal()
                 + "<br/> In the name of : " + pesanan.getIdPemain().getNama()
                 + "<br/> Date Reservation : " + formatTgl.format(pesanan.getTglPemesanan())
                 + "<br/> Date Play : " + formatTgl.format(pesanan.getTglMain())
                 + "<br/> Time Play : " + formatJam.format(pesanan.getJamMainMulai()) + " - " + formatJam.format(pesanan.getJamMainSelesai()) + " WIB (" + pesanan.getDurasi() + " Hour)"
                 + "<br/><br/> <b>Total payment : " + currencyFormatter.format(total) + "</b><br/>"
-                + "Kirimkan ke " + pesanan.getIdLapangan().getIdFutsal().getNamaRekening()
-                + "( " + pesanan.getIdLapangan().getIdFutsal().getNamaBank()
+                + "Kirimkan ke "
+                + pesanan.getIdLapangan().getIdFutsal().getNoRekening()
+                + " ( bank " + pesanan.getIdLapangan().getIdFutsal().getNamaBank()
                 + " a.n " + pesanan.getIdLapangan().getIdFutsal().getNamaRekening()
                 + " )<br/><br/> Please make a payment then confirm payment via Futsalan.com website"
                 + "<br/> Thank You for Your Reservation");

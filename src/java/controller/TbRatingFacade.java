@@ -5,9 +5,11 @@
  */
 package controller;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import model.TbMatchteam;
 import model.TbRating;
 
 /**
@@ -27,6 +29,12 @@ public class TbRatingFacade extends AbstractFacade<TbRating> {
 
     public TbRatingFacade() {
         super(TbRating.class);
+    }
+    
+    public List<TbRating> getRatingBy(Integer id){
+        return em.createQuery("SELECT t FROM TbRating t WHERE t.idFutsal.idFutsal = :id")
+                .setParameter("id", id)
+                .getResultList();
     }
     
 }

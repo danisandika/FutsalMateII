@@ -26,17 +26,18 @@
                                     <h3>Info Match By My Team</h3>
                                     <br/>
                                     <p>ID Pemesanan</p>
-                                    <h4><h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.idPemesanan}"/></h4>
+                                    <h4><h:outputText value="#{tbMatchteamController.matchCek.idPemesanan.idPemesanan}" rendered="#{tbMatchteamController.matchCek.idPemesanan.idPemesanan != null}"/></h4>
+                                    <h4><h:outputText value="Not yet" rendered="#{tbMatchteamController.matchCek.idPemesanan.idPemesanan == null}"/></h4>
                                     <br/>
                                     <p>Decription</p>
                                     <h4><h:outputText value="#{tbMatchteamController.matchCek.deskripsi}"/></h4>
                                     <br/>
                                     <p>Status Match</p>
                                     <h4>
-                                        <h:outputText value="Just Team vs Team" rendered="#{tbMatchteamController.matchCek.idPemesanan.status == 0}"/>
-                                        <h:outputText value="Open to one team and individu" rendered="#{tbMatchteamController.matchCek.idPemesanan.status == 1}"/>
-                                        <h:outputText value="Closed to join" rendered="#{tbMatchteamController.matchCek.idPemesanan.status == 2}"/>
-                                        <h:outputText value="Ended" rendered="#{tbMatchteamController.selected.idPemesanan.status == 3}"/>
+                                        <h:outputText value="Just Team vs Team" rendered="#{tbMatchteamController.matchCek.status == 0}"/>
+                                        <h:outputText value="Open to one team and individu" rendered="#{tbMatchteamController.matchCek.status == 1}"/>
+                                        <h:outputText value="Closed to join" rendered="#{tbMatchteamController.matchCek.status == 2}"/>
+                                        <h:outputText value="Ended" rendered="#{tbMatchteamController.matchCek.status == 3}"/>
                                     </h4>
                                 </div>
                             </div>
@@ -67,25 +68,38 @@
                                     </h4>
                                 </div>
                             </div>
-                            <br/>
+                            
+                            
                             <div class="col-lg-3">
                                 <div class="blog-post">
+                                    <br/><br/>
                                     <h3>Team Participant</h3>
-                                    <h:graphicImage url="/Image_logo_team/#{tbMatchteamController.matchCek.idAwayTeam.logo}" alt="" width="50" />
+                                    <h:form rendered="#{tbMatchteamController.matchCek.idAwayTeam != null}">
+                                        <h:graphicImage url="/Image_logo_team/#{tbMatchteamController.matchCek.idAwayTeam.logo}" alt="" width="50" />
+                                    </h:form>
+                                    <h:form rendered="#{tbMatchteamController.matchCek.idAwayTeam == null}">
+                                        <h4>
+                                            <h:outputLabel rendered="#{tbMatchteamController.matchCek.idAwayTeam == null}">
+                                                No team participated
+                                            </h:outputLabel>
+                                        </h4>
+                                    </h:form>
                                 </div>
                             </div>
                             <div class="col-lg-5">
                                 <div class="blog-post">
-                                    <br/><br/>
-                                    <p:rating value="#{Math.ceil(tbMatchteamController.matchCek.idAwayTeam.rate)}" stars="5" readonly="true" styleClass="rating ui-rating-on"/>&nbsp;
-                                    <h4>Captain <h:outputText value="#{tbMatchteamController.matchCek.idAwayTeam.captain.nama}"/></h4>
-                                    <div class="post-metas">
-                                        <div class="post-meta">
-                                            Win <h:outputText value="#{tbMatchteamController.matchCek.idAwayTeam.win}" /> Games
+                                    <h:form rendered="#{tbMatchteamController.matchCek.idAwayTeam != null}">
+                                        <br/>
+                                        <p:rating value="#{Math.ceil(tbMatchteamController.matchCek.idAwayTeam.rate)}" stars="5" readonly="true" styleClass="rating ui-rating-on"/>&nbsp;
+                                        <h4>Captain <h:outputText value="#{tbMatchteamController.matchCek.idAwayTeam.captain.nama}"/></h4>
+                                        <div class="post-metas">
+                                            <div class="post-meta">
+                                                Win <h:outputText value="#{tbMatchteamController.matchCek.idAwayTeam.win}" /> Games
+                                            </div>
+                                            <div class="post-meta">Lose <h:outputText value="#{tbMatchteamController.matchCek.idAwayTeam.lose}"/> Games</div>
                                         </div>
-                                        <div class="post-meta">Lose <h:outputText value="#{tbMatchteamController.matchCek.idAwayTeam.lose}"/> Games</div>
-                                    </div>
-                                    <p><h:outputText value="#{tbMatchteamController.matchCek.idAwayTeam.deskripsi}"/></p>
+                                        <p><h:outputText value="#{tbMatchteamController.matchCek.idAwayTeam.deskripsi}"/></p>
+                                    </h:form>
                                 </div>
                             </div>
                             

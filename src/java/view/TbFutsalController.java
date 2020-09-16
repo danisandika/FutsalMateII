@@ -74,7 +74,7 @@ public class TbFutsalController implements Serializable {
         try {
             InputStream in = gambar.getInputStream();
             setGambar(gambar);
-            File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_futsal_gambar//" + gambar.getSubmittedFileName());
+            File f = new File("D://github//2.3//FutsalMateII//web//Image_futsal_gambar//" + gambar.getSubmittedFileName());
             f.createNewFile();
 //            url = f.toString();
             url = gambar.getSubmittedFileName();

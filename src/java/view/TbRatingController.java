@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -264,13 +265,37 @@ public class TbRatingController implements Serializable {
         try {
             current.setIdFutsal(futsalRate);
             current.setIdPemain((TbPemain) session.getAttribute("templateDataPemain"));
+            
+            
+            
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TbRatingCreated"));
+            JsfUtil.addSuccessMessage("Your rating has been added");
             return "ManageTeam";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage("Your rating failed to add");
             return null;
         }
     }
+    
+    
+    private List<TbRating> ratingBy;
+    private Integer rowRatigBy;
 
+    public List<TbRating> getRatingBy(TbFutsal futsal) {
+        return ratingBy = ejbFacade.getRatingBy(futsal.getIdFutsal());
+    }
+
+    public void setRatingBy(List<TbRating> ratingBy) {
+        this.ratingBy = ratingBy;
+    }
+
+    public Integer getRowRatigBy(TbFutsal futsal) {
+        return rowRatigBy = getRatingBy(futsal).size();
+    }
+
+    public void setRowRatigBy(Integer rowRatigBy) {
+        this.rowRatigBy = ratingBy.size();
+    }
+    
+    
 }

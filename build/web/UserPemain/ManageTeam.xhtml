@@ -199,7 +199,7 @@
                                                        rendered="#{currentDate gt item.idPemesanan.tglMain}" 
                                                        value=" | Give a Review" style="color: #61d097"/>
                                         <h:commandLink action="#{tbMatchteamController.prepareEditConfirmMatch(item)}" 
-                                                       rendered="#{templateIdTeam != null and currentDate gt item.idPemesanan.jamMainSelesai}" 
+                                                       rendered="#{templateIsCaptain == true &amp;&amp; currentDate gt item.idPemesanan.tglMain}" 
                                                        value=" | Confirm Result Match" style="color: #5c3a69"/>
                                     </p:column>
                                 </p:dataTable>

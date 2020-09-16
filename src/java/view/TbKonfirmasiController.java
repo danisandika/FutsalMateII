@@ -152,7 +152,7 @@ public class TbKonfirmasiController implements Serializable {
             setFoto(foto);
             
             url = foto.getSubmittedFileName();
-            File f = new File("C://Users//Danis//Desktop//PRG7//FutsalMateII//web//Image_bukti_tranfer_pemain//" + foto.getSubmittedFileName());
+            File f = new File("D://github//2.3//FutsalMateII//web//Image_bukti_tranfer_pemain//" + foto.getSubmittedFileName());
             f.createNewFile();
             
             FileOutputStream out = new FileOutputStream(f);
